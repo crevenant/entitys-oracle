@@ -1,0 +1,76 @@
+{
+  "source": "design/portrait-sable/keyframes-v1.png",
+  "blinkSource": "design/portrait-sable/blink-poses-v2.png",
+  "output": "public/assets/portrait-clips/sable-ward-loop.mp4",
+  "poster": "public/assets/portrait-clips/sable-ward-poster.webp",
+  "duration": 8,
+  "fps": 24,
+  "size": [
+    512,
+    512
+  ],
+  "timeline": [
+    [
+      0,
+      0
+    ],
+    [
+      1.2,
+      0
+    ],
+    [
+      1.6,
+      1
+    ],
+    [
+      2.3,
+      2
+    ],
+    [
+      2.65,
+      2
+    ],
+    [
+      3.35,
+      4
+    ],
+    [
+      4.1,
+      4
+    ],
+    [
+      5,
+      5
+    ],
+    [
+      5.35,
+      5
+    ],
+    [
+      5.95,
+      6
+    ],
+    [
+      6.9,
+      0
+    ],
+    [
+      8,
+      0
+    ]
+  ],
+  "blink": {
+    "startFrame": 82,
+    "poses": [
+      0,
+      1,
+      1,
+      0
+    ],
+    "method": "Feathered eye-only patches over fixed pose 4; no optical-flow interpolation during the blink"
+  },
+  "interpolation": "FFmpeg minterpolate / MCI / AOBMC / bidirectional motion estimation / 60 intermediate frames / smoothstep timing",
+  "loop": "Identical neutral image at both ends, held for 1.1 seconds at the end",
+  "creation": "Built-in image generation for authored key poses; local interpolation and H.264 encoding",
+  "audio": false
+}

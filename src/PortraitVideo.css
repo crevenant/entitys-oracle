@@ -1,0 +1,5 @@
+.portrait-media{position:absolute;inset:0;pointer-events:none}
+.character-portrait-video{position:absolute;left:50%;top:-8px;width:245px;height:245px;max-width:none;transform:translateX(-50%);object-fit:contain;object-position:top;filter:var(--portrait-tone);opacity:0;pointer-events:none}
+.character-portrait-video.portrait-video-ready{opacity:1}
+.portrait-media .character-portrait.portrait-still-covered{opacity:0!important}
+@media(max-width:520px){.character-portrait-video{width:220px;height:220px}}

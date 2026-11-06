@@ -22,6 +22,7 @@ import './Horror.css'
 import './Sound.css'
 import './CardEye.css'
 import './CardInspection.css'
+import './PortraitVideo.css'
 
 const CardScene = lazy(() => import('./components/CardScene'))
 type Panel = 'collection' | 'history' | 'settings' | 'perk' | null

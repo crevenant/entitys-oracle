@@ -1,0 +1,16 @@
+Use case: identity-preserve.
+Asset type: ANIMATION KEYFRAME SPRITE SHEET for a looping game portrait, NOT a collage or comic.
+Input image 1 is the edit target and exact identity / pose / costume reference: Sable Ward from Dead by Daylight holding her object.
+Create ONE landscape sheet, exactly FOUR equal square columns by TWO equal square rows (8 cells), edge-to-edge with NO gutters, NO borders, NO labels, NO writing. Target 2048x1024. Every cell is a separate 512x512 frame.
+In ALL eight cells preserve the same fixed camera, original square framing, subject position, scale, head size, facial identity, makeup, silver hair with dark roots and pink tips, outfit, hands, fingers, rings, and held object. Keep the torso, hands and object completely still and aligned across cells. Maintain the reference's realistic game-render style and lighting, not a different live actor. Replace the empty/transparent background with uniform very dark matte charcoal #080b09. No scenery, card border or special effects.
+The original head is angled slightly up and toward image-left; use that original pose as the neutral pose. Tiny natural head changes only (no more than 6–8 degrees). A quiet, eerie expression with closed relaxed mouth. Preserve hair covering part of the face.
+Read cells in row-major order:
+1. Exact original neutral head orientation and original eye gaze, eyes open.
+2. Same head orientation, visible eyes glance gently a little farther toward image-left.
+3. Head turns a subtle 6 degrees toward image-left, following the glance. Same shoulders and hands.
+4. Return head toward original neutral orientation, natural blink with eyelids closed. No other expression change.
+5. Original neutral orientation again, eyes open.
+6. Head turns subtly 6 degrees toward the viewer / image-right, eyes following; reveal only a tiny additional amount of the face behind the hair.
+7. Head halfway returning to the original orientation, gaze easing back to its original direction.
+8. Match cell 1 original pose and expression again.
+This is one character repeated as eight consistent temporal frames, not eight redesigned characters. Highest priority is anatomical and visual continuity between frames and fixed body registration. Avoid changing the prop, hand gesture, jewelry, clothing, facial structure, camera zoom, camera angle, body position, or light direction. Keep the whole reference silhouette within each square with the same headroom.

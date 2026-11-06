@@ -45,7 +45,7 @@
 .app .revealed-card{
   --face-ink:#080b09;--face-haze:#22231c;
   --portrait-tone:sepia(.16) saturate(.62) brightness(.86) contrast(1.12);
-  background:radial-gradient(ellipse at 47% 27%,var(--face-haze),var(--face-ink) 65%,#030604);
+  background:linear-gradient(#030604 0 32px,transparent 60px),radial-gradient(ellipse at 47% 27%,var(--face-haze),var(--face-ink) 65%,#030604);
   border-color:#393022;
   box-shadow:0 22px 48px #000e,0 0 28px #b2934e0b,inset 0 0 0 10px #030604,inset 0 0 28px 13px #000c;
   clip-path:polygon(1% 0,98% .2%,100% 1%,99.7% 24%,100% 48%,99.5% 74%,100% 99%,97% 100%,72% 99.7%,43% 100%,1% 99.6%,0 97%,.4% 68%,0 43%,.3% 14%);
