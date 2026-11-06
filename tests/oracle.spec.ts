@@ -30,7 +30,7 @@ test('draw, inspect perks, and revisit saved history', async ({ page }, testInfo
   page.on('pageerror', (error) => errors.push(error.message))
   await page.goto('/')
   await expect(page.getByRole('heading', { name: 'Let the Entity decide.' })).toBeVisible()
-  await expect(page.locator('canvas')).toBeVisible()
+  await expect(page.locator('[data-ready] canvas')).toBeVisible()
   await expect(page.locator('[data-ready=true]')).toBeVisible()
   await page.screenshot({ path: `output/screenshots/${testInfo.project.name}-ritual.png`, fullPage: true })
   await page.screenshot({ path: `output/screenshots/${testInfo.project.name}-forest-viewport.png`, fullPage: false })

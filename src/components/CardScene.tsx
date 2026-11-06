@@ -1,14 +1,19 @@
-import { Component, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { Component, Suspense, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import type { CSSProperties, ReactNode, RefObject } from 'react'
 import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber'
 import { Sparkles } from '@react-three/drei'
-import { Group, SRGBColorSpace, TextureLoader } from 'three'
-import type { PerspectiveCamera } from 'three'
+import { CanvasTexture, Group, LinearFilter, MeshBasicMaterial, NoColorSpace, SRGBColorSpace, TextureLoader } from 'three'
+import type { PerspectiveCamera, Texture } from 'three'
 import gsap from 'gsap'
 import { CARD_REVEAL, RITUAL } from '../lib/ritual'
 import type { RitualPhase } from '../lib/ritual'
 import type { Role } from '../lib/oracle'
 import EntityGrasp from './EntityGrasp'
+import CardBack from './CardBack'
+import { createEyePainter, EYE_PATCH, engravingTime, eyePose } from '../lib/cardEye'
+import { createMothPainter, MOTH_PATCH, mothPose } from '../lib/cardMoth'
+import { tendrilField, TENDRIL_AMOUNT } from '../lib/cardTendrils'
+import { tendrilGrowth } from '../lib/cardGrowth'
 
 type Props = { phase: RitualPhase; revealed: boolean; reduced: boolean; role: Role }
 
@@ -61,7 +66,61 @@ function moveDeck(motion: DeckMotion, pointer: DeckPointer, delta: number, drawi
   motion.bob += (bob - motion.bob) * blend
 }
 
-function Tarot({ index, phase, revealed, reduced }: Props & { index: number }) {
+function LivingEngraving({ image, seed, kind }: { image: HTMLImageElement; seed: number; kind: 'eye' | 'moth' }) {
+  const eye = useMemo(() => {
+    const engraving = kind === 'eye' ? (() => {
+      const painter = createEyePainter(image)
+      return { canvas: painter.canvas, region: EYE_PATCH, paint: (time: number) => painter.paint(eyePose(time, seed)) }
+    })() : (() => {
+      const painter = createMothPainter(image)
+      return { canvas: painter.canvas, region: MOTH_PATCH, paint: (time: number) => painter.paint(mothPose(time, seed)) }
+    })()
+    engraving.paint(engravingTime())
+    const texture = new CanvasTexture(engraving.canvas)
+    texture.colorSpace = SRGBColorSpace
+    texture.minFilter = LinearFilter; texture.magFilter = LinearFilter; texture.generateMipmaps = false
+    return { ...engraving, texture }
+  }, [image, seed, kind])
+  const runtime = useRef(eye)
+  const time = useRef({ accumulated: 0 })
+  useLayoutEffect(() => { runtime.current = eye }, [eye])
+  useEffect(() => () => eye.texture.dispose(), [eye])
+  useFrame((_, delta) => {
+    if (document.hidden) return
+    const dt = Math.min(delta, .1)
+    time.current.accumulated += dt
+    if (time.current.accumulated < 1 / (kind === 'moth' ? 24 : 30)) return
+    time.current.accumulated = 0
+    if (runtime.current.paint(engravingTime())) runtime.current.texture.needsUpdate = true
+  })
+  const region = eye.region
+  const y = (0.5 - region.y - region.height / 2) * 2.70
+  return <>
+    <mesh position={[0, y, .027]}><planeGeometry args={[1.73 * region.width, 2.70 * region.height]} /><meshBasicMaterial map={eye.texture} toneMapped={false} /></mesh>
+    <mesh position={[0, y, -.027]} rotation={[0, Math.PI, 0]}><planeGeometry args={[1.73 * region.width, 2.70 * region.height]} /><meshBasicMaterial map={eye.texture} toneMapped={false} /></mesh>
+  </>
+}
+
+function createTendrilMaterial(art: Texture, flow: Texture, reduced: boolean) {
+  const material = new MeshBasicMaterial({ map: art, toneMapped: false })
+  material.onBeforeCompile = (shader) => {
+    shader.uniforms.tendrilFlow = { value: flow }
+    shader.uniforms.tendrilAmount = { value: reduced ? 0 : TENDRIL_AMOUNT }
+    shader.fragmentShader = shader.fragmentShader
+      .replace('#include <map_pars_fragment>', '#include <map_pars_fragment>\nuniform sampler2D tendrilFlow;\nuniform float tendrilAmount;')
+      .replace('#include <map_fragment>', `
+        #ifdef USE_MAP
+          vec2 flow = texture2D(tendrilFlow, vMapUv).rg - vec2(0.5);
+          vec2 livingUv = clamp(vMapUv + vec2(flow.x, -flow.y) * tendrilAmount, vec2(0.0), vec2(1.0));
+          diffuseColor *= texture2D(map, livingUv);
+        #endif
+      `)
+  }
+  material.customProgramCacheKey = () => 'card-tendrils-v1'
+  return material
+}
+
+function Tarot({ index, phase, revealed, reduced, flow, growth }: Props & { index: number; flow: Texture; growth: Texture }) {
   const group = useRef<Group>(null)
   const source = useLoader(TextureLoader, '/assets/tarot-back-worn.webp')
   const texture = useMemo(() => {
@@ -69,6 +128,8 @@ function Tarot({ index, phase, revealed, reduced }: Props & { index: number }) {
     copy.colorSpace = SRGBColorSpace
     return copy
   }, [source])
+  const material = useMemo(() => createTendrilMaterial(texture, flow, reduced), [texture, flow, reduced])
+  useEffect(() => () => material.dispose(), [material])
   useEffect(() => () => texture.dispose(), [texture])
   const { size, camera, gl } = useThree()
   const { height, width } = size
@@ -129,13 +190,36 @@ function Tarot({ index, phase, revealed, reduced }: Props & { index: number }) {
   }, [phase, reduced, index, offset, selected, height, width, camera, gl])
   return <group ref={group} visible={!(selected && revealed)}>
     <mesh><boxGeometry args={[1.75, 2.72, 0.035]} /><meshStandardMaterial color="#51412e" roughness={0.94} metalness={0.18} /></mesh>
-    <mesh position={[0, 0, 0.024]}><planeGeometry args={[1.73, 2.70]} /><meshBasicMaterial map={texture} toneMapped={false} /></mesh>
-    <mesh position={[0, 0, -0.024]} rotation={[0, Math.PI, 0]}><planeGeometry args={[1.73, 2.70]} /><meshBasicMaterial map={texture} toneMapped={false} /></mesh>
+    <mesh position={[0, 0, 0.024]} material={material}><planeGeometry args={[1.73, 2.70]} /></mesh>
+    <mesh position={[0, 0, -0.024]} rotation={[0, Math.PI, 0]} material={material}><planeGeometry args={[1.73, 2.70]} /></mesh>
+    {!reduced && !(selected && revealed) && <>
+      <mesh position={[0, 0, .0255]}><planeGeometry args={[1.73, 2.70]} /><meshBasicMaterial map={growth} transparent depthWrite={false} toneMapped={false} /></mesh>
+      <mesh position={[0, 0, -.0255]} rotation={[0, Math.PI, 0]}><planeGeometry args={[1.73, 2.70]} /><meshBasicMaterial map={growth} transparent depthWrite={false} toneMapped={false} /></mesh>
+    </>}
+    {!reduced && !(selected && revealed) && <><LivingEngraving image={source.image as HTMLImageElement} seed={index} kind="eye" /><LivingEngraving image={source.image as HTMLImageElement} seed={index} kind="moth" /></>}
   </group>
 }
 
 function Deck(props: Props & { onReady: () => void }) {
   const group = useRef<Group>(null)
+  const flow = useMemo(() => {
+    const texture = new CanvasTexture(tendrilField(engravingTime()).canvas)
+    texture.colorSpace = NoColorSpace; texture.minFilter = LinearFilter; texture.magFilter = LinearFilter; texture.generateMipmaps = false
+    return texture
+  }, [])
+  const flowRuntime = useRef(flow)
+  const growth = useMemo(() => {
+    const texture = new CanvasTexture(tendrilGrowth(engravingTime()).canvas)
+    texture.colorSpace = SRGBColorSpace; texture.minFilter = LinearFilter; texture.magFilter = LinearFilter; texture.generateMipmaps = false
+    return texture
+  }, [])
+  const growthRuntime = useRef(growth)
+  const growthVersion = useRef(-1)
+  useLayoutEffect(() => { growthRuntime.current = growth }, [growth])
+  useEffect(() => () => growth.dispose(), [growth])
+  const flowVersion = useRef(-1)
+  useLayoutEffect(() => { flowRuntime.current = flow }, [flow])
+  useEffect(() => () => flow.dispose(), [flow])
   const motion = useRef<DeckMotion>({ x: 0, y: 0, bob: 0, elapsed: 0 })
   const canvas = useThree((state) => state.gl.domElement)
   const pointer = useDeckPointer(canvas)
@@ -149,12 +233,18 @@ function Deck(props: Props & { onReady: () => void }) {
       group.current.rotation.set(0, 0, 0); group.current.position.y = .15
       return
     }
+    if (!document.hidden) {
+      const field = tendrilField(engravingTime())
+      if (field.version !== flowVersion.current) { flowRuntime.current.needsUpdate = true; flowVersion.current = field.version }
+      const roots = tendrilGrowth(engravingTime())
+      if (roots.version !== growthVersion.current) { growthRuntime.current.needsUpdate = true; growthVersion.current = roots.version }
+    }
     moveDeck(motion.current, pointer.current, delta, drawing)
     group.current.rotation.set(motion.current.x, motion.current.y, 0)
     group.current.position.y = .15 + motion.current.bob
   })
   return <group ref={group} position={[0, 0.15, 0]}>
-    {[0, 1, 3, 4, 2].map((index) => <Tarot key={index} index={index} {...props} />)}
+    {[0, 1, 3, 4, 2].map((index) => <Tarot key={index} index={index} flow={flow} growth={growth} {...props} />)}
     {!reduced && <Sparkles count={drawing ? 95 : 55} scale={[8, 4.5, 3]} size={drawing ? 2.2 : 1.7} speed={drawing ? 0.65 : 0.24} opacity={drawing ? 0.85 : 0.6} color={phase === 'revealing' ? '#bd84f2' : props.role === 'killer' ? '#bd6651' : '#caa56c'} />}
   </group>
 }
@@ -180,7 +270,7 @@ function FallbackCards({ phase, revealed, reduced }: Props) {
     return () => { gsap.ticker.remove(update) }
   }, [drawing, reduced, pointer])
   return <div ref={root} className={`fallback-cards fallback-${phase} ${revealed ? 'has-result' : ''} ${reduced ? 'is-instant' : ''}`} aria-hidden="true">
-    {[-2, -1, 0, 1, 2].map((offset) => <div className="fallback-card-track" key={offset} style={{ '--offset': offset, '--order': offset + 2, '--distance': Math.abs(offset), '--depth': 5 - Math.abs(offset) } as CSSProperties}><img alt="" src="/assets/tarot-back-worn.webp" style={{ visibility: offset === 0 && revealed ? 'hidden' : undefined }} /></div>)}
+    {[-2, -1, 0, 1, 2].map((offset) => <div className="fallback-card-track" key={offset} style={{ '--offset': offset, '--order': offset + 2, '--distance': Math.abs(offset), '--depth': 5 - Math.abs(offset) } as CSSProperties}><CardBack reduced={reduced} seed={offset + 2} hidden={offset === 0 && revealed} /></div>)}
   </div>
 }
 

@@ -1,4 +1,4 @@
-import { Eye, LockKeyhole } from 'lucide-react'
+import { LockKeyhole } from 'lucide-react'
 import type { Draw, Perk } from '../lib/oracle'
 import { CARD_REVEAL } from '../lib/ritual'
 import { useLayoutEffect, useRef } from 'react'
@@ -6,10 +6,11 @@ import type { CSSProperties } from 'react'
 import gsap from 'gsap'
 import type { RitualPhase } from '../lib/ritual'
 import SpectralBinding from './SpectralBinding'
+import CardBack, { CardEyeIcon } from './CardBack'
 
-type Props = { draw: Draw; phase: RitualPhase; revealedPerks: number; instant: boolean; onInspect: (perk: Perk) => void; lockedCharacter: boolean; lockedPerks: (string | null)[] }
+type Props = { draw: Draw; phase: RitualPhase; revealedPerks: number; instant: boolean; reduced: boolean; onInspect: (perk: Perk) => void; lockedCharacter: boolean; lockedPerks: (string | null)[] }
 
-export default function RevealedCard({ draw, phase, revealedPerks, instant, onInspect, lockedCharacter, lockedPerks }: Props) {
+export default function RevealedCard({ draw, phase, revealedPerks, instant, reduced, onInspect, lockedCharacter, lockedPerks }: Props) {
   const shell = useRef<HTMLDivElement>(null)
   useLayoutEffect(() => {
     if (instant || !shell.current) return
@@ -33,9 +34,9 @@ export default function RevealedCard({ draw, phase, revealedPerks, instant, onIn
     <div className="reveal-aura" aria-hidden="true" />
     <div className="reveal-contact-shadow" aria-hidden="true" />
     <div className="reveal-flight"><div className="reveal-turn">
-      <div className="reveal-back reveal-face" aria-hidden="true"><img src="/assets/tarot-back-worn.webp" alt="" /></div>
+      <div className="reveal-back reveal-face" aria-hidden="true"><CardBack reduced={reduced || phase === 'revealing' || phase === 'complete'} /></div>
       <article className="revealed-card reveal-face reveal-front" aria-label={lit ? `Your fate: ${draw.character.name}` : 'Your chosen card'} aria-hidden={!lit}>
-        <span className="card-roman">{draw.character.role === 'survivor' ? 'XVII' : 'XIII'} {lockedCharacter ? <LockKeyhole size={15} /> : <Eye size={15} />} {draw.character.role.toUpperCase()}</span>
+        <span className="card-roman">{draw.character.role === 'survivor' ? 'XVII' : 'XIII'} {lockedCharacter ? <LockKeyhole size={15} /> : <CardEyeIcon />} {draw.character.role.toUpperCase()}</span>
         <div className="portrait-frame"><img className="character-portrait" src={draw.character.image} alt={draw.character.name} /><div className="portrait-shade" /><div className="portrait-haunting" aria-hidden="true" /></div>
         <div className="card-identity"><span>THE ENTITY HAS CHOSEN</span><h2>{draw.character.name}</h2></div>
         <div className="card-perks">{draw.perks.map((perk, index) => {

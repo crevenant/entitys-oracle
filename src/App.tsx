@@ -19,6 +19,7 @@ import './Ritual.css'
 import './Loadout.css'
 import './Horror.css'
 import './Sound.css'
+import './CardEye.css'
 
 const CardScene = lazy(() => import('./components/CardScene'))
 type Panel = 'collection' | 'history' | 'settings' | 'perk' | null
@@ -181,7 +182,7 @@ function App() {
           <RitualEffects phase={phase} />
           <div className="stage-glow" aria-hidden="true" />
           <div className="scene-container"><Suspense fallback={<div className="deck-loading"><img src="/assets/tarot-back-worn.webp" alt="" /></div>}><CardScene role={role} phase={phase} revealed={!!result} reduced={reduced} /></Suspense></div>
-          {result && <RevealedCard key={result.id} draw={result} phase={phase} revealedPerks={revealedPerks} instant={ritual.instant} onInspect={inspect} lockedCharacter={locks.character === result.character.id} lockedPerks={locks.perks} />}
+          {result && <RevealedCard key={result.id} draw={result} phase={phase} revealedPerks={revealedPerks} instant={ritual.instant} reduced={reduced} onInspect={inspect} lockedCharacter={locks.character === result.character.id} lockedPerks={locks.perks} />}
           <span className="stage-sigil" aria-hidden="true">✧</span>
           <span className="ritual-chapter" aria-hidden="true">{PHASE_COPY[phase].title}</span>
         </div>
