@@ -1,0 +1,106 @@
+/* The forest is a fixed environmental plate; UI and perks keep their own colors. */
+.app{--moon:#a3b2a5;--entity-vein:#94754e;--ritual-light:#a78b58;--role-haze:rgba(92,127,114,.14);background:radial-gradient(ellipse at 50% 45%,#1218130a,#080c0b35 80%)}
+.app[data-role=killer]{--moon:#c4998e;--entity-vein:#a34e46;--ritual-light:#b15a4c;--role-haze:rgba(127,29,25,.25)}
+.forest-backdrop{position:fixed;inset:0;z-index:-3;pointer-events:none;overflow:hidden;background:#080c0b}
+.forest-distance{position:absolute;inset:0;display:block}
+.forest-distance img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 56%;filter:saturate(.68) brightness(.9);opacity:.88;transition:filter 1.4s}
+.forest-role-light{position:absolute;inset:0;background:linear-gradient(120deg,#283b351b,transparent 45%,var(--role-haze));mix-blend-mode:screen;transition:background 1.4s}
+.app[data-role=killer] .forest-distance img{filter:saturate(.35) sepia(.2) brightness(.72)}
+.forest-mist{position:absolute;left:-30%;width:160%;height:45%;top:34%;opacity:.5;background:radial-gradient(ellipse at 24% 70%,#c6d8c615,transparent 45%),radial-gradient(ellipse at 73% 40%,#c6d8c611,transparent 40%);animation:forest-mist-pass 38s ease-in-out infinite alternate}
+.mist-near{top:53%;height:45%;opacity:.7;animation-duration:27s;animation-delay:-18s;animation-direction:alternate-reverse;background:radial-gradient(ellipse at 28% 50%,#a2b7ac1a,transparent 40%),radial-gradient(ellipse at 77% 70%,#a2b7ac14,transparent 45%)}
+.campfire-light{position:absolute;left:59%;top:45%;width:26%;height:26%;border-radius:50%;background:radial-gradient(ellipse,#cc71351c,transparent 68%);mix-blend-mode:screen;animation:campfire-breathe 6.5s ease-in-out infinite alternate}
+.forest-branches{position:absolute;inset:0;width:100%;height:100%;opacity:.47}
+.forest-vignette{position:absolute;inset:0;background:linear-gradient(180deg,#050a0955,transparent 26%,#060b092b 75%,#050a08c9),linear-gradient(90deg,#02060580,transparent 21%,transparent 79%,#02060580),radial-gradient(ellipse at 50% 48%,transparent 24%,#0307064d 100%)}
+.forest-embers{position:absolute;inset:0;overflow:hidden}
+.forest-embers i{position:absolute;left:var(--ember-x);top:85%;width:2px;height:2px;border-radius:50%;background:#be8752;box-shadow:0 0 7px #e2ac6570;opacity:0;animation:forest-ember-rise var(--ember-duration) linear infinite;animation-delay:var(--ember-delay)}
+.forest-embers i:nth-child(3n){width:1px;height:4px;background:#b0b4a3;box-shadow:none}
+.app[data-role=killer] .forest-embers i{background:#bd5f49;box-shadow:0 0 6px #a9523c77}
+.app .atmosphere{background:none}
+.app .grain{opacity:.045}
+.app .fog{opacity:.45}
+.app .header{background:linear-gradient(#080d0bc9,#080d0b42);border-color:#aa987c30}
+.app .brand-icon{background:#0c100c99}
+.app h1{color:#e7e1d4;text-shadow:0 3px 28px #000,0 1px 6px #000}
+.app h1 em{color:#c1ad87}
+.app .intro-copy{color:#a4aca0;text-shadow:0 2px 8px #000}
+.app .ritual-note h2{color:#e0d6c2;text-shadow:0 2px 15px #000}
+.app .ritual-note p{color:#9ea899;text-shadow:0 2px 6px #000}
+.app .section-number{color:#b4a278;text-shadow:0 2px 5px #000}
+.app .role-switch{background:#080d0ad9;box-shadow:0 4px 25px #0005}
+.app[data-role=killer] .role-switch button[aria-pressed=true]{color:#dfb3a5;background:linear-gradient(110deg,#9a443b33,#5c25271a);box-shadow:inset 0 0 0 1px #bb655855}
+.app[data-role=killer] .draw-button{background:linear-gradient(110deg,#a15b48,#783f35);color:#eee0cb;box-shadow:inset 0 0 0 4px #b97d6433,inset 0 0 0 5px #24130e66,0 5px 30px #6b241d33}
+.app[data-role=killer] .draw-button:hover:not(:disabled){background:linear-gradient(110deg,#b87158,#955449);box-shadow:0 5px 35px #9b483b44}
+.app .left-note,.app .right-note{padding-top:18px;padding-bottom:18px}
+.app .left-note{background:radial-gradient(ellipse at left,#080d0bba,transparent 78%)}
+.app .right-note{background:radial-gradient(ellipse at right,#080d0bba,transparent 78%)}
+.app .draw-controls{position:relative}
+.app .ritual-status{color:#c0ae85;text-shadow:0 1px 7px #000}
+.app .draw-hint{color:#98a28f;text-shadow:0 2px 5px #000}
+.app .motion-notice{color:#aa9f83;text-shadow:0 2px 5px #000}
+.app .loadout{background:linear-gradient(#0c110eaa,#0b100d88);padding:20px 18px 18px;border:1px solid #95825733;box-shadow:0 15px 65px #0004}
+.app footer{background:#080d0a99;color:#8f9987;padding-left:18px;padding-right:18px}
+.app .modal{background:linear-gradient(145deg,#151b15f5,#0c120ff5);box-shadow:0 30px 120px #000d}
+
+/* Worn varnish, tarnished borders, and an ink-like portrait reveal. */
+.app .revealed-card{background:radial-gradient(ellipse at 40% 18%,#484734,#141810 67%);border-color:#9e8557;box-shadow:0 18px 48px #000c,0 0 35px #ad8c4812,inset 0 0 0 5px #141810,inset 0 0 0 6px #9b80536b;clip-path:polygon(1% 0,98% .2%,100% 1%,99.7% 24%,100% 48%,99.5% 74%,100% 99%,97% 100%,72% 99.7%,43% 100%,1% 99.6%,0 97%,.4% 68%,0 43%,.3% 14%)}
+.app .revealed-card::before{content:'';position:absolute;inset:0;background:url('/assets/tarot-back-worn.webp') center/100% 100%;opacity:.115;mix-blend-mode:luminosity;pointer-events:none}
+.app .revealed-card::after{content:'';position:absolute;inset:5px;border:1px solid #a58c5b33;box-shadow:inset 4px 0 9px #0008,inset -3px 0 8px #0008;pointer-events:none}
+.app[data-role=killer] .revealed-card{background:radial-gradient(ellipse at 40% 18%,#4a352c,#171410 67%);border-color:#ad8061}
+.app .card-roman{color:#bfa976}
+.app .reveal-back{border-color:#8e754e;box-shadow:0 15px 45px #000b}
+.app .reveal-shell.is-lit .portrait-frame{animation:portrait-ink-unveil 1.05s cubic-bezier(.2,.6,.3,1) both}
+.portrait-haunting{position:absolute;inset:0;background:linear-gradient(115deg,transparent 20%,#03060499 43%,transparent 65%);mix-blend-mode:multiply;opacity:0;pointer-events:none}
+.is-lit .portrait-haunting{animation:portrait-shadow-cross 3.4s ease-out both}
+.app .card-identity h2{text-shadow:0 2px 6px #000}
+.app .card-bottom{color:#b6a06b}
+.app .stage-glow{background:radial-gradient(ellipse,#98834f20,transparent 65%)}
+.app[data-role=killer] .stage-glow{background:radial-gradient(ellipse,#8e3a2c2e,transparent 65%)}
+.app[data-role=killer] .phase-choosing .stage-glow,.app[data-role=killer] .phase-flipping .stage-glow{background:radial-gradient(ellipse,#b445343f,transparent 65%)}
+.app .phase-revealing .stage-glow{background:radial-gradient(ellipse,#8b51b13b,transparent 66%)}
+.app .entity-vines{opacity:.04}
+.app .effects-orbiting .entity-vines,.app .effects-choosing .entity-vines{opacity:.2}
+.app .effects-complete .entity-vines{opacity:.06}
+
+/* These silhouettes reach over the card edges, without intercepting controls. */
+.card-stage{--chosen-width:211px;--chosen-height:328px}
+.entity-grasp{position:absolute;width:var(--chosen-width);height:var(--chosen-height);margin-top:-40px;z-index:5;pointer-events:none}
+.grasp-arm{position:absolute;top:25px;width:185px;height:310px;opacity:.55;transition:transform .65s cubic-bezier(.2,.8,.3,1),opacity .65s;filter:drop-shadow(0 2px 2px #000b)}
+.grasp-arm svg{width:100%;height:100%;overflow:visible}
+.grasp-left{left:-162px;transform:translateX(-30px) rotate(-6deg);transform-origin:0 100%}
+.grasp-right{right:-162px;transform:scaleX(-1) translateX(-30px) rotate(-6deg);transform-origin:50% 100%}
+.tendril-body,.tendril-hook{fill:#070a08;stroke:#6e6553;stroke-width:.8;stroke-linejoin:round}
+.tendril-highlight{stroke:#8b7b5c;stroke-width:.8;opacity:.6}
+.tendril-vein{stroke:var(--entity-vein);stroke-width:1.5;opacity:.25;transition:opacity .6s;stroke-linecap:round}
+.grasp-gathering .grasp-arm,.grasp-shuffling .grasp-arm{opacity:.65}
+.grasp-orbiting .grasp-left{transform:translateX(-14px) rotate(-3deg)}
+.grasp-orbiting .grasp-right{transform:scaleX(-1) translateX(-14px) rotate(-3deg)}
+.grasp-choosing .grasp-arm{opacity:1}
+.grasp-choosing .grasp-left{transform:translateX(0) rotate(0)}
+.grasp-choosing .grasp-right{transform:scaleX(-1) translateX(0) rotate(0)}
+.grasp-choosing .tendril-vein{opacity:.8}
+.grasp-flipping .grasp-left{transform:translateX(-28px) rotate(-8deg)}
+.grasp-flipping .grasp-right{transform:scaleX(-1) translateX(-28px) rotate(-8deg)}
+.grasp-revealing .grasp-arm,.grasp-complete .grasp-arm{opacity:.4}
+.grasp-revealing .grasp-left,.grasp-complete .grasp-left{transform:translateX(-35px) rotate(-8deg)}
+.grasp-revealing .grasp-right,.grasp-complete .grasp-right{transform:scaleX(-1) translateX(-35px) rotate(-8deg)}
+
+.spectral-binding{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:4;opacity:.7}
+.binding-chain{position:absolute;width:100px;height:15px;transform:rotate(-45deg);filter:drop-shadow(0 0 3px #9d83bb44)}
+.chain-upper-left{left:-24px;top:20px}
+.chain-lower-right{right:-26px;bottom:22px}
+.binding-chain span{position:absolute;left:calc(var(--link)*9px);width:13px;height:7px;border:1px solid #b6b7a9;border-radius:45%;background:#161c1955;box-shadow:inset 0 0 0 1px #343c3266}
+.binding-chain span:nth-child(2n){height:4px;top:1.5px;border-color:#827f77}
+.perk-slot-control.is-held .perk-lock{background:linear-gradient(100deg,#b99a6116,#4c405019)}
+
+.reduced-motion .forest-mist,.reduced-motion .forest-embers,.reduced-motion .portrait-haunting{display:none}
+.reduced-motion .campfire-light{animation:none;opacity:.5}
+.reduced-motion .entity-grasp{opacity:.45}
+.reduced-motion .reveal-shell.is-lit .portrait-frame,.reveal-shell.is-instant .portrait-frame,.reveal-shell.is-instant .portrait-haunting{animation:none}
+@keyframes forest-mist-pass{from{transform:translateX(-2%) translateY(0)}to{transform:translateX(9%) translateY(-4%)}}
+@keyframes campfire-breathe{0%{opacity:.4;transform:scale(.92)}48%{opacity:.65;transform:scale(1.06)}100%{opacity:.45;transform:scale(.96)}}
+@keyframes forest-ember-rise{0%{opacity:0;transform:translate(0,0) rotate(0)}15%{opacity:.5}65%{opacity:.3}100%{opacity:0;transform:translate(30px,-65vh) rotate(100deg)}}
+@keyframes portrait-ink-unveil{0%{clip-path:polygon(0 0,100% 0,100% 4%,82% 1%,67% 6%,48% 0,30% 4%,13% 0,0 7%)}46%{clip-path:polygon(0 0,100% 0,100% 53%,82% 67%,67% 52%,48% 73%,30% 58%,13% 68%,0 55%)}100%{clip-path:polygon(0 0,100% 0,100% 100%,82% 100%,67% 100%,48% 100%,30% 100%,13% 100%,0 100%)}}
+@keyframes portrait-shadow-cross{0%{opacity:0;transform:translateX(-80%)}25%{opacity:.35}100%{opacity:0;transform:translateX(80%)}}
+@media(max-width:1150px){.forest-distance img{object-position:53% 55%}.app .loadout{padding:18px 14px}}
+@media(max-width:800px){.card-stage{--chosen-width:201px;--chosen-height:312px}.grasp-arm{width:166px;height:285px;top:20px}.grasp-left{left:-145px}.grasp-right{right:-145px}.forest-branches{opacity:.35}.app .loadout{margin-top:35px}.forest-vignette{background:linear-gradient(180deg,#03080666,transparent 30%,#04090644 70%,#040906dc),linear-gradient(90deg,#02060566,transparent 30%,transparent 70%,#02060566)}}
+@media(max-width:520px){.card-stage{--chosen-width:188px;--chosen-height:292px}.entity-grasp{margin-top:-37px}.grasp-arm{width:145px;height:258px;top:18px}.grasp-left{left:-126px}.grasp-right{right:-126px}.forest-distance img{object-position:61% 50%;opacity:.8}.forest-branches{opacity:.24}.forest-mist{opacity:.35}.campfire-light{left:55%;top:55%;width:50%;height:22%}.app .loadout{padding:15px 10px}.app .intro-copy{color:#a7afa1}.app .motion-notice{font-size:7px;line-height:1.7}.app .draw-hint{font-size:8px}.binding-chain{opacity:.75}}

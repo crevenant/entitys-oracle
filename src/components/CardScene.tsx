@@ -6,12 +6,13 @@ import { Group, SRGBColorSpace, TextureLoader } from 'three'
 import gsap from 'gsap'
 import { RITUAL } from '../lib/ritual'
 import type { RitualPhase } from '../lib/ritual'
+import type { Role } from '../lib/oracle'
 
-type Props = { phase: RitualPhase; revealed: boolean; reduced: boolean }
+type Props = { phase: RitualPhase; revealed: boolean; reduced: boolean; role: Role }
 
 function Tarot({ index, phase, revealed, reduced }: Props & { index: number }) {
   const group = useRef<Group>(null)
-  const source = useLoader(TextureLoader, '/assets/tarot-back.webp')
+  const source = useLoader(TextureLoader, '/assets/tarot-back-worn.webp')
   const texture = useMemo(() => {
     const copy = source.clone()
     copy.colorSpace = SRGBColorSpace
@@ -65,7 +66,7 @@ function Tarot({ index, phase, revealed, reduced }: Props & { index: number }) {
     return () => { timeline.kill() }
   }, [phase, reduced, index, offset, selected, height])
   return <group ref={group} visible={!(selected && revealed)}>
-    <mesh><boxGeometry args={[1.75, 2.72, 0.035]} /><meshStandardMaterial color="#75613d" roughness={0.7} metalness={0.5} /></mesh>
+    <mesh><boxGeometry args={[1.75, 2.72, 0.035]} /><meshStandardMaterial color="#51412e" roughness={0.94} metalness={0.18} /></mesh>
     <mesh position={[0, 0, 0.024]}><planeGeometry args={[1.73, 2.70]} /><meshBasicMaterial map={texture} toneMapped={false} /></mesh>
     <mesh position={[0, 0, -0.024]} rotation={[0, Math.PI, 0]}><planeGeometry args={[1.73, 2.70]} /><meshBasicMaterial map={texture} toneMapped={false} /></mesh>
   </group>
@@ -89,13 +90,13 @@ function Deck(props: Props & { onReady: () => void }) {
     <Float speed={reduced || drawing ? 0 : 1.2} rotationIntensity={drawing ? 0 : 0.035} floatIntensity={drawing ? 0 : 0.16}>
       {[0, 1, 3, 4, 2].map((index) => <Tarot key={index} index={index} {...props} />)}
     </Float>
-    {!reduced && <Sparkles count={drawing ? 95 : 55} scale={[8, 4.5, 3]} size={drawing ? 2.2 : 1.7} speed={drawing ? 0.65 : 0.24} opacity={drawing ? 0.85 : 0.6} color={phase === 'revealing' ? '#bd84f2' : '#caa56c'} />}
+    {!reduced && <Sparkles count={drawing ? 95 : 55} scale={[8, 4.5, 3]} size={drawing ? 2.2 : 1.7} speed={drawing ? 0.65 : 0.24} opacity={drawing ? 0.85 : 0.6} color={phase === 'revealing' ? '#bd84f2' : props.role === 'killer' ? '#bd6651' : '#caa56c'} />}
   </group>
 }
 
 function FallbackCards({ phase, revealed, reduced }: Props) {
   return <div className={`fallback-cards fallback-${phase} ${revealed ? 'has-result' : ''} ${reduced ? 'is-instant' : ''}`} aria-hidden="true">
-    {[-2, -1, 0, 1, 2].map((offset) => <div className="fallback-card-track" key={offset} style={{ '--offset': offset, '--order': offset + 2, '--distance': Math.abs(offset), '--depth': 5 - Math.abs(offset) } as CSSProperties}><img alt="" src="/assets/tarot-back.webp" style={{ visibility: offset === 0 && revealed ? 'hidden' : undefined }} /></div>)}
+    {[-2, -1, 0, 1, 2].map((offset) => <div className="fallback-card-track" key={offset} style={{ '--offset': offset, '--order': offset + 2, '--distance': Math.abs(offset), '--depth': 5 - Math.abs(offset) } as CSSProperties}><img alt="" src="/assets/tarot-back-worn.webp" style={{ visibility: offset === 0 && revealed ? 'hidden' : undefined }} /></div>)}
   </div>
 }
 
@@ -111,7 +112,7 @@ export default function CardScene(props: Props) {
   return <SceneBoundary fallback={<FallbackCards {...props} />}>
     {!ready && <FallbackCards {...props} />}
     <Canvas style={{ opacity: ready ? 1 : 0 }} data-ready={ready} frameloop={props.reduced ? 'demand' : 'always'} camera={{ position: [0, 0, 6.9], fov: 36 }} dpr={props.reduced ? 1 : [1, 1.7]} gl={{ alpha: true, antialias: true, powerPreference: 'default' }} fallback={null} aria-hidden="true">
-      <ambientLight intensity={1.5} />
+      <ambientLight intensity={1.5} color={props.role === 'killer' ? '#dab2a0' : '#b8c6ba'} />
       <Suspense fallback={null}><Deck {...props} onReady={onReady} /></Suspense>
     </Canvas>
   </SceneBoundary>

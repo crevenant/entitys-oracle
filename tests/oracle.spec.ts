@@ -8,6 +8,7 @@ test('draw, inspect perks, and revisit saved history', async ({ page }, testInfo
   await expect(page.locator('canvas')).toBeVisible()
   await expect(page.locator('[data-ready=true]')).toBeVisible()
   await page.screenshot({ path: `output/screenshots/${testInfo.project.name}-ritual.png`, fullPage: true })
+  await page.screenshot({ path: `output/screenshots/${testInfo.project.name}-forest-viewport.png`, fullPage: false })
   await page.evaluate(() => {
     const stage = document.querySelector('.card-stage')!
     const phases: string[] = []
@@ -103,7 +104,7 @@ test('the flat-card fallback can perform and skip the ritual without WebGL', asy
   await expect(page.locator('.perk-tile:enabled')).toHaveCount(4)
 })
 
-test('character exclusions persist, empty deck is recoverable, and roles are separate', async ({ page }) => {
+test('character exclusions persist, empty deck is recoverable, and roles are separate', async ({ page }, testInfo) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.goto('/')
   await page.getByRole('button', { name: 'Collection', exact: true }).click()
@@ -126,6 +127,8 @@ test('character exclusions persist, empty deck is recoverable, and roles are sep
   const killerDraw = await page.evaluate(() => JSON.parse(localStorage.getItem('oracle:history')!)[0])
   expect(killerDraw.character.role).toBe('killer')
   expect(killerDraw.perks.every((perk: { role: string; tier: number }) => perk.role === 'killer' && perk.tier === 3)).toBe(true)
+  await page.evaluate(() => scrollTo(0, 0))
+  await page.screenshot({ path: `output/screenshots/${testInfo.project.name}-killer-ritual.png`, fullPage: false })
 })
 
 test('production app installs its cache and draws offline', async ({ page, context }) => {
@@ -143,6 +146,7 @@ test('production app installs its cache and draws offline', async ({ page, conte
   await expect(page.locator('.perk-tile')).toHaveCount(4)
   const images = await page.locator('.revealed-card img').evaluateAll((elements) => elements.every((image) => (image as HTMLImageElement).complete && (image as HTMLImageElement).naturalWidth > 0))
   expect(images).toBe(true)
+  await expect.poll(() => page.locator('.forest-distance img').evaluate((image) => (image as HTMLImageElement).complete && (image as HTMLImageElement).naturalWidth > 0)).toBe(true)
 })
 test('muting sound during a ritual stops its audio and suppresses later cues', async ({ page }) => {
   await page.addInitScript(() => {

@@ -19,11 +19,17 @@ For a phone on the same trusted Wi-Fi, run `npm.cmd run dev -- --host 0.0.0.0` a
 
 - React + TypeScript + Vite, Three.js / React Three Fiber / Drei, GSAP, Lucide icons.
 - Original generated tarot back, gold engraved styling, moving fog, floating particles, pointer tilt, and a cinematic tarot ritual.
+- An original fog-filled forest clearing with a distant dying campfire, a hanging hook, layered foreground branches, drifting ash, and an animated ground mist. Survivor moonlight and killer crimson lighting share the same scene; perk colors stay purple.
+- Distressed tarot backs retain the original eye, moth, and thorn engravings with tarnished brass, scorched edges, and hairline violet cracks. Revealed portraits emerge through an ink-like wipe and a passing shadow.
+- Animated Entity claws tighten around the chosen card, then recoil during the flip. Locked characters are bound with spectral chains. Reduced effects keeps the environment still and removes moving mist and ash.
 - Cards gather, cut and shuffle, circle the ritual, then fan out. The chosen card rises and flips before its four purple perks awaken individually.
 - A roughly 5.6-second shared timeline coordinates movement, Entity vines, runes, purple ripples, and optional sound. Skip the ritual at any time to reveal the same draw immediately.
-- Survivor and killer decks, searchable character exclusions, and four distinct random perks from the selected role.
+- Survivor and killer decks, searchable character and perk pools, and four distinct random perks from the selected role. Each role’s pool is saved separately on the current device.
+- Lock the drawn character or individual perk slots, then Reroll unlocked to keep those entries in place. Gold lock marks identify held entries while every perk remains purple tier III.
+- Removing a locked entry from its pool unlocks it. Locking an excluded entry from a past hand includes it again. Fewer than four eligible perks or no eligible characters blocks the draw with a link to fix the pool.
+- Locks apply to the current hand and reset when changing role, revisiting history, or reloading. Pool selections persist. Unlocked entries remain random and may repeat; locking all five entries pauses rerolls until a lock is released.
 - Purple tier III styling on every perk, with selectable perk descriptions.
-- Optional synthesized card whispers, a dark crescendo, and perk chimes; no sound plays until enabled. Muting or skipping stops active sound cues.
+- Optional synthesized wind, card whispers, a heartbeat crescendo, a short hush before the flip, and perk chimes; no sound plays until enabled. Muting or skipping stops active sound cues.
 - Optional haptic pulses on devices that support browser vibration; availability varies by browser and hardware.
 - Saved character exclusions, settings, and the last 20 draws on the current device.
 - Motion settings offer Follow device (the default), Full ritual, and Reduced effects. Follow device honors the device’s reduced-motion preference. Full ritual explicitly enables the animation in this app, even on a reduced-motion device; Reduced effects always reveals instantly. The active mode is shown below the draw controls and saved on the current device.
@@ -49,7 +55,7 @@ Automated checks cover desktop and phone-sized Chromium layouts, all ritual phas
 
 ## Catalog and artwork
 
-This is a local community-data snapshot with 89 characters and 305 perks that have matching artwork, not a promise of the complete live-game roster. It does not read a player’s owned DLC or unlocked perks. All perks for the chosen role are eligible.
+This is a local community-data snapshot with 89 characters and 305 perks that have matching artwork, not a promise of the complete live-game roster. It does not read a player’s owned DLC or unlocked perks. All perks for the chosen role start eligible; use Collection → Perks to select the ones you want in your pool.
 
 `npm.cmd run catalog:refresh` downloads a new metadata/image intersection and optimizes assets. Review refreshed data before shipping, as the community sources and game descriptions can change. Regeneration requires network access; running the app does not.
 
@@ -60,7 +66,10 @@ See [ASSETS.md](ASSETS.md) for provenance and [design/tarot-back-prompt.txt](des
 - `src/App.tsx`: ritual interface, dialogs, preferences, and draw flow.
 - `src/components/CardScene.tsx`: 3D cards, floating particles, GSAP choreography, and fallback.
 - `src/components/RevealedCard.tsx`: two-sided card flip and sequential perk seals.
+- `src/components/CollectionPanel.tsx`: searchable, keyboard-accessible character and perk pools.
+- `src/components/LoadoutControls.tsx` and `src/Loadout.css`: character / perk locks and reroll controls.
 - `src/components/RitualEffects.tsx` and `src/Ritual.css`: procedural Entity vines, ritual rings, runes, and reveal effects.
+- `src/components/ForestBackdrop.tsx`, `src/components/EntityGrasp.tsx`, `src/components/SpectralBinding.tsx`, and `src/Horror.css`: the forest environment, card-gripping claws, spectral chains, role lighting, and distressed surfaces.
 - `src/lib/ritual.ts` and `src/lib/useRitual.ts`: shared phase timing, cancellation, skipping, and history completion.
 - `src/lib/sound.ts`: optional synthesized cues with per-draw cleanup.
 - `src/lib/oracle.ts`: unbiased random selection and local storage helpers.

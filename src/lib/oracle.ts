@@ -4,6 +4,7 @@ export type Role = 'survivor' | 'killer'
 export type Character = (typeof catalog.characters)[number]
 export type Perk = (typeof catalog.perks)[number]
 export type Draw = { id: string; character: Character; perks: Perk[]; createdAt: string }
+export type DrawOptions = { excludedPerks?: readonly string[]; lockedCharacterId?: string | null; lockedPerks?: readonly (string | null)[] }
 export { catalog }
 
 /** Rejection sampling avoids modulo bias when selecting from the catalog. */
@@ -15,15 +16,23 @@ export function randomIndex(length: number): number {
   return buffer[0] % length
 }
 
-export function drawFate(role: Role, excluded: string[] = []): Draw {
+export function drawFate(role: Role, excluded: string[] = [], options: DrawOptions = {}): Draw {
   const characters = catalog.characters.filter((character) => character.role === role && !excluded.includes(character.id))
-  const perks = catalog.perks.filter((perk) => perk.role === role)
+  const eligiblePerks = catalog.perks.filter((perk) => perk.role === role && !options.excludedPerks?.includes(perk.id))
   if (!characters.length) throw new Error('Select at least one character in your collection.')
-  if (perks.length < 4) throw new Error('At least four eligible perks are required.')
-  const chosen: Perk[] = []
-  for (let i = 0; i < 4; i++) chosen.push(perks.splice(randomIndex(perks.length), 1)[0])
+  if (eligiblePerks.length < 4) throw new Error('Select at least four perks for this role in your collection.')
+  const lockedCharacter = options.lockedCharacterId == null ? null : characters.find((entry) => entry.id === options.lockedCharacterId)
+  if (options.lockedCharacterId != null && !lockedCharacter) throw new Error('The locked character must be included in this role’s pool.')
+  if (options.lockedPerks && options.lockedPerks.length > 4) throw new Error('Only four perk slots can be locked.')
+  const lockedIds = Array.from({ length: 4 }, (_, index) => options.lockedPerks?.[index] ?? null)
+  const held = lockedIds.filter((id): id is string => id !== null)
+  if (new Set(held).size !== held.length) throw new Error('Each locked perk must be unique.')
+  const locked = lockedIds.map((id) => id === null ? null : eligiblePerks.find((entry) => entry.id === id))
+  if (locked.some((entry) => entry === undefined)) throw new Error('Locked perks must be included in this role’s pool.')
+  const perks = eligiblePerks.filter((entry) => !held.includes(entry.id))
+  const chosen: Perk[] = locked.map((entry) => entry ?? perks.splice(randomIndex(perks.length), 1)[0])
   const id = Array.from(crypto.getRandomValues(new Uint8Array(16)), (byte) => byte.toString(16).padStart(2, '0')).join('')
-  return { id, character: characters[randomIndex(characters.length)], perks: chosen, createdAt: new Date().toISOString() }
+  return { id, character: lockedCharacter ?? characters[randomIndex(characters.length)], perks: chosen, createdAt: new Date().toISOString() }
 }
 
 export function readSaved<T>(key: string, fallback: T): T {

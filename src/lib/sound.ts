@@ -62,13 +62,29 @@ export function createRitualAudio() {
       cue(phase: SoundCue, index = 0) {
         if (stopped) return
         switch (phase) {
-          case 'gathering': breath(0.44, 0.28); tone(82.41, 0.7, 0.16, 0, 55); break
+          case 'gathering': breath(0.44, 0.28); breath(5.3, 0.045, 0, 260); tone(82.41, 0.7, 0.16, 0, 55); break
           case 'shuffling':
             for (let beat = 0; beat < 5; beat++) breath(0.15, 0.26, beat * 0.12, 1900)
             break
-          case 'orbiting': tone(110, 1.5, 0.12); tone(164.81, 1.35, 0.08, 0.08); breath(1.3, 0.15); break
-          case 'choosing': tone(65.41, 0.65, 0.38, 0, 49); breath(0.6, 0.23, 0, 550); break
-          case 'flipping': breath(0.72, 0.28, 0, 1800); tone(220, 0.65, 0.1, 0, 659.25); break
+          case 'orbiting':
+            tone(110, 1.4, 0.08); tone(164.81, 1.25, 0.05, 0.08); breath(1.2, 0.12)
+            for (let beat = 0; beat < 3; beat++) {
+              tone(54, 0.14, 0.28, beat * 0.36, 40)
+              tone(47, 0.11, 0.15, beat * 0.36 + 0.16, 35)
+            }
+            break
+          case 'choosing':
+            tone(65.41, 0.37, 0.3, 0, 49); breath(0.34, 0.2, 0, 550)
+            master.gain.cancelScheduledValues(audio.currentTime)
+            master.gain.setValueAtTime(0.16, audio.currentTime)
+            master.gain.linearRampToValueAtTime(0.0001, audio.currentTime + 0.45)
+            break
+          case 'flipping':
+            master.gain.cancelScheduledValues(audio.currentTime)
+            master.gain.setValueAtTime(0.0001, audio.currentTime)
+            master.gain.linearRampToValueAtTime(0.16, audio.currentTime + 0.12)
+            breath(0.72, 0.28, 0, 1800); tone(220, 0.65, 0.1, 0, 659.25)
+            break
           case 'revealing': tone(130.81, 1.2, 0.2); tone(196, 1, 0.12); tone(261.63, 0.85, 0.08); break
           case 'perk': {
             const frequency = [329.63, 392, 440, 659.25][index]
