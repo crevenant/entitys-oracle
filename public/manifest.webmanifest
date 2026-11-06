@@ -1,0 +1,16 @@
+{
+  "id": "/",
+  "name": "The Entity’s Oracle",
+  "short_name": "Oracle",
+  "description": "A Dead by Daylight tarot randomizer. One character. Four purple perks.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0c0e0e",
+  "theme_color": "#0c0e0e",
+  "icons": [
+    { "src": "/icons/oracle-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/oracle-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/oracle-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

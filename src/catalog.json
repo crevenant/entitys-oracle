@@ -1,0 +1,3075 @@
+{
+  "importedAt": "2026-11-06T07:51:38.081Z",
+  "sources": {
+    "data": "https://dbd.tricky.lol",
+    "artwork": "https://github.com/Zawgalicious/DBDImages",
+    "artworkTree": "931465172edf01c5277f0ffbc3e32f0ddeadecad"
+  },
+  "characters": [
+    {
+      "id": "0",
+      "name": "Dwight Fairfield",
+      "role": "survivor",
+      "image": "/assets/characters/survivor-dwightfairfield.webp",
+      "bio": "A nervous leader, able to locate his allies and increase their effectiveness."
+    },
+    {
+      "id": "1",
+      "name": "Meg Thomas",
+      "role": "survivor",
+      "image": "/assets/characters/survivor-megthomas.webp",
+      "bio": "An energetic athlete, able to outrun most Killers."
+    },
+    {
+      "id": "2",
+      "name": "Claudette Morel",
+      "role": "survivor",
+      "image": "/assets/characters/survivor-claudettemorel.webp",
+      "bio": "A studious botanist, able to boost her team's survivability as well as her own."
+    },
+    {
+      "id": "3",
+      "name": "Jake Park",
+      "role": "survivor",
+      "image": "/assets/characters/survivor-jakepark.webp",
+      "bio": "A solitary survivalist, able to hold his own in most situations."
+    },
+    {
+      "id": "4",
+      "name": "Nea Karlsson",
+      "role": "survivor",
+      "image": "/assets/characters/survivor-neakarlsson.webp",
+      "bio": "An urban artist, able to easily escape and hide."
+    },
+    {
+      "id": "5",
+      "name": "Laurie Strode",
+      "role": "survivor",
+      "image": "/assets/characters/survivor-lauriestrode.webp",
+      "bio": "A determined Survivor, prepared to weather any challenge."
+    },
+    {
+      "id": "6",
+      "name": "Ace Visconti",
+      "role": "survivor",
+      "image": "/assets/characters/survivor-acevisconti.webp",
+      "bio": "A lucky gambler, improving the odds of the entire team."
+    },
+    {
+      "id": "7",
+      "name": "William \"Bill\" Overbeck",
+      "role": "survivor",
+      "image": "/assets/characters/survivor-billoverbeck.webp",
+      "bio": "An old soldier, accustomed to dealing with critical situations."
+    },
+    {
+      "id": "8",
+      "name": "Feng Min",
+      "role": "survivor",
+      "image": "/assets/characters/survivor-fengmin.webp",
+      "bio": "An objective-focused competitor who can quickly adapt her strategy to meet a vast range of challenging situations."
+    },
+    {
+      "id": "9",
+      "name": "David King",
+      "role": "survivor",
+      "image": "/assets/characters/survivor-davidking.webp",
+      "bio": "A rugged scrapper, rewarding high-risk play."
+    },
+    {
+      "id": "10",
+      "name": "Kate Denson",
+      "role": "survivor",
+      "image": "/assets/characters/survivor-katedenson.webp",
+      "bio": "A hopeful songbird, able to make the most of her surroundings."
+    },
+    {
+      "id": "11",
+      "name": "Quentin Smith",
+      "role": "survivor",
+      "image": "/assets/characters/survivor-quentinsmith.webp",
+      "bio": "A resolute dreamwalker, increasing the survivability and recovery of his team."
+    },
+    {
+      "id": "13",
+      "name": "Adam Francis",
+      "role": "survivor",
+      "image": "/assets/characters/survivor-adamfrancis.webp",
+      "bio": "A resourceful teacher, able to adapt to new circumstances and develop strategies accordingly."
+    },
+    {
+      "id": "14",
+      "name": "Jeff Johansen",
+      "role": "survivor",
+      "image": "/assets/characters/survivor-jeffjohansen.webp",
+      "bio": "A quiet artist, standing steadfast against impossible odds."
+    },
+    {
+      "id": "15",
+      "name": "Jane Romero",
+      "role": "survivor",
+      "image": "/assets/characters/survivor-janeromero.webp",
+      "bio": "An influential celebrity, going against the grain to tackle challenges head on."
+    },
+    {
+      "id": "16",
+      "name": "Ashley J. Williams",
+      "role": "survivor",
+      "image": "/assets/characters/survivor-ashleyjwilliams.webp",
+      "bio": "An \"alone wolf,\" cocky and headstrong; a man built for survival."
+    },
+    {
+      "id": "17",
+      "name": "Nancy Wheeler",
+      "role": "survivor",
+      "image": "/assets/characters/survivor-nancywheeler.webp",
+      "bio": "An aspiring journalist, able to make acute observations and gain insights that others may miss."
+    },
+    {
+      "id": "18",
+      "name": "Steve Harrington",
+      "role": "survivor",
+      "image": "/assets/characters/survivor-steveharrington.webp",
+      "bio": "A former jock, able to protect and support his fellow Survivors while providing his own brand of humor."
+    },
+    {
+      "id": "19",
+      "name": "Yui Kimura",
+      "role": "survivor",
+      "image": "/assets/characters/survivor-yuikimura.webp",
+      "bio": "A hardened street racer, able to gain advantages for her and her fellow Survivors in challenging situations."
+    },
+    {
+      "id": "20",
+      "name": "Zarina Kassir",
+      "role": "survivor",
+      "image": "/assets/characters/survivor-zarinakassir.webp",
+      "bio": "A plucky documentarian, able to use her street smarts to avoid detection and greatly assist other Survivors."
+    },
+    {
+      "id": "21",
+      "name": "Cheryl Mason",
+      "role": "survivor",
+      "image": "/assets/characters/survivor-cherylmason.webp",
+      "bio": "Cheryl Mason is a young veteran of terror, emboldening both herself and her team."
+    },
+    {
+      "id": "22",
+      "name": "Felix Richter",
+      "role": "survivor",
+      "image": "/assets/characters/survivor-felixrichter.webp",
+      "bio": "A visionary architect, able to use his relentless determination to form a plan and help other Survivors."
+    },
+    {
+      "id": "23",
+      "name": "Élodie Rakoto",
+      "role": "survivor",
+      "image": "/assets/characters/survivor-elodierakoto.webp",
+      "bio": "An occult investigator, able to use cunning tricks and stubborn resolve to keep herself alive."
+    },
+    {
+      "id": "25",
+      "name": "Jill Valentine",
+      "role": "survivor",
+      "image": "/assets/characters/survivor-jillvalentine.webp",
+      "bio": "Jill Valentine is a founding member of S.T.A.R.S. who has triumphed over countless bio-organic weapons."
+    },
+    {
+      "id": "27",
+      "name": "Mikaela Reid",
+      "role": "survivor",
+      "image": "/assets/characters/survivor-mikaelareid.webp",
+      "bio": "Mikaela is a young mystic, able to alter the trial with supernatural abilities."
+    },
+    {
+      "id": "28",
+      "name": "Jonah Vasquez",
+      "role": "survivor",
+      "image": "/assets/characters/survivor-jonahvasquez.webp",
+      "bio": "Jonah is a mathematical mastermind, able to use logic to help his team."
+    },
+    {
+      "id": "29",
+      "name": "Yoichi Asakawa",
+      "role": "survivor",
+      "image": "/assets/characters/survivor-yoichiasakawa.webp",
+      "bio": "Yoichi is a brilliant marine biologist and psychic whose knowledge and abilities allow him to protect himself and assist others."
+    },
+    {
+      "id": "30",
+      "name": "Haddie Kaur",
+      "role": "survivor",
+      "image": "/assets/characters/survivor-haddiekaur.webp",
+      "bio": "Haddie is a brave and determined podcaster with the ability to see and feel places of great suffering she calls Overlaps."
+    },
+    {
+      "id": "31",
+      "name": "Ada Wong",
+      "role": "survivor",
+      "image": "/assets/characters/survivor-adawong.webp",
+      "bio": "Ada Wong is a mysterious secret agent whose skill in espionage makes her a dangerous foe."
+    },
+    {
+      "id": "32",
+      "name": "Rebecca Chambers",
+      "role": "survivor",
+      "image": "/assets/characters/survivor-rebeccachambers.webp",
+      "bio": "Rebecca Chambers is a gifted medic and squad member whose presence soothes those around her."
+    },
+    {
+      "id": "33",
+      "name": "Vittorio Toscano",
+      "role": "survivor",
+      "image": "/assets/characters/survivor-vittoriotoscano.webp",
+      "bio": "Vittorio has endlessly wandered through the Fog, attempting to learn its secrets, for ages."
+    },
+    {
+      "id": "34",
+      "name": "Thalita Lyra",
+      "role": "survivor",
+      "image": "/assets/characters/survivor-thalitalyra.webp",
+      "bio": "Thalita has mastered the art of competitive flair, fighting kites with skill and flourish."
+    },
+    {
+      "id": "35",
+      "name": "Renato Lyra",
+      "role": "survivor",
+      "image": "/assets/characters/survivor-renatolyra.webp",
+      "bio": "Renato always keeps his eye on the prize, and he expects the same from his teammates."
+    },
+    {
+      "id": "36",
+      "name": "Gabriel Soma",
+      "role": "survivor",
+      "image": "/assets/characters/survivor-gabrielsoma.webp",
+      "bio": "A resourceful engineer, ready to make the most out of any situation."
+    },
+    {
+      "id": "37",
+      "name": "Nicolas Cage",
+      "role": "survivor",
+      "image": "/assets/characters/survivor-nicolascage.webp",
+      "bio": "Nicolas Cage is a superstar, trapped in the role of a lifetime."
+    },
+    {
+      "id": "38",
+      "name": "Ellen Ripley",
+      "role": "survivor",
+      "image": "/assets/characters/survivor-ellenripley.webp",
+      "bio": "Ellen Ripley, Warrant Officer of the Nostromo, is capable and pragmatic."
+    },
+    {
+      "id": "39",
+      "name": "Alan Wake",
+      "role": "survivor",
+      "image": "/assets/characters/survivor-alanwake.webp",
+      "bio": "Alan Wake, bestselling author, knows what it means to push back the darkness."
+    },
+    {
+      "id": "40",
+      "name": "Sable Ward",
+      "role": "survivor",
+      "image": "/assets/characters/survivor-sableward.webp",
+      "bio": "Sable is not afraid to embrace the darkness, or the power that lies within it."
+    },
+    {
+      "id": "42",
+      "name": "Lara Croft",
+      "role": "survivor",
+      "image": "/assets/characters/survivor-laracroft.webp",
+      "bio": "Lara Croft's instincts have been honed by her many dangerous expeditions."
+    },
+    {
+      "id": "43",
+      "name": "Trevor Belmont",
+      "role": "survivor",
+      "image": "/assets/characters/survivor-trevorbelmont.webp",
+      "bio": "Trevor Belmont, vampire hunter, knows his destiny is to vanquish evil."
+    },
+    {
+      "id": "44",
+      "name": "Taurie Cain",
+      "role": "survivor",
+      "image": "/assets/characters/survivor-tauriecain.webp",
+      "bio": "Taurie Cain was raised as a Disciple of the Black Talon, condemned to be a sacrifice."
+    },
+    {
+      "id": "45",
+      "name": "Orela Rose",
+      "role": "survivor",
+      "image": "/assets/characters/survivor-orelarose.webp",
+      "bio": "Orela Rose is a paramedic with a love for horror and a calming demeanor."
+    },
+    {
+      "id": "46",
+      "name": "Rick Grimes",
+      "role": "survivor",
+      "image": "/assets/characters/survivor-rickgrimes.webp",
+      "bio": "Rick Grimes is the leader of a group of post-apocalyptic survivors."
+    },
+    {
+      "id": "47",
+      "name": "Michonne Grimes",
+      "role": "survivor",
+      "image": "/assets/characters/survivor-michonnegrimes.webp",
+      "bio": "Michonne Grimes is a relentless protector living in a community of post-apocalyptic survivors."
+    },
+    {
+      "id": "48",
+      "name": "Vee Boonyasak",
+      "role": "survivor",
+      "image": "/assets/characters/survivor-veeboonyasak.webp",
+      "bio": "Vee Boonyasak is an energetic drummer whose adventurous nature led to a doomed concert."
+    },
+    {
+      "id": "49",
+      "name": "Dustin Henderson",
+      "role": "survivor",
+      "image": "/assets/characters/survivor-dustinhenderson.webp",
+      "bio": "Dustin Henderson is a brilliant and somewhat nerdy high school student."
+    },
+    {
+      "id": "50",
+      "name": "Eleven",
+      "role": "survivor",
+      "image": "/assets/characters/survivor-eleven.webp",
+      "bio": "Eleven is a former test subject with extrasensory abilities."
+    },
+    {
+      "id": "268435456",
+      "name": "The Trapper",
+      "role": "killer",
+      "image": "/assets/characters/killer-trapper.webp",
+      "bio": "An area-control Killer, able to apply pressure across the map by placing deadly Bear Traps for Survivors to step in."
+    },
+    {
+      "id": "268435457",
+      "name": "The Wraith",
+      "role": "killer",
+      "image": "/assets/characters/killer-wraith.webp",
+      "bio": "A stealth Killer, able to Cloak and Uncloak at the ringing of his Wailing Bell."
+    },
+    {
+      "id": "268435458",
+      "name": "The Hillbilly",
+      "role": "killer",
+      "image": "/assets/characters/killer-hillbilly.webp",
+      "bio": "A high-mobility Killer, able to cover large distances in a short amount of time and instantly down Survivors using his Chainsaw."
+    },
+    {
+      "id": "268435459",
+      "name": "The Nurse",
+      "role": "killer",
+      "image": "/assets/characters/killer-nurse.webp",
+      "bio": "A warping Killer, able to Blink through obstacles and quickly close gaps with her power, Spencer's Last Breath."
+    },
+    {
+      "id": "268435460",
+      "name": "The Hag",
+      "role": "killer",
+      "image": "/assets/characters/killer-hag.webp",
+      "bio": "A cursed Killer, able to place traps and then Teleport to them when activated, using her Blackened Catalyst."
+    },
+    {
+      "id": "268435461",
+      "name": "The Shape",
+      "role": "killer",
+      "image": "/assets/characters/killer-shape.webp",
+      "bio": "A haunting Killer who stalks Survivors to feed his power."
+    },
+    {
+      "id": "268435462",
+      "name": "The Doctor",
+      "role": "killer",
+      "image": "/assets/characters/killer-doctor.webp",
+      "bio": "A madness-inducing Killer who is able to use his power, Carter's Spark, to trigger electrical charges, incapacitating Survivors and eventually causing them to hallucinate and scream in terror, revealing their position."
+    },
+    {
+      "id": "268435463",
+      "name": "The Huntress",
+      "role": "killer",
+      "image": "/assets/characters/killer-huntress.webp",
+      "bio": "A ranged Killer, able to throw Hunting Hatchets at Survivors to injure them from a distance."
+    },
+    {
+      "id": "268435464",
+      "name": "The Cannibal",
+      "role": "killer",
+      "image": "/assets/characters/killer-cannibal.webp",
+      "bio": "A chainsaw-wielding Killer, able to trigger a deadly frenzy using Bubba's Chainsaw, immediately downing anyone in its path."
+    },
+    {
+      "id": "268435465",
+      "name": "The Nightmare",
+      "role": "killer",
+      "image": "/assets/characters/killer-nightmare.webp",
+      "bio": "A nightmare inducing Killer, passively forcing Survivors into his Dream World using his power, Dream Demon. It is here that Survivors become extremely vulnerable to his dream abilities. Using his Dream Projection ability he is able to quickly appear across the map and put pressure on Survivors."
+    },
+    {
+      "id": "268435466",
+      "name": "The Pig",
+      "role": "killer",
+      "image": "/assets/characters/killer-pig.webp",
+      "bio": "A tormenting Killer, able to Crouch into stealth mode, then Ambush Survivors from a short distance. She can also apply Reverse Bear Traps to downed Survivors, forcing them to remove it before the timer runs out. If the timer expires, they die instantly."
+    },
+    {
+      "id": "268435467",
+      "name": "The Clown",
+      "role": "killer",
+      "image": "/assets/characters/killer-clown.webp",
+      "bio": "A strategic Killer, able to control and corral Survivors by throwing bottles of The Afterpiece Tonic to create clouds of noxious gas that cover large areas for a short amount of time. Survivors Intoxicated by the gas are inflicted with impaired vision and movement speed, and give away their location by coughing loudly."
+    },
+    {
+      "id": "268435468",
+      "name": "The Spirit",
+      "role": "killer",
+      "image": "/assets/characters/killer-spirit.webp",
+      "bio": "A phase-walking Killer, able to catch Survivors off-guard with her traversal power, Yamaoka’s Haunting. Her power allows her to Teleport from one place to another without being seen."
+    },
+    {
+      "id": "268435469",
+      "name": "The Legion",
+      "role": "killer",
+      "image": "/assets/characters/killer-legion.webp",
+      "bio": "A band of merciless Killers, able to rushdown helpless Survivors with their power, Feral Frenzy. Attacks made during their frenzy inflict lingering internal damage, downing any Survivors that are not quick enough to react."
+    },
+    {
+      "id": "268435470",
+      "name": "The Plague",
+      "role": "killer",
+      "image": "/assets/characters/killer-plague.webp",
+      "bio": "A devout Killer, able to infect Survivors from a short distance using her power, Vile Purge. Survivors inflicted by this contamination risk becoming injured or broken, unless they find a way to cure themselves in a Pool of Devotion."
+    },
+    {
+      "id": "268435471",
+      "name": "The Ghost Face",
+      "role": "killer",
+      "image": "/assets/characters/killer-ghostface.webp",
+      "bio": "A creepy Killer, able to Stalk his victims and sneak up silently using his power, Night Shroud. Affected Survivors will find themselves vulnerable and oblivious to his presence and must use all of their perception and awareness to protect themselves from his approach."
+    },
+    {
+      "id": "268435472",
+      "name": "The Demogorgon",
+      "role": "killer",
+      "image": "/assets/characters/killer-demogorgon.webp",
+      "bio": "An unidentified Killer, able to open multiple Portals and traverse between them to cover large distances. Using its power, Of the Abyss, it can detect any Survivors within a close proximity to the Portals then unleash a leaping attack to inflict damage from a distance."
+    },
+    {
+      "id": "268435473",
+      "name": "The Oni",
+      "role": "killer",
+      "image": "/assets/characters/killer-oni.webp",
+      "bio": "A monstrous Killer, able to absorb the blood energy of his injured foes, and then use that energy to transform into a brutal demon. Using his power, Yamaoka's Wrath, he can rush down Survivors at great speed and deal deadly strikes with his kanabō."
+    },
+    {
+      "id": "268435474",
+      "name": "The Deathslinger",
+      "role": "killer",
+      "image": "/assets/characters/killer-deathslinger.webp",
+      "bio": "A vengeful Killer, able to spear Survivors from a distance and Reel them in using his power, The Redeemer."
+    },
+    {
+      "id": "268435475",
+      "name": "The Executioner",
+      "role": "killer",
+      "image": "/assets/characters/killer-executioner.webp",
+      "bio": "A map-manipulation Killer, able to torment Survivors with the hazards he creates. Affected Survivors will be vulnerable to his special hook, the Cage of Atonement, and his unique mori, Final Judgment."
+    },
+    {
+      "id": "268435476",
+      "name": "The Blight",
+      "role": "killer",
+      "image": "/assets/characters/killer-blight.webp",
+      "bio": "An unpredictable Killer, able to rush forward in a burst of speed and carom off obstacles to injure Survivors using his power, Blighted Corruption."
+    },
+    {
+      "id": "268435477",
+      "name": "The Twins",
+      "role": "killer",
+      "image": "/assets/characters/killer-twins.webp",
+      "bio": "A cooperative pair of Killers, able to divide and hunt together using their power, Blood Bond."
+    },
+    {
+      "id": "268435478",
+      "name": "The Trickster",
+      "role": "killer",
+      "image": "/assets/characters/killer-trickster.webp",
+      "bio": "A ranged Killer, able to quickly unleash a flurry of blades by using his power, Showstopper."
+    },
+    {
+      "id": "268435479",
+      "name": "The Nemesis",
+      "role": "killer",
+      "image": "/assets/characters/killer-nemesis.webp",
+      "bio": "An unrelenting Killer, capable of attacking at mid-range with his tentacle, while receiving support from Zombies roaming the area."
+    },
+    {
+      "id": "268435480",
+      "name": "The Cenobite",
+      "role": "killer",
+      "image": "/assets/characters/killer-cenobite.webp",
+      "bio": "A summoning Killer, able to possess chain projectiles and use the Lament Configuration to torture every Survivor at once."
+    },
+    {
+      "id": "268435481",
+      "name": "The Artist",
+      "role": "killer",
+      "image": "/assets/characters/killer-artist.webp",
+      "bio": "A ranged-reconnaissance Killer, able to launch Dire Crows across the map to reveal and attack Survivors."
+    },
+    {
+      "id": "268435482",
+      "name": "The Onryō",
+      "role": "killer",
+      "image": "/assets/characters/killer-onryo.webp",
+      "bio": "A vengeful ghost imbued with the power of Nensha, the Onryō is able to silently and invisibly traverse the realm, manifesting when she is ready to strike."
+    },
+    {
+      "id": "268435483",
+      "name": "The Dredge",
+      "role": "killer",
+      "image": "/assets/characters/killer-dredge.webp",
+      "bio": "A manifestation of the dark thoughts of a once-vibrant community, the Dredge is able to teleport between lockers and summon an overwhelming darkness."
+    },
+    {
+      "id": "268435484",
+      "name": "The Mastermind",
+      "role": "killer",
+      "image": "/assets/characters/killer-mastermind.webp",
+      "bio": "Albert Wesker is a brilliant and ruthless mastermind infused with the power of Uroboros."
+    },
+    {
+      "id": "268435485",
+      "name": "The Knight",
+      "role": "killer",
+      "image": "/assets/characters/killer-knight.webp",
+      "bio": "The Knight is a strategic Killer, able to send his faithful Guards to hunt for Survivors and damage objects on the battlefield."
+    },
+    {
+      "id": "268435486",
+      "name": "The Skull Merchant",
+      "role": "killer",
+      "image": "/assets/characters/killer-skullmerchant.webp",
+      "bio": "The Skull Merchant is a tactical Killer, able to place Drones that detect and debilitate her targets."
+    },
+    {
+      "id": "268435487",
+      "name": "The Singularity",
+      "role": "killer",
+      "image": "/assets/characters/killer-singularity.webp",
+      "bio": "The Singularity is a relentless Killer, able to launch Biopods to move quickly across the map."
+    },
+    {
+      "id": "268435488",
+      "name": "The Xenomorph",
+      "role": "killer",
+      "image": "/assets/characters/killer-xenomorph.webp",
+      "bio": "A relentless specimen from a distant planet, The Xenomorph is vicious, agile, and cunning."
+    },
+    {
+      "id": "268435489",
+      "name": "The Good Guy",
+      "role": "killer",
+      "image": "/assets/characters/killer-goodguy.webp",
+      "bio": "The Good Guy is an elusive Killer, capable of deceiving Survivors with his illusory Footfalls and deadly Slice & Dice."
+    },
+    {
+      "id": "268435490",
+      "name": "The Unknown",
+      "role": "killer",
+      "image": "/assets/characters/killer-unknown.webp",
+      "bio": "A being beyond understanding, though many have tried."
+    },
+    {
+      "id": "268435491",
+      "name": "The Lich",
+      "role": "killer",
+      "image": "/assets/characters/killer-lich.webp",
+      "bio": "Few dare speak The Lich's true name, for fear that he may hear... or worse."
+    },
+    {
+      "id": "268435492",
+      "name": "The Dark Lord",
+      "role": "killer",
+      "image": "/assets/characters/killer-darklord.webp",
+      "bio": "The Dark Lord, Dracula, is the embodiment of darkness and tragedy."
+    },
+    {
+      "id": "268435493",
+      "name": "The Houndmaster",
+      "role": "killer",
+      "image": "/assets/characters/killer-houndmaster.webp",
+      "bio": "The Houndmaster is a force to be feared, with an equally fearsome dog at her side."
+    },
+    {
+      "id": "268435494",
+      "name": "The Ghoul",
+      "role": "killer",
+      "image": "/assets/characters/killer-ghoul.webp",
+      "bio": "The Ghoul has been pushed to his limits and he’s hungry for more."
+    },
+    {
+      "id": "268435495",
+      "name": "The Animatronic",
+      "role": "killer",
+      "image": "/assets/characters/killer-animatronic.webp",
+      "bio": "The Animatronic always comes back."
+    },
+    {
+      "id": "268435496",
+      "name": "The Krasue",
+      "role": "killer",
+      "image": "/assets/characters/killer-krasue.webp",
+      "bio": "A shape-changing Killer, able to inflict Survivors with an effect that weakens them to her Intestinal Whip attack."
+    },
+    {
+      "id": "268435497",
+      "name": "The First",
+      "role": "killer",
+      "image": "/assets/characters/killer-first.webp",
+      "bio": "The First is a cunning and cruel former test subject, whose powers were sharpened in an alternate dimension."
+    }
+  ],
+  "perks": [
+    {
+      "id": "Ace_In_The_Hole",
+      "name": "Ace in the Hole",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-aceinthehole.webp",
+      "description": "Whenever you loot an item from a Chest, it will have:A Visceral or lower rarity add-on.\n100% chance for an Uncommon or lower rarity add-on.\n\n\nWhen you escape, you keep your add-ons.",
+      "tier": 3
+    },
+    {
+      "id": "Adrenaline",
+      "name": "Adrenaline",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-adrenaline.webp",
+      "description": "When all Generators are completed, if you are downed or injured, heal instantly. Then, ignoring —:You gain 50% — for 4s.\nYou gain — for 40s.",
+      "tier": 3
+    },
+    {
+      "id": "Aftercare",
+      "name": "Aftercare",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-aftercare.webp",
+      "description": "You and up to 3 Survivors see each other's Auras whenever:You unhook them, or they unhook you.\nYou finish healing them, or they finish healing you.\n\n\nThis effect lasts until you are hooked.",
+      "tier": 3
+    },
+    {
+      "id": "Agitation",
+      "name": "Agitation",
+      "role": "killer",
+      "image": "/assets/perks/killer-agitation.webp",
+      "description": "While carrying a Survivor:You gain 18% —.\nYour Terror Radius is 12m larger.",
+      "tier": 3
+    },
+    {
+      "id": "Alert",
+      "name": "Alert",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-alert.webp",
+      "description": "Whenever the Killer breaks a Pallet or Breakable Wall, or damages a Generator:You hear a sound cue.\nYou see their Aura for 5s.",
+      "tier": 3
+    },
+    {
+      "id": "AnyMeansNecessary",
+      "name": "Any Means Necessary",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-anymeansnecessary.webp",
+      "description": "While next to a Dropped Pallet, use — for 3s to reset it.\n\nYou see the Auras of Dropped Pallets.",
+      "tier": 3
+    },
+    {
+      "id": "Autodidact",
+      "name": "Autodidact",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-autodidact.webp",
+      "description": "You start the trial with 0 Tokens, up to 5, and your good basic healing Skill Checks give 15% less progress.\n\nWhile healing another Survivor without a Med-Kit:Whenever you hit a basic Skill Check, you earn 1 token.\nWhenever you hit a basic Skill Check, for each Token, you gain 15% more progress.\nYou cannot get great basic Skill Checks.",
+      "tier": 3
+    },
+    {
+      "id": "Babysitter",
+      "name": "Babysitter",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-babysitter.webp",
+      "description": "Whenever you unhook a Survivor:They gain 10% — for 30s.\nThey leave no Pools of Blood for 30s.\nThey leave no Scratch Marks for 30s.\nYou see the Killer's Aura for 8s.",
+      "tier": 3
+    },
+    {
+      "id": "Balanced_Landing",
+      "name": "Balanced Landing",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-balancedlanding.webp",
+      "description": "Whenever you fall from at least 1.25m:You gain 50% — for 3s.\nYou gain — for 40s.\nYour stagger is 75% shorter.\nYour Grunts from falling are 100% quieter.",
+      "tier": 3
+    },
+    {
+      "id": "Bamboozle",
+      "name": "Bamboozle",
+      "role": "killer",
+      "image": "/assets/perks/killer-bamboozle.webp",
+      "description": "Whenever you vault a Window, it is blocked for Survivors for 16s.\n\nYou basic-vault Windows 15% faster.\n\nOnly 1 Window can be blocked at a time.",
+      "tier": 3
+    },
+    {
+      "id": "BeastOfPrey",
+      "name": "Beast of Prey",
+      "role": "killer",
+      "image": "/assets/perks/killer-beastofprey.webp",
+      "description": "Whenever you gain Bloodlust, gain — for 40s.",
+      "tier": 3
+    },
+    {
+      "id": "BetterTogether",
+      "name": "Better Together",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-bettertogether.webp",
+      "description": "While you are repairing a Generator:Other Survivors see that Generator's Aura.\nWhenever the Killer downs a Survivor, you see the Auras of all Survivors for 30s.",
+      "tier": 3
+    },
+    {
+      "id": "Bitter_Murmur",
+      "name": "Bitter Murmur",
+      "role": "killer",
+      "image": "/assets/perks/killer-bittermurmur.webp",
+      "description": "Whenever a Generator is completed, you see the Auras of Survivors within 20m of it for 10s.\n\nWhen all Generators are completed, you see the Auras of all Survivors for 20s.",
+      "tier": 3
+    },
+    {
+      "id": "BloodEcho",
+      "name": "Blood Echo",
+      "role": "killer",
+      "image": "/assets/perks/killer-bloodecho.webp",
+      "description": "Whenever you hook a Survivor, for 30s, all injured Survivors:Gain —.\nGain —.",
+      "tier": 3
+    },
+    {
+      "id": "BloodHound",
+      "name": "Bloodhound",
+      "role": "killer",
+      "image": "/assets/perks/killer-bloodhound.webp",
+      "description": "Pools of Blood are brighter and last 4s longer.",
+      "tier": 3
+    },
+    {
+      "id": "BloodPact",
+      "name": "Blood Pact",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-bloodpact.webp",
+      "description": "While you are not the Obsession:While you or the Obsession are injured, you see each other's Auras.\nWhenever you finish healing the Obsession, or they finish healing you, while within 16m of each other, you both gain 7% —.\n\n\nWhile you are the Obsession, if you are hooked, another Survivor becomes the Obsession.\n\nWhen the trial starts, you are less likely to be the Obsession.",
+      "tier": 3
+    },
+    {
+      "id": "BloodWarden",
+      "name": "Blood Warden",
+      "role": "killer",
+      "image": "/assets/perks/killer-bloodwarden.webp",
+      "description": "When an Exit Gate is opened, once per trial, when you hook a Survivor, both Exits are blocked for 60s.\n\nYou see the Auras of Survivors within Exit Thresholds.",
+      "tier": 3
+    },
+    {
+      "id": "BoilOver",
+      "name": "Boil Over",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-boilover.webp",
+      "description": "While carried by the Killer:Whenever the Killer falls from at least —m, you gain 33% of your current wiggle progress.\nYour wiggle is 80% stronger.\nWithin 16m, the Killer cannot see Hook Auras.",
+      "tier": 3
+    },
+    {
+      "id": "Bond",
+      "name": "Bond",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-bond.webp",
+      "description": "Within 36m, you see other Survivors' Auras.",
+      "tier": 3
+    },
+    {
+      "id": "BoonDestroyer",
+      "name": "Shattered Hope",
+      "role": "killer",
+      "image": "/assets/perks/killer-shatteredhope.webp",
+      "description": "Whenever you snuff a Boon Totem, it is destroyed.\n\nWhenever a Totem is blessed, cleansed or destroyed:Dull Totems are blocked for 20s.\nHex Totems are blocked for 20s.\nSee Boon Totems' Auras for 20s.",
+      "tier": 3
+    },
+    {
+      "id": "BorrowedTime",
+      "name": "Borrowed Time",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-borrowedtime.webp",
+      "description": "Whenever you unhook a Survivor:They retain their unhook — for 10s longer.\nThey retain their unhook — for 10s longer.",
+      "tier": 3
+    },
+    {
+      "id": "Botany_Knowledge",
+      "name": "Botany Knowledge",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-botanyknowledge.webp",
+      "description": "You heal 50% faster.",
+      "tier": 3
+    },
+    {
+      "id": "Breakdown",
+      "name": "Breakdown",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-breakdown.webp",
+      "description": "Whenever you are unhooked:The Hook breaks, then is repaired after 180s.\nYou see the Killer's Aura for 6s.",
+      "tier": 3
+    },
+    {
+      "id": "Breakout",
+      "name": "Breakout",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-breakout.webp",
+      "description": "Within 5m of a carried Survivor:You gain 10% —.\nThe carried Survivor wiggles 25% faster.",
+      "tier": 3
+    },
+    {
+      "id": "Brutal_Strength",
+      "name": "Brutal Strength",
+      "role": "killer",
+      "image": "/assets/perks/killer-brutalstrength.webp",
+      "description": "You basic-break Pallets and Breakable Walls, and damage Generators 20% faster.",
+      "tier": 3
+    },
+    {
+      "id": "BuckleUp",
+      "name": "Buckle Up",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-buckleup.webp",
+      "description": "While healing a downed Survivor, you both see the Killer's Aura.\n\nWhenever you finish healing a downed Survivor or fully recover:The Survivor gains 50% — for 5s.\nThe Survivor leaves no Scratch Marks for 5s.",
+      "tier": 3
+    },
+    {
+      "id": "BuiltToLast",
+      "name": "Built to Last",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-builttolast.webp",
+      "description": "While holding a depleted item, after hiding in a Locker for 10s, it is recharged to 99%.\n\nEach time you recharge an item this way, it recharges 33% fewer Charges.",
+      "tier": 3
+    },
+    {
+      "id": "Calm_Spirit",
+      "name": "Calm Spirit",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-calmspirit.webp",
+      "description": "You do not scare Crows or scream.\n\nYou bless and cleanse Totems, and unlock Chests silently, and 10% faster.",
+      "tier": 3
+    },
+    {
+      "id": "Camaraderie",
+      "name": "Camaraderie",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-camaraderie.webp",
+      "description": "While you are struggling on Hook, when another Survivor gets within 16m, the timer is paused for 34s.",
+      "tier": 3
+    },
+    {
+      "id": "CorruptIntervention",
+      "name": "Corrupt Intervention",
+      "role": "killer",
+      "image": "/assets/perks/killer-corruptintervention.webp",
+      "description": "When the trial starts, the 3 farthest Generators from you are blocked for 120s, or until you down a Survivor.",
+      "tier": 3
+    },
+    {
+      "id": "Coulrophobia",
+      "name": "Coulrophobia",
+      "role": "killer",
+      "image": "/assets/perks/killer-coulrophobia.webp",
+      "description": "Survivors within your Terror Radius:Heal 30% slower.\nWhile healing, basic Skill Checks spin 50% faster.",
+      "tier": 3
+    },
+    {
+      "id": "CruelConfinement",
+      "name": "Cruel Limits",
+      "role": "killer",
+      "image": "/assets/perks/killer-cruellimits.webp",
+      "description": "Whenever a Generator is completed:You see the Auras of all Windows for 30s.\nAll Windows are blocked for Survivors for 30s.",
+      "tier": 3
+    },
+    {
+      "id": "Dance_with_me",
+      "name": "Dance With Me",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-dancewithme.webp",
+      "description": "Whenever you fast-exit a Locker, medium-vault, or fast-vault, you leave no Scratch Marks for 5s. Cooldown: 15s.",
+      "tier": 3
+    },
+    {
+      "id": "Dark_Sense",
+      "name": "Dark Sense",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-darksense.webp",
+      "description": "Whenever a Generator is completed, when the Killer gets within 20m of you, for 15s:You see the Auras of Pallets and Windows within 32m.\nYou see the Auras of other Survivors.\nYou see the Killer's Aura.",
+      "tier": 3
+    },
+    {
+      "id": "DarkDevotion",
+      "name": "Dark Devotion",
+      "role": "killer",
+      "image": "/assets/perks/killer-darkdevotion.webp",
+      "description": "Whenever the Obsession takes damage, for 45s:Your Terror Radius is set to 40m.\nThe Obsession has your Terror Radius.\nYou gain —.",
+      "tier": 3
+    },
+    {
+      "id": "DeadHard",
+      "name": "Dead Hard",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-deadhard.webp",
+      "description": "Whenever you are unhooked, while injured and running, use —:You gain — for 0.5s.\nYou gain — for 40s.",
+      "tier": 3
+    },
+    {
+      "id": "DeadMansSwitch",
+      "name": "Dead Man’s Switch",
+      "role": "killer",
+      "image": "/assets/perks/killer-deadmansswitch.webp",
+      "description": "Whenever you hook a Survivor, the next time any Survivor stops repairing a Generator for more than 2s, it is blocked for 40s. Cooldown: 40s.",
+      "tier": 3
+    },
+    {
+      "id": "Deathbound",
+      "name": "Deathbound",
+      "role": "killer",
+      "image": "/assets/perks/killer-deathbound.webp",
+      "description": "Whenever a Survivor finishes healing another, the healer screams. Then, until the healer takes damage, while they are at least 4m away from the healed Survivor:The healer gains —.\nThe healer sees the healed Survivor's Aura.\n\n\nThis can only apply to one Survivor at a time.",
+      "tier": 3
+    },
+    {
+      "id": "DecisiveStrike",
+      "name": "Decisive Strike",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-decisivestrike.webp",
+      "description": "Until all Generators are completed, whenever you are unhooked, for the next 60s: when the Killer picks you up, once per trial, hit a Special Skill check:Stun the Killer for 4s.\nBecome the Obsession.\n\n\nThis is disabled by conspicuous actions. At the start of the trial, you are more likely to be the Obsession.",
+      "tier": 3
+    },
+    {
+      "id": "Deerstalker",
+      "name": "Deerstalker",
+      "role": "killer",
+      "image": "/assets/perks/killer-deerstalker.webp",
+      "description": "Every 30s, the Survivor with the least time in chase sees your Aura for 4s.\n\nWhile a Survivor sees your Aura, you see their Aura.",
+      "tier": 3
+    },
+    {
+      "id": "Deja_Vu",
+      "name": "Deja Vu",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-dejavu.webp",
+      "description": "You see the Auras of the 3 Generators closest to each other and repair them 6% faster.",
+      "tier": 3
+    },
+    {
+      "id": "Deliverance",
+      "name": "Deliverance",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-deliverance.webp",
+      "description": "Once per trial, when you safely unhook another Survivor, you can unhook yourself. When you unhook yourself this way, you gain — for 120s.",
+      "tier": 3
+    },
+    {
+      "id": "DesperateMeasures",
+      "name": "Desperate Measures",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-desperatemeasures.webp",
+      "description": "For each injured, downed, or hooked Survivor:You heal 20% faster.\nYou unhook 20% faster.",
+      "tier": 3
+    },
+    {
+      "id": "DetectivesHunch",
+      "name": "Detective's Hunch",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-detectiveshunch.webp",
+      "description": "Whenever a Generator is completed, for 20s, within 64m of you:You see the Auras of Chests.\nYou see the Auras of Generators.\nYou see the Auras of Totems.",
+      "tier": 3
+    },
+    {
+      "id": "Discordance",
+      "name": "Discordance",
+      "role": "killer",
+      "image": "/assets/perks/killer-discordance.webp",
+      "description": "Within 128m of you, whenever a Generator is being repaired by at least 2 Survivors, you are alerted.\n\nWhile that Generator is being repaired by at least 2 Survivors, you see its Aura. When it is no longer being repaired by at least 2 Survivors, this ends after 4s.",
+      "tier": 3
+    },
+    {
+      "id": "Distortion",
+      "name": "Distortion",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-distortion.webp",
+      "description": "When the trial starts, and after being chased for 15s, you earn 1 Token, up to 2.\n\nWhile not downed, whenever the Killer attempts to see your Aura, spend 1 Token. Then, for the next 12s:The Killer cannot see your Aura.\nYou leave no Scratch Marks.",
+      "tier": 3
+    },
+    {
+      "id": "Distressing",
+      "name": "Distressing",
+      "role": "killer",
+      "image": "/assets/perks/killer-distressing.webp",
+      "description": "Survivors within your Terror Radius repair 8% slower.\n\nYour Terror Radius is 30% larger.",
+      "tier": 3
+    },
+    {
+      "id": "Diversion",
+      "name": "Diversion",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-diversion.webp",
+      "description": "After hiding for 20s within the Killer's Terror Radius, while crouched and idle, use — to throw a pebble 20m away:The Killer is alerted.\nThe pebble leaves Scratch Marks.",
+      "tier": 3
+    },
+    {
+      "id": "DragonsGrip",
+      "name": "Dragon’s Grip",
+      "role": "killer",
+      "image": "/assets/perks/killer-dragonsgrip.webp",
+      "description": "Whenever you damage a Generator, for the next 30s, the first Survivor that repairs that Generator:They scream, then you are alerted to their position for 4s.\nThey gain — for 60s.\n\n\nCooldown: 30s.",
+      "tier": 3
+    },
+    {
+      "id": "Dying_Light",
+      "name": "Dying Light",
+      "role": "killer",
+      "image": "/assets/perks/killer-dyinglight.webp",
+      "description": "Whenever you hook a Survivor that is not the Obsession, earn 1 token.\n\nWhile the Obsession is alive, for each Token:Other Survivors heal 3% slower.\nOther Survivors repair 3% slower.\nOther Survivors sabotage Hooks 3% slower.\n\n\nThe Obsession:Heals other Survivors 33% faster.\nUnhooks other Survivors 33% faster.",
+      "tier": 3
+    },
+    {
+      "id": "Empathy",
+      "name": "Empathy",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-empathy.webp",
+      "description": "Within 128m, you see the Auras of injured Survivors.",
+      "tier": 3
+    },
+    {
+      "id": "Enduring",
+      "name": "Enduring",
+      "role": "killer",
+      "image": "/assets/perks/killer-enduring.webp",
+      "description": "While not carrying a Survivor, Pallet-stuns are 50% shorter.",
+      "tier": 3
+    },
+    {
+      "id": "FireUp",
+      "name": "Fire Up",
+      "role": "killer",
+      "image": "/assets/perks/killer-fireup.webp",
+      "description": "Whenever a Generator is completed, earn 1 Token, up to 5.\n\nFor each Token:You basic-break Pallets and Breakable Walls 8% faster.\nYou damage Generators 8% faster.\nYou pick-up and drop Survivors 8% faster.\nYou basic-vault Windows 8% faster.",
+      "tier": 3
+    },
+    {
+      "id": "Fixated",
+      "name": "Fixated",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-fixated.webp",
+      "description": "While walking, you gain 20% —.\n\nYou see your own Scratch Marks.",
+      "tier": 3
+    },
+    {
+      "id": "FlipFlop",
+      "name": "Flip-Flop",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-flipflop.webp",
+      "description": "While downed, whenever the Killer picks you up, 50% of your recovery progress is added to your wiggle progress, up to 50%.",
+      "tier": 3
+    },
+    {
+      "id": "ForcedPenance",
+      "name": "Forced Penance",
+      "role": "killer",
+      "image": "/assets/perks/killer-forcedpenance.webp",
+      "description": "Whenever a Survivor takes a protection hit, they gain — for 80s.",
+      "tier": 3
+    },
+    {
+      "id": "ForThePeople",
+      "name": "For the People",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-forthepeople.webp",
+      "description": "While healthy and healing another Survivor without a Med-Kit, use — to heal them instantly:You take damage.\nYou gain — for 60s.\nYou become the Obsession.\n\n\nWhen the trial starts, you are less likely to be the Obsession.",
+      "tier": 3
+    },
+    {
+      "id": "FranklinsLoss",
+      "name": "Franklin's Demise",
+      "role": "killer",
+      "image": "/assets/perks/killer-franklinsdemise.webp",
+      "description": "Whenever you damage a Survivor with a basic-attack, they drop their item.\n\nWithin 64m, you see the Auras of dropped items.",
+      "tier": 3
+    },
+    {
+      "id": "FurtiveChase",
+      "name": "Furtive Chase",
+      "role": "killer",
+      "image": "/assets/perks/killer-furtivechase.webp",
+      "description": "Whenever you hook the Obsession:You gain 10% — for 18s.\nYou gain — for 18s.\n\n\nWhenever the Obsession is unhooked, the Survivor who unhooked them becomes the Obsession.",
+      "tier": 3
+    },
+    {
+      "id": "Gearhead",
+      "name": "Gearhead",
+      "role": "killer",
+      "image": "/assets/perks/killer-gearhead.webp",
+      "description": "Whenever a Survivor takes damage, for the next 30s, whenever a Survivor repairing a Generator hits a good basic Skill Check, you see their Aura for 8s.",
+      "tier": 3
+    },
+    {
+      "id": "GeneratorOvercharge",
+      "name": "Overcharge",
+      "role": "killer",
+      "image": "/assets/perks/killer-overcharge.webp",
+      "description": "Whenever you damage a Generator:Its regression speed will go from 85% to 130% over the next 30s.\nThe next Survivor who starts repairing it gets a special Skill Check. If they miss it, they lose 4% more progress.",
+      "tier": 3
+    },
+    {
+      "id": "HangmansTrick",
+      "name": "Scourge Hook: Hangman's Trick",
+      "role": "killer",
+      "image": "/assets/perks/killer-scourgehookhangmanstrick.webp",
+      "description": "When the trial starts, 4 random Hooks become Scourge Hooks.\n\nWhile carrying a Survivor, you see the Auras of Survivors within 16m of Scourge Hooks.\n\nWhenever a Survivor starts sabotaging a Hook, you are alerted.",
+      "tier": 3
+    },
+    {
+      "id": "HeadOn",
+      "name": "Head On",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-headon.webp",
+      "description": "After hiding in a Locker for 3s, fast-exit to stun the Killer for 3s if they are within 2.5m, then gain — for 40s.",
+      "tier": 3
+    },
+    {
+      "id": "Hex_Devour_Hope",
+      "name": "Hex: Devour Hope",
+      "role": "killer",
+      "image": "/assets/perks/killer-hexdevourhope.webp",
+      "description": "When the trial starts, a Dull Totem ignites.\n\nWhenever a Survivor is unhooked while you are at least 24m away, earn 1 Token, up to 5:2 Tokens | 10s after hooking a Survivor, gain 5% — for 10s.\n3 Tokens | Survivors gain —.\n5 Tokens | You can Kill downed Survivors.",
+      "tier": 3
+    },
+    {
+      "id": "Hex_HauntedGround",
+      "name": "Hex: Haunted Ground",
+      "role": "killer",
+      "image": "/assets/perks/killer-hexhauntedground.webp",
+      "description": "When the trial starts, 2 Dull Totems ignite.\n\nWhen either of those Hex Totems is blessed or cleansed:All Survivors gain — for 60s.\nThe other Totem is extinguished.",
+      "tier": 3
+    },
+    {
+      "id": "Hex_HuntressLullaby",
+      "name": "Hex: Huntress Lullaby",
+      "role": "killer",
+      "image": "/assets/perks/killer-hexhuntresslullaby.webp",
+      "description": "When the trial starts, a Dull Totem ignites.\n\nWhenever you hook a Survivor, earn 1 Token. For each Token, Basic Skill Check warnings appear later and good success zones are smaller.\n\nWhile you have 5 Tokens, Basic Skill Check warnings don't appear.\n\nWhenever a Survivor misses a basic Skill Check, they lose 6% more progress.",
+      "tier": 3
+    },
+    {
+      "id": "Hex_Ruin",
+      "name": "Hex: Ruin",
+      "role": "killer",
+      "image": "/assets/perks/killer-hexruin.webp",
+      "description": "When the trial starts, a Dull Totem ignites.\n\nWhile a Generator is not being repaired, it regresses at 150% speed.",
+      "tier": 3
+    },
+    {
+      "id": "Hex_The_Third_Seal",
+      "name": "Hex: The Third Seal",
+      "role": "killer",
+      "image": "/assets/perks/killer-hexthethirdseal.webp",
+      "description": "When the trial starts, a Dull Totem ignites.\n\nWhenever you damage a Survivor with a basic or special-attack, they gain —.\n\nThis applies for up to 4 Survivors.",
+      "tier": 3
+    },
+    {
+      "id": "Hex_Thrill_Of_The_Hunt",
+      "name": "Hex: Thrill of the Hunt",
+      "role": "killer",
+      "image": "/assets/perks/killer-hexthrillofthehunt.webp",
+      "description": "The first time you hook a Survivor, a Dull Totem ignites.\n\n\nWhen you hook a Survivor, block all Hex Totems for 6s for each lit Hex Totem.",
+      "tier": 3
+    },
+    {
+      "id": "HexBloodFavor",
+      "name": "Hex: Blood Favor",
+      "role": "killer",
+      "image": "/assets/perks/killer-hexbloodfavor.webp",
+      "description": "When the trial starts, a Dull Totem ignites.\n\nWhenever a healthy Survivor becomes injured by your basic-attack, Upright Pallets within 32m of them are blocked for 15s.",
+      "tier": 3
+    },
+    {
+      "id": "HexRetribution",
+      "name": "Hex: Retribution",
+      "role": "killer",
+      "image": "/assets/perks/killer-hexretribution.webp",
+      "description": "When the trial starts, a Dull Totem ignites.\n\nWhenever a Survivor starts blessing or cleansing a Totem, they gain — for 60s.\n\nWhenever a Hex Totem is blessed or cleansed, you see the Auras of all Survivors for 20s.",
+      "tier": 3
+    },
+    {
+      "id": "HexUndying",
+      "name": "Hex: Undying",
+      "role": "killer",
+      "image": "/assets/perks/killer-hexundying.webp",
+      "description": "When the trial starts, a Dull Totem ignites.\n\nWhen another Hex Totem is blessed or cleansed, it replaces this one and keeps any Tokens it had.\n\nYou see the Auras of Survivors within 4m of Dull Totems.",
+      "tier": 3
+    },
+    {
+      "id": "Hope",
+      "name": "Hope",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-hope.webp",
+      "description": "When all Generators are completed, you gain 5% —.",
+      "tier": 3
+    },
+    {
+      "id": "ImAllEars",
+      "name": "I'm All Ears",
+      "role": "killer",
+      "image": "/assets/perks/killer-imallears.webp",
+      "description": "Whenever a Survivor fast-enters or fast-exits a Locker, or medium or fast-vaults within 48m of you, you see their Aura for 8s. Cooldown: 30s.",
+      "tier": 3
+    },
+    {
+      "id": "InfectiousFright",
+      "name": "Infectious Fright",
+      "role": "killer",
+      "image": "/assets/perks/killer-infectiousfright.webp",
+      "description": "Whenever a Survivor is downed, Survivors within your Terror Radius scream and you are alerted for 6s.",
+      "tier": 3
+    },
+    {
+      "id": "InnerStrength",
+      "name": "Inner Strength",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-innerstrength.webp",
+      "description": "Whenever you cleanse a Totem, while injured and not —, after hiding in a Locker for 8s, you become healthy instantly.",
+      "tier": 3
+    },
+    {
+      "id": "Insidious",
+      "name": "Insidious",
+      "role": "killer",
+      "image": "/assets/perks/killer-insidious.webp",
+      "description": "After being idle for 2s, gain —. Whenever you act, this ends after 8s.",
+      "tier": 3
+    },
+    {
+      "id": "InTheDark",
+      "name": "Knock Out",
+      "role": "killer",
+      "image": "/assets/perks/killer-knockout.webp",
+      "description": "Whenever a Survivor drops a Pallet, for the next 6s, if they move 10m away from it, they gain 20% — for 4s.\n\n\nThis ends early if the Pallet is broken.",
+      "tier": 3
+    },
+    {
+      "id": "Iron_Grasp",
+      "name": "Iron Grasp",
+      "role": "killer",
+      "image": "/assets/perks/killer-irongrasp.webp",
+      "description": "While carrying a Survivor:They wiggle 12% slower.\nTheir wiggle is 75% weaker.",
+      "tier": 3
+    },
+    {
+      "id": "Iron_Will",
+      "name": "Iron Will",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-ironwill.webp",
+      "description": "While injured and not —, your Grunts of Pain are 100% quieter.",
+      "tier": 3
+    },
+    {
+      "id": "Ironmaiden",
+      "name": "Iron Maiden",
+      "role": "killer",
+      "image": "/assets/perks/killer-ironmaiden.webp",
+      "description": "Whenever a Survivor exits a Locker:They gain — for 30s.\nThey scream, then you are alerted to their location for 4s.\n\n\nYou open Lockers 50% faster.",
+      "tier": 3
+    },
+    {
+      "id": "K22P01",
+      "name": "Hoarder",
+      "role": "killer",
+      "image": "/assets/perks/killer-hoarder.webp",
+      "description": "When the trial starts, 2 more Chests appear.\n\nWhenever a Survivor picks-up an Item or starts unlocking a Chest within 64m of you, you are alerted.",
+      "tier": 3
+    },
+    {
+      "id": "K22P02",
+      "name": "Oppression",
+      "role": "killer",
+      "image": "/assets/perks/killer-oppression.webp",
+      "description": "Whenever you damage a Generator, up to 4 other Generators start regressing. Survivors repairing them get a special Skill Check. Cooldown: 35s.",
+      "tier": 3
+    },
+    {
+      "id": "K22P03",
+      "name": "Coup de Grâce",
+      "role": "killer",
+      "image": "/assets/perks/killer-coupdegrace.webp",
+      "description": "Whenever a Generator is completed, you earn 2 Tokens, up to 5.\n\nWhenever you lunge-attack, spend 1 Token to make it 80% longer.",
+      "tier": 3
+    },
+    {
+      "id": "K23P01",
+      "name": "Starstruck",
+      "role": "killer",
+      "image": "/assets/perks/killer-starstruck.webp",
+      "description": "While carrying a Survivor, Survivors within your Terror Radius gain —. This ends 30s after:They leave your Terror Radius.\nYou drop or Hook the carried Survivor.\n\n\nCooldown: 60s.",
+      "tier": 3
+    },
+    {
+      "id": "K23P02",
+      "name": "Hex: Crowd Control",
+      "role": "killer",
+      "image": "/assets/perks/killer-hexcrowdcontrol.webp",
+      "description": "The first time a Survivor medium or fast-vaults a Window, a Dull Totem ignites.\n\nThe last 6 Windows Survivors medium or fast-vault are blocked.\n\nYou basic-vault blocked Windows 15% faster.\n\nYou see the Auras of blocked Windows within 24m.",
+      "tier": 3
+    },
+    {
+      "id": "K23P03",
+      "name": "No Way Out",
+      "role": "killer",
+      "image": "/assets/perks/killer-nowayout.webp",
+      "description": "The first time you Hook each Survivor, you earn 1 Token.\n\nWhen all Generators are completed, when a Survivor starts opening an Exit Gate:It is blocked 12s, plus 12s for each Token.\nYou are alerted.",
+      "tier": 3
+    },
+    {
+      "id": "K24P01",
+      "name": "Lethal Pursuer",
+      "role": "killer",
+      "image": "/assets/perks/killer-lethalpursuer.webp",
+      "description": "When the trial starts, you see the Auras of all Survivors for 9s.\n\nWhenever you see a Survivor's Aura for a duration, it is 9s longer.",
+      "tier": 3
+    },
+    {
+      "id": "K24P02",
+      "name": "Hysteria",
+      "role": "killer",
+      "image": "/assets/perks/killer-hysteria.webp",
+      "description": "Whenever a healthy Survivor becomes injured, all injured Survivors gain — for 40s. Cooldown: 20s.",
+      "tier": 3
+    },
+    {
+      "id": "K24P03",
+      "name": "Eruption",
+      "role": "killer",
+      "image": "/assets/perks/killer-eruption.webp",
+      "description": "Whenever you damage a Generator, when you down a Survivor, all Generators damaged this way:Explode, lose 10% progress and start regressing.\nSurvivors repairing them scream, then you see their Auras for 12s.\n\n\nCooldown: 30s.",
+      "tier": 3
+    },
+    {
+      "id": "K25P01",
+      "name": "Deadlock",
+      "role": "killer",
+      "image": "/assets/perks/killer-deadlock.webp",
+      "description": "Whenever a Generator is completed, the Generator with the most progress is blocked for 25s.",
+      "tier": 3
+    },
+    {
+      "id": "K25P02",
+      "name": "Hex: Plaything",
+      "role": "killer",
+      "image": "/assets/perks/killer-hexplaything.webp",
+      "description": "The first time you hook each Survivor, they are hexed and a Dull Totem ignites.\n\nFor 90s, the Hex Totem is blocked to other Survivors.\n\nThe hexed Survivors:\n\nGain —.\nWithin 16m of the Hex Totem, they see its Aura.",
+      "tier": 3
+    },
+    {
+      "id": "K25P03",
+      "name": "Scourge Hook: Gift of Pain",
+      "role": "killer",
+      "image": "/assets/perks/killer-scourgehookgiftofpain.webp",
+      "description": "When the trial starts, 4 random Hooks become Scourge Hooks.\n\nWhenever a Survivor is unhooked from a Scourge Hook:They gain — for 90s.\nThey gain — for 90s.\nWhen they are healed, until they take damage, they heal and repair 16% slower.",
+      "tier": 3
+    },
+    {
+      "id": "K26P01",
+      "name": "Grim Embrace",
+      "role": "killer",
+      "image": "/assets/perks/killer-grimembrace.webp",
+      "description": "Whenever you Hook a Survivor for the first time, earn 1 Token.\n\nWhen you move 16m away from the hooked Survivor, all Generators are blocked for 10s.\n\nWhen you have 4 Tokens, when you move 16m away from the hooked Survivor:All Generators are blocked for 40s.\nYou see the Obsession's Aura for 10s.",
+      "tier": 3
+    },
+    {
+      "id": "K26P02",
+      "name": "Scourge Hook: Pain Resonance",
+      "role": "killer",
+      "image": "/assets/perks/killer-scourgehookpainresonance.webp",
+      "description": "When the trial starts:4 random Hooks become Scourge Hooks.\nYou earn 4 Tokens.\n\n\nThe first time each Survivor is hooked on a Scourge Hook, spend 1 Token, then the Generator with the most progress:Explodes, loses 20% progress and starts regressing.\nSurvivors repairing it scream.",
+      "tier": 3
+    },
+    {
+      "id": "K26P03",
+      "name": "Hex: Pentimento",
+      "role": "killer",
+      "image": "/assets/perks/killer-hexpentimento.webp",
+      "description": "You see the Auras of cleansed Totems, and can rekindle each once.\n\nWithin 16m, Survivors see the Auras of Rekindled Totems.\n\nWhile a Totem is rekindled, Survivors heal and repair 20% slower, plus 3% for each additional Rekindled Totem.\n\nWhen all 5 Totems are rekindled at once, they are blocked.",
+      "tier": 3
+    },
+    {
+      "id": "K27P01",
+      "name": "Scourge Hook: Floods of Rage",
+      "role": "killer",
+      "image": "/assets/perks/killer-scourgehookfloodsofrage.webp",
+      "description": "When the trial starts, 4 random Hooks become Scourge Hooks.\n\nWhenever a Survivor is unhooked from a Scourge Hook, you see the Auras of other Survivors for 7s.",
+      "tier": 3
+    },
+    {
+      "id": "K27P02",
+      "name": "Call of Brine",
+      "role": "killer",
+      "image": "/assets/perks/killer-callofbrine.webp",
+      "description": "Whenever you damage a Generator, it regresses 50% faster for 90s.\n\nFor that time, whenever a Survivor hits a good basic Skill Check while repairing that Generator, you are alerted.",
+      "tier": 3
+    },
+    {
+      "id": "K27P03",
+      "name": "Merciless Storm",
+      "role": "killer",
+      "image": "/assets/perks/killer-mercilessstorm.webp",
+      "description": "The first time each Generator has 90% progress: Survivors repairing it get special Skill Checks. If they miss one of these or stop repairing, that Generator is blocked for 20s.",
+      "tier": 3
+    },
+    {
+      "id": "K28P01",
+      "name": "Dissolution",
+      "role": "killer",
+      "image": "/assets/perks/killer-dissolution.webp",
+      "description": "3s after a Survivor takes damage from a basic-attack, for 15s, the next time a Survivor fast-vaults a Pallet while within your Terror Radius, it is destroyed.",
+      "tier": 3
+    },
+    {
+      "id": "K28P02",
+      "name": "Darkness Revealed",
+      "role": "killer",
+      "image": "/assets/perks/killer-darknessrevealed.webp",
+      "description": "Whenever you search a Locker, you see the Auras of Survivors within 8m of Lockers for 8s. Cooldown: 30s.",
+      "tier": 3
+    },
+    {
+      "id": "K28P03",
+      "name": "Septic Touch",
+      "role": "killer",
+      "image": "/assets/perks/killer-septictouch.webp",
+      "description": "While a Survivor within your Terror Radius is healing:They gain —.\nThey gain —.\n\n\nWhen they stop healing, this ends after 30s.",
+      "tier": 3
+    },
+    {
+      "id": "K29P01",
+      "name": "Superior Anatomy",
+      "role": "killer",
+      "image": "/assets/perks/killer-superioranatomy.webp",
+      "description": "Whenever a Survivor medium or fast-vaults within 12m of you, the next time you basic-vault a Window, you basic-vault Windows 40% faster for 10s. Cooldown: 20s.",
+      "tier": 3
+    },
+    {
+      "id": "K29P02",
+      "name": "Awakened Awareness",
+      "role": "killer",
+      "image": "/assets/perks/killer-awakenedawareness.webp",
+      "description": "While carrying a Survivor, within 20m of you, you see the Auras of other Survivors.",
+      "tier": 3
+    },
+    {
+      "id": "K29P03",
+      "name": "Terminus",
+      "role": "killer",
+      "image": "/assets/perks/killer-terminus.webp",
+      "description": "When all Generators are completed: all injured, downed, and hooked Survivors gain —.\n\nWhen an Exit Gate is opened, this ends after 45s.",
+      "tier": 3
+    },
+    {
+      "id": "K30P01",
+      "name": "Nowhere to Hide",
+      "role": "killer",
+      "image": "/assets/perks/killer-nowheretohide.webp",
+      "description": "Whenever you damage a Generator, for 5s, you see the Auras of Survivors within 24m of it.",
+      "tier": 3
+    },
+    {
+      "id": "K30P02",
+      "name": "Hex: Face the Darkness",
+      "role": "killer",
+      "image": "/assets/perks/killer-hexfacethedarkness.webp",
+      "description": "Whenever you damage a Survivor, they are hexed and a Dull Totem ignites.\n\nEvery 25s, other Survivors not within your Terror Radius scream, then you see their Auras for 2s.\n\nWhen the hexed Survivor is downed or becomes healthy, the Hex Totem is extinguished.",
+      "tier": 3
+    },
+    {
+      "id": "K30P03",
+      "name": "Hubris",
+      "role": "killer",
+      "image": "/assets/perks/killer-hubris.webp",
+      "description": "Whenever you are stunned by a Survivor, they gain — for 30s. Cooldown: 20s.",
+      "tier": 3
+    },
+    {
+      "id": "K31P01",
+      "name": "Game Afoot",
+      "role": "killer",
+      "image": "/assets/perks/killer-gameafoot.webp",
+      "description": "While chasing the Obsession, whenever you basic-break Pallets or Breakable Walls, or damage Generators, you gain 10% — for 10s.\n\nWhenever you damage the Survivor with the most chase time with a basic-attack, they become the Obsession.",
+      "tier": 3
+    },
+    {
+      "id": "K31P02",
+      "name": "THWACK!",
+      "role": "killer",
+      "image": "/assets/perks/killer-thwack.webp",
+      "description": "When the trial starts, you earn 3 Tokens, up to 3.\n\nWhenever you hook a Survivor, you earn 1 Token.\n\nWhenever you break a Pallet or Breakable Wall, spend 1 Token. Then, all Survivors within 36m scream and you see their Auras for 6s.",
+      "tier": 3
+    },
+    {
+      "id": "K31P03",
+      "name": "Leverage",
+      "role": "killer",
+      "image": "/assets/perks/killer-leverage.webp",
+      "description": "Whenever a Survivor unhooks another or themselves, they heal 30% slower for 60s.",
+      "tier": 3
+    },
+    {
+      "id": "K32P01",
+      "name": "Genetic Limits",
+      "role": "killer",
+      "image": "/assets/perks/killer-geneticlimits.webp",
+      "description": "Whenever a Survivor takes damage, they gain — for 8s.",
+      "tier": 3
+    },
+    {
+      "id": "K32P02",
+      "name": "Forced Hesitation",
+      "role": "killer",
+      "image": "/assets/perks/killer-forcedhesitation.webp",
+      "description": "Whenever you down a Survivor, other Survivors within 16m of the downed Survivor gain 20% — for 10s. Cooldown: 30s.",
+      "tier": 3
+    },
+    {
+      "id": "K32P03",
+      "name": "Machine Learning",
+      "role": "killer",
+      "image": "/assets/perks/killer-machinelearning.webp",
+      "description": "Whenever you damage a Generator, it becomes compromised.\n\nWhen any compromised Generator is completed by Survivors:You gain 8% — for 60s.\nYou gain — for 60s.\nOther Generators lose compromised.\n\n\nUp to 3 Generators can be compromised at a time.",
+      "tier": 3
+    },
+    {
+      "id": "K33P01",
+      "name": "Ultimate Weapon",
+      "role": "killer",
+      "image": "/assets/perks/killer-ultimateweapon.webp",
+      "description": "Whenever you search a Locker, Survivors within 40m:Gain — for 30s.\nScream.\n\n\nCooldown: 45s.",
+      "tier": 3
+    },
+    {
+      "id": "K33P02",
+      "name": "Rapid Brutality",
+      "role": "killer",
+      "image": "/assets/perks/killer-rapidbrutality.webp",
+      "description": "Whenever you damage a Survivor with a basic-attack, you gain 5% — for 10s.\n\nWhile chasing a Survivor, you cannot gain Bloodlust.",
+      "tier": 3
+    },
+    {
+      "id": "K33P03",
+      "name": "Alien Instinct",
+      "role": "killer",
+      "image": "/assets/perks/killer-alieninstinct.webp",
+      "description": "Whenever you hook a Survivor, the farthest injured Survivor:Gains — for 60s.\nYou see their Aura for 8s.",
+      "tier": 3
+    },
+    {
+      "id": "K34P01",
+      "name": "Hex: Two Can Play",
+      "role": "killer",
+      "image": "/assets/perks/killer-hextwocanplay.webp",
+      "description": "While this Hex is dull, each time you are blinded or stunned by a Survivor 2 times, a Dull Totem ignites.\n\nWhenever you are blinded or stunned by a Survivor you are not carrying, they are blinded for 1.5s.",
+      "tier": 3
+    },
+    {
+      "id": "K34P02",
+      "name": "Friends ‘Til the End",
+      "role": "killer",
+      "image": "/assets/perks/killer-friendstiltheend.webp",
+      "description": "Whenever you Hook a Survivor that is not the Obsession:The Obsession gains — for 20s.\nYou see the Obsession's Aura for 10s.\n\n\nWhenever you Hook the Obsession, another Survivor:Screams, then you are alerted.\nBecomes the Obsession.",
+      "tier": 3
+    },
+    {
+      "id": "K34P03",
+      "name": "Batteries Included",
+      "role": "killer",
+      "image": "/assets/perks/killer-batteriesincluded.webp",
+      "description": "Within 16m of a completed Generator, you gain 5% —. When you leave the range, this ends after 5s.",
+      "tier": 3
+    },
+    {
+      "id": "K35P01",
+      "name": "Unbound",
+      "role": "killer",
+      "image": "/assets/perks/killer-unbound.webp",
+      "description": "Whenever a healthy Survivor becomes injured, for the next 30s, whenever you basic-vault a window, gain 5% — for 25s.",
+      "tier": 3
+    },
+    {
+      "id": "K35P02",
+      "name": "Unforeseen",
+      "role": "killer",
+      "image": "/assets/perks/killer-unforeseen.webp",
+      "description": "Whenever you damage a Generator:Your Terror Radius is set to that Generator for 30s and its radius is 32m.\nYou gain — for that time.\n\n\nCooldown: 30s.",
+      "tier": 3
+    },
+    {
+      "id": "K35P03",
+      "name": "Undone",
+      "role": "killer",
+      "image": "/assets/perks/killer-undone.webp",
+      "description": "Whenever you hook a Survivor, earn 1 Token, up to 3.\n\nWhenever you damage a Generator, spend all Tokens. For each Token spent:The Generator loses 10% more progress.\nThe Generator is blocked for 10s.",
+      "tier": 3
+    },
+    {
+      "id": "K36P01",
+      "name": "Weave Attunement",
+      "role": "killer",
+      "image": "/assets/perks/killer-weaveattunement.webp",
+      "description": "The first time each item is depleted, it is dropped.\n\nWhile a Survivor is within 12m of a dropped item:You see their Aura.\nThey see the item's Aura.\n\n\nWhenever a Survivor picks-up an item, they gain — for 30s.",
+      "tier": 3
+    },
+    {
+      "id": "K36P02",
+      "name": "Languid Touch",
+      "role": "killer",
+      "image": "/assets/perks/killer-languidtouch.webp",
+      "description": "Whenever a Survivor within 36m of you scares a Crow, they gain — for 10s. Cooldown: 5s.",
+      "tier": 3
+    },
+    {
+      "id": "K36P03",
+      "name": "Dark Arrogance",
+      "role": "killer",
+      "image": "/assets/perks/killer-darkarrogance.webp",
+      "description": "You basic-vault Windows 25% faster.\n\nYour missed basic-attack cooldown is 25% shorter.\n\nWhenever you are blinded or Pallet-stunned, the duration is 25% longer.",
+      "tier": 3
+    },
+    {
+      "id": "K37P01",
+      "name": "Hex: Wretched Fate",
+      "role": "killer",
+      "image": "/assets/perks/killer-hexwretchedfate.webp",
+      "description": "The first time a Generator is completed, a Dull Totem ignites.\n\nThe Obsession:Repairs 33% slower.\nSees the Hex Totem's Aura within 12m.",
+      "tier": 3
+    },
+    {
+      "id": "K37P02",
+      "name": "Human Greed",
+      "role": "killer",
+      "image": "/assets/perks/killer-humangreed.webp",
+      "description": "Whenever a Survivor gets within 8m of a locked Chest, you see their Aura for 5s.\n\nYou can lock unlocked Chests. Cooldown: 10s.\n\nYou see the Auras of locked Chests.",
+      "tier": 3
+    },
+    {
+      "id": "K37P03",
+      "name": "Dominance",
+      "role": "killer",
+      "image": "/assets/perks/killer-dominance.webp",
+      "description": "The first time each Totem is being blessed or cleansed by a Survivor:It is blocked for 25s.\nThey scream.\nYou see their Aura for 5s.",
+      "tier": 3
+    },
+    {
+      "id": "K38P01",
+      "name": "All-Shaking Thunder",
+      "role": "killer",
+      "image": "/assets/perks/killer-allshakingthunder.webp",
+      "description": "Whenever you fall from at least 1.25m, your lunge-attacks are 75% longer for 25s. Cooldown: 5s.",
+      "tier": 3
+    },
+    {
+      "id": "K38P02",
+      "name": "Scourge Hook: Jagged Compass",
+      "role": "killer",
+      "image": "/assets/perks/killer-scourgehookjaggedcompass.webp",
+      "description": "When the trial starts, 4 random Hooks become Scourge Hooks.\n\nWhenever a Survivor is unhooked, the Hook becomes a Scourge Hook.\n\nWhenever you hook a Survivor on a Scourge Hook, for 10s, you see the Aura of the Generator with the most progress.",
+      "tier": 3
+    },
+    {
+      "id": "K38P03",
+      "name": "No Quarter",
+      "role": "killer",
+      "image": "/assets/perks/killer-noquarter.webp",
+      "description": "While self-healing, whenever a Survivor has 75% progress, they get special Skill Checks. If they miss one of these or stop healing, they gain — for 30s.",
+      "tier": 3
+    },
+    {
+      "id": "K39P01",
+      "name": "Hex: Nothing But Misery",
+      "role": "killer",
+      "image": "/assets/perks/killer-hexnothingbutmisery.webp",
+      "description": "After you damage Survivors with a basic-attack 4 times, a Dull Totem ignites.\n\nWhenever you damage a Survivor with a basic-attack:They gain 5% — for 15s.\nThey vault 10% slower for 15s.",
+      "tier": 3
+    },
+    {
+      "id": "K39P02",
+      "name": "Forever Entwined",
+      "role": "killer",
+      "image": "/assets/perks/killer-foreverentwined.webp",
+      "description": "Whenever a Survivor takes damage, you earn 1 Token, up to 8.\n\nFor each Token:You hook Survivors 4% faster.\nYou pick-up and drop Survivors 4% faster.",
+      "tier": 3
+    },
+    {
+      "id": "K39P03",
+      "name": "None Are Free",
+      "role": "killer",
+      "image": "/assets/perks/killer-nonearefree.webp",
+      "description": "The first time you hook each Survivor, earn 1 Token.\n\nWhen all Generators are completed, for each Token:Upright Pallets are blocked for 16s.\nWindows are blocked for 16s.",
+      "tier": 3
+    },
+    {
+      "id": "K40P01",
+      "name": "Help Wanted",
+      "role": "killer",
+      "image": "/assets/perks/killer-helpwanted.webp",
+      "description": "Whenever you damage a Generator, it is compromised.\n\nWhen any compromised Generator is completed by Survivors:Your successful basic-attack cooldowns are 25% shorter for 90s.\nGenerators not being repaired regress at 150% speed for 90s.\nOther Generators lose compromised.\n\n\nUp to 3 Generators can be compromised at a time.",
+      "tier": 3
+    },
+    {
+      "id": "K40P02",
+      "name": "Phantom Fear",
+      "role": "killer",
+      "image": "/assets/perks/killer-phantomfear.webp",
+      "description": "Whenever a Survivor within your Terror Radius looks at you, they scream, then you see their Aura for 2s. Cooldown: 60s.",
+      "tier": 3
+    },
+    {
+      "id": "K40P03",
+      "name": "Haywire",
+      "role": "killer",
+      "image": "/assets/perks/killer-haywire.webp",
+      "description": "Exit Gate Switches with at least 80% progress regress at 100% speed.\n\nWhile they are regressing, Survivors see the Exit Gate Lights flicker randomly.",
+      "tier": 3
+    },
+    {
+      "id": "K41P01",
+      "name": "Ravenous",
+      "role": "killer",
+      "image": "/assets/perks/killer-ravenous.webp",
+      "description": "The first time you hook each Survivor, you earn 1 Token. For each Token:Gain 4% — while carrying a Survivor.\nHook Survivors 4% faster.\n\n\nWhen you have 4 Tokens, all Survivors:Scream.\nGain — for 90s.",
+      "tier": 3
+    },
+    {
+      "id": "K41P02",
+      "name": "Wandering Eye",
+      "role": "killer",
+      "image": "/assets/perks/killer-wanderingeye.webp",
+      "description": "Whenever you start chasing a Survivor, for the next 5s, you see the Auras of all other injured Survivors within 20m. Cooldown: 30s.",
+      "tier": 3
+    },
+    {
+      "id": "K41P03",
+      "name": "Hex: Overture of Doom",
+      "role": "killer",
+      "image": "/assets/perks/killer-hexovertureofdoom.webp",
+      "description": "When the trial starts, a Dull Totem ignites and hexes the farthest Generator from it.\n\nAfter a Survivor repairs the hexed Generator for 5 seconds:You gain — for 30s.\nFor that time, your Terror Radius is set to that Generator.\n\n\nWhen the hexed Generator is repaired, the next farthest Generator is hexed.",
+      "tier": 3
+    },
+    {
+      "id": "K42P01",
+      "name": "Turn Back The Clock",
+      "role": "killer",
+      "image": "/assets/perks/killer-turnbacktheclock.webp",
+      "description": "After hooking a Survivor, for the next 60s, use — to make target Generator you can see within 20m explode, lose 10% progress and start regressing.",
+      "tier": 3
+    },
+    {
+      "id": "K42P02",
+      "name": "Secret Project",
+      "role": "killer",
+      "image": "/assets/perks/killer-secretproject.webp",
+      "description": "Whenever a Totem is blessed or cleansed, a random unblocked Generator is blocked for 30s.\n\nWhenever 1 or more Generators are blocked, you gain — for 30s.",
+      "tier": 3
+    },
+    {
+      "id": "K42P03",
+      "name": "Hex: Hive Mind",
+      "role": "killer",
+      "image": "/assets/perks/killer-hexhivemind.webp",
+      "description": "The first time you hook a Survivor, a Dull Totem ignites.\n\nThe Auras of Generators show their progress.\n\nWhen 1 Generator remains:All Generators explode, lose 10% progress and start regressing.\nThe Hex Totem is extinguished.",
+      "tier": 3
+    },
+    {
+      "id": "Kindred",
+      "name": "Kindred",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-kindred.webp",
+      "description": "While you are hooked, all Survivors see each others' Auras. While the Killer is within 16m, all Survivors sees the Killer's Aura.\n\nWhile another Survivor is hooked, you see the Auras of other Survivors. While the Killer is within 16m of the hooked Survivor, you see the Killer's Aura.",
+      "tier": 3
+    },
+    {
+      "id": "Leader",
+      "name": "Leader",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-leader.webp",
+      "description": "Within 10m of you, other Survivors:Cleanse Totems 30% faster.\nHeal 30% faster.\nOpen Exit Gates 30% faster.\nSabotage Hooks 30% faster.\nUnhook Survivors 30% faster.\nUnlock Chests 30% faster.\n\n\nAfter they leave your range, this ends after 20s.",
+      "tier": 3
+    },
+    {
+      "id": "LeftBehind",
+      "name": "Left Behind",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-leftbehind.webp",
+      "description": "When all other Survivors are dead, while within 32m of the Hatch, you see its Aura.",
+      "tier": 3
+    },
+    {
+      "id": "Lightborn",
+      "name": "Lightborn",
+      "role": "killer",
+      "image": "/assets/perks/killer-lightborn.webp",
+      "description": "Whenever a Survivor attempts to blind you, you see their Aura for 10s.\n\nYou cannot be blinded.",
+      "tier": 3
+    },
+    {
+      "id": "Lightweight",
+      "name": "Lightweight",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-lightweight.webp",
+      "description": "Your Scratch Marks disappear 5s faster and appear more spread out.",
+      "tier": 3
+    },
+    {
+      "id": "Lithe",
+      "name": "Lithe",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-lithe.webp",
+      "description": "Whenever you medium or fast-vault:You gain 50% — for 3s.\nYou gain — for 40s.",
+      "tier": 3
+    },
+    {
+      "id": "LuckyBreak",
+      "name": "Lucky Break",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-luckybreak.webp",
+      "description": "While injured, for up to 60s:You leave no Pools of Blood.\nYou leave no Scratch Marks.\n\n\nFor each second spent healing another Survivor, recharge the duration by 1s.",
+      "tier": 3
+    },
+    {
+      "id": "MadGrit",
+      "name": "Mad Grit",
+      "role": "killer",
+      "image": "/assets/perks/killer-madgrit.webp",
+      "description": "While carrying a Survivor:Whenever you miss a basic-attack, your cooldown is 100% shorter.\nWhenever you damage a Survivor with a basic attack, the carried Survivor gains no wiggle progress for 4s.",
+      "tier": 3
+    },
+    {
+      "id": "MakeYourChoice",
+      "name": "Make your Choice",
+      "role": "killer",
+      "image": "/assets/perks/killer-makeyourchoice.webp",
+      "description": "Whenever a Survivor unhooks another or themselves while you are at least 32m away:They scream.\nThey gain — for 60s.\n\n\nCooldown: 60s.",
+      "tier": 3
+    },
+    {
+      "id": "Mindbreaker",
+      "name": "Mindbreaker",
+      "role": "killer",
+      "image": "/assets/perks/killer-mindbreaker.webp",
+      "description": "While Survivors are repairing a Generator:They gain —.\nThey gain —.\n\n\nWhen they stop repairing a Generator, this ends after 5s.",
+      "tier": 3
+    },
+    {
+      "id": "MonitorAndAbuse",
+      "name": "Monitor & Abuse",
+      "role": "killer",
+      "image": "/assets/perks/killer-monitorandabuse.webp",
+      "description": "While chasing a Survivor, your Terror Radius is 15% bigger.\n\nWhile not chasing a Survivor, your Terror Radius is 25% smaller.",
+      "tier": 3
+    },
+    {
+      "id": "Monstrous_Shrine",
+      "name": "Scourge Hook: Monstrous Shrine",
+      "role": "killer",
+      "image": "/assets/perks/killer-scourgehookmonstrousshrine.webp",
+      "description": "When the Trial starts:4 random Hooks become Scourge Hooks.\nThe Basement Hooks become Scourge Hooks.\n\n\n\nWhile you are at least 24m away from a Survivor on a Scourge Hook, any Generator that isn't being repaired regresses at 200% speed.",
+      "tier": 3
+    },
+    {
+      "id": "Nemesis",
+      "name": "Nemesis",
+      "role": "killer",
+      "image": "/assets/perks/killer-nemesis.webp",
+      "description": "Whenever a Survivor blinds you, Locker-stuns or Pallet-stuns you, they become the Obsession.\n\nWhenever a Survivor becomes the Obsession:They gain — for 60s.\nYou see their Aura for 8s.",
+      "tier": 3
+    },
+    {
+      "id": "No_One_Escapes_Death",
+      "name": "Hex: No One Escapes Death",
+      "role": "killer",
+      "image": "/assets/perks/killer-hexnooneescapesdeath.webp",
+      "description": "When all Generators are completed, a Dull Totem ignites:Survivors gain —.\nYou gain 4% —.\n\n\nWithin 4m, Survivors see the Hex Totem's Aura, expanding to 24m over 30s.",
+      "tier": 3
+    },
+    {
+      "id": "No_One_Left_Behind",
+      "name": "No One Left Behind",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-nooneleftbehind.webp",
+      "description": "When all Generators are completed:You heal other Survivors 100% faster.\nYou unhook other Survivors 100% faster.\nWhenever you unhook a Survivor, they gain 10% more —.\nYou see the Auras of other Survivors.",
+      "tier": 3
+    },
+    {
+      "id": "NoMither",
+      "name": "No Mither",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-nomither.webp",
+      "description": "When the trial starts, you become injured, then:You gain —.\nYour Grunts of Pain are 100% quieter.\nYou leave no Pools of Blood.\nYou recover 25% faster.\nYou can fully recover.",
+      "tier": 3
+    },
+    {
+      "id": "NurseCalling",
+      "name": "A Nurse's Calling",
+      "role": "killer",
+      "image": "/assets/perks/killer-anursescalling.webp",
+      "description": "Within 32m of Survivors who are healing or being healed, you see their Auras.",
+      "tier": 3
+    },
+    {
+      "id": "ObjectOfObsession",
+      "name": "Object of Obsession",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-objectofobsession.webp",
+      "description": "While you are the Obsession, every 30s, the Killer sees your Aura for 4s.\n\nWhile the Killer sees your Aura:You see their Aura.\nYou bless and cleanse Totems 10% faster.\nYou heal 10% faster.\nYou repair 10% faster.\n\n\nWhen the trial starts, you are more likely to be the Obsession.",
+      "tier": 3
+    },
+    {
+      "id": "OffTheRecord",
+      "name": "Off the Record",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-offtherecord.webp",
+      "description": "Until all Generators are completed, whenever you are unhooked, for the next 40s:You gain —.\nYour Grunts of Pain are 100% quieter.\nThe Killer cannot see your Aura.",
+      "tier": 3
+    },
+    {
+      "id": "Open_Handed",
+      "name": "Open-Handed",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-openhanded.webp",
+      "description": "All Survivors see Auras that have a range from 16m farther.",
+      "tier": 3
+    },
+    {
+      "id": "OverwhelmingPresence",
+      "name": "Overwhelming Presence",
+      "role": "killer",
+      "image": "/assets/perks/killer-overwhelmingpresence.webp",
+      "description": "Whenever a Survivor uses an item within 32m of you, they gain — for 15s.\n\nWhenever a Survivor within 32m of you gains —, you see the closest — Survivor's Aura for 4s. Cooldown: 25s.",
+      "tier": 3
+    },
+    {
+      "id": "Pharmacy",
+      "name": "Pharmacy",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-pharmacy.webp",
+      "description": "Whenever you unlock a Chest, it will contain a rare Med-Kit.\n\nYou unlock and rummage Chests 125% faster.\n\nYou can rummage each Chest 1 time.\n\n\nThe range at which the Killer hears you unlocking Chests is 12m shorter.",
+      "tier": 3
+    },
+    {
+      "id": "Play_With_Your_Food",
+      "name": "Play With Your Food",
+      "role": "killer",
+      "image": "/assets/perks/killer-playwithyourfood.webp",
+      "description": "Whenever you stop chasing the Obsession, you earn 1 Token, up to 3. Cooldown: 10s.\n\n\nFor each Token, gain 5% —.\n\n\nWhenever you attack, lose 1 Token.",
+      "tier": 3
+    },
+    {
+      "id": "Plunderers_Instinct",
+      "name": "Plunderer's Instinct",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-plunderersinstinct.webp",
+      "description": "You see the Aura of Chests and items.\n\n\nYou unlock Chests 200% faster.\n\nWhenever you unlock a Chest you are 50% more likely to find an Item of higher rarity.",
+      "tier": 3
+    },
+    {
+      "id": "Poised",
+      "name": "Poised",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-poised.webp",
+      "description": "The first time you start repairing each Generator, you see the Killer's Aura for 8s.\n\n\nWhenever a Generator is completed, you leave no Scratch Marks for 30s.",
+      "tier": 3
+    },
+    {
+      "id": "pop_goes_the_weasel",
+      "name": "Pop Goes the Weasel",
+      "role": "killer",
+      "image": "/assets/perks/killer-popgoestheweasel.webp",
+      "description": "Whenever you hook a Survivor, for the next 45s, when you damage a Generator, it explodes and loses 15% more progress.",
+      "tier": 3
+    },
+    {
+      "id": "Predator",
+      "name": "Predator",
+      "role": "killer",
+      "image": "/assets/perks/killer-predator.webp",
+      "description": "When you stop chasing a Survivor, you see their Aura for 4s. Cooldown: 40s.",
+      "tier": 3
+    },
+    {
+      "id": "Premonition",
+      "name": "Premonition",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-premonition.webp",
+      "description": "While not chased by the Killer, whenever you look in the Killer’s direction within 32m:You are notified.\nYou see the Killer's Aura for 3s.\n\n\n\nCooldown: 45s.",
+      "tier": 3
+    },
+    {
+      "id": "Prove_Thyself",
+      "name": "Prove Thyself",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-provethyself.webp",
+      "description": "For each other Survivor within 4m of you, all Survivors repair 10% faster.",
+      "tier": 3
+    },
+    {
+      "id": "QuickQuiet",
+      "name": "Quick & Quiet",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-quickandquiet.webp",
+      "description": "You hide in Lockers and vault silently. The Killer is not alerted. Cooldown: 15s.",
+      "tier": 3
+    },
+    {
+      "id": "Rancor",
+      "name": "Rancor",
+      "role": "killer",
+      "image": "/assets/perks/killer-rancor.webp",
+      "description": "Whenever a Generator is completed:You are alerted to the position of all Survivors for 3s.\nThe Obsession sees your Aura for 3s.\n\n\nWhen all Generators are completed:The Obsession gains —.\nYou can Kill the Obsession.",
+      "tier": 3
+    },
+    {
+      "id": "RedHerring",
+      "name": "Red Herring",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-redherring.webp",
+      "description": "After you repair a Generator for at least 1s, you see its Aura.\n\nWhen you hide in a Locker, the Killer is alerted to the Generator. Cooldown: 15s.",
+      "tier": 3
+    },
+    {
+      "id": "RememberMe",
+      "name": "Remember Me",
+      "role": "killer",
+      "image": "/assets/perks/killer-rememberme.webp",
+      "description": "Whenever the Obsession takes damage, you earn 1 Token, up to 5.\n\n\nFor each Token, Survivors who are not the Obsession open Exit Gates 30% slower.",
+      "tier": 3
+    },
+    {
+      "id": "RepressedAlliance",
+      "name": "Repressed Alliance ",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-repressedalliance.webp",
+      "description": "After repairing Generators for 30s, while repairing a Generator alone, use — to block that generator for 15s.",
+      "tier": 3
+    },
+    {
+      "id": "Resilience",
+      "name": "Resilience",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-resilience.webp",
+      "description": "While injured:You bless and cleanse Totems 9% faster.\nYou heal 9% faster.\nYou open Exit Gates 9% faster.\nYou repair 9% faster.\nYou sabotage Hooks 9% faster.\nYou unhook Survivors 9% faster.\nYou unlock chests 9% faster.\nYou vault 9% faster.",
+      "tier": 3
+    },
+    {
+      "id": "S24P01",
+      "name": "Appraisal",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-appraisal.webp",
+      "description": "When the trial starts, you earn 4 Tokens.\n\nSpend 1 Token to rummage an empty Chest, up to 2 times per Chest.\n\nYou rummage Chests 80% faster.",
+      "tier": 3
+    },
+    {
+      "id": "S24P02",
+      "name": "Deception",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-deception.webp",
+      "description": "Whenever you attempt to fast-enter a Locker:You do not enter the Locker.\nThe Killer is alerted.\nYou leave no Pools of Blood for 5s.\nYou leave no Scratch Marks for 5s.\n\n\nCooldown: 15s.",
+      "tier": 3
+    },
+    {
+      "id": "S24P03",
+      "name": "Power Struggle",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-powerstruggle.webp",
+      "description": "While carried by the Killer, while you have at least 15% wiggle and next to an Upright Pallet, you can drop it to stun the Killer.\n\nWhile downed, you see the Auras of Upright Pallets.",
+      "tier": 3
+    },
+    {
+      "id": "S25P01",
+      "name": "Fast Track",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-fasttrack.webp",
+      "description": "Whenever you unhook another Survivor, you earn 1 Token, up to 3.\n\nWhile repairing, whenever you hit a great basic Skill Check, spend all Tokens. For each Token spent, the Generator gains 5% permanent progress.",
+      "tier": 3
+    },
+    {
+      "id": "S25P02",
+      "name": "Smash Hit",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-smashhit.webp",
+      "description": "Whenever you Pallet-stun the Killer:You gain 50% — for 4s.\nYou gain — for 20s.",
+      "tier": 3
+    },
+    {
+      "id": "S25P03",
+      "name": "Self-Preservation",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-selfpreservation.webp",
+      "description": "Whenever another Survivor is hooked, you gain — for 15s.",
+      "tier": 3
+    },
+    {
+      "id": "S26P01",
+      "name": "Counterforce",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-counterforce.webp",
+      "description": "When the trial starts, you earn 1 Token.\n\nWhenever you cleanse a Totem, earn 1 Token, then, you see the Aura of the farthest Totem for 14s.\n\nFor each Token, you cleanse Totems 25% faster.",
+      "tier": 3
+    },
+    {
+      "id": "S26P02",
+      "name": "Resurgence",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-resurgence.webp",
+      "description": "Whenever you are unhooked, you gain 70% healing progress.",
+      "tier": 3
+    },
+    {
+      "id": "S26P03",
+      "name": "Blast Mine",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-blastmine.webp",
+      "description": "After repairing 40% of Generators, while next to a Generator, use — to trap it for 120s. All Survivors see that Generator's Aura for that time.\n\nWhen the Killer damages that Generator, the trap explodes, then:They are stunned for 4s.\nEveryone nearby looking at the detonation is blinded.",
+      "tier": 3
+    },
+    {
+      "id": "S27P01",
+      "name": "Bite the Bullet",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-bitethebullet.webp",
+      "description": "While healing, you and the healed Survivor make no noises or Grunts of Pain. Whenever you miss a basic Skill Check:You lose only 1% progress.\nThe Killer is not alerted.",
+      "tier": 3
+    },
+    {
+      "id": "S27P02",
+      "name": "Flashbang",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-flashbang.webp",
+      "description": "After repairing 40% of Generators, while hiding in a Locker, use — to craft a Flashbang.\n\nWhen you use the Flashbang:Everyone nearby looking at the detonation is blinded.\nThe Killer is alerted.",
+      "tier": 3
+    },
+    {
+      "id": "S27P03",
+      "name": "Rookie Spirit",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-rookiespirit.webp",
+      "description": "After you hit 3 basic repair Skill Checks, while a Generator is regressing, you see its Aura.",
+      "tier": 3
+    },
+    {
+      "id": "S28P01",
+      "name": "Clairvoyance",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-clairvoyance.webp",
+      "description": "Whenever you bless or cleanse a Totem, while not holding an item, use — to, for up to 12s and within 64m:See the Auras of Chests.\nSee the Auras of Exit Gate Switches.\nSee the Auras of Generators.\nSee the Aura of the Hatch.\nSee the Auras of Hooks.",
+      "tier": 3
+    },
+    {
+      "id": "S28P02",
+      "name": "Boon: Circle of Healing",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-booncircleofhealing.webp",
+      "description": "While next to a Totem, use — to bless it, creating a unique Boon Totem that combines all your Boons.\n\nSurvivors within the Boon's range:While healing without a Med-Kit, they heal others 100% faster.\nWhile injured, other Survivors see their Aura.",
+      "tier": 3
+    },
+    {
+      "id": "S28P03",
+      "name": "Boon: Shadow Step",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-boonshadowstep.webp",
+      "description": "While next to a Totem, use — to bless it, creating a unique Boon Totem that combines all your Boons. Survivors within the Boon's range:Leave no Scratch Marks.\nTheir Auras cannot be seen by the Killer.\n\n\nWhen leaving the range, this ends after 4s.",
+      "tier": 3
+    },
+    {
+      "id": "S29P01",
+      "name": "Overcome",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-overcome.webp",
+      "description": "Whenever you take damage:You retain your speed boost for 2s longer.\nYou gain — for 40s.",
+      "tier": 3
+    },
+    {
+      "id": "S29P02",
+      "name": "Corrective Action",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-correctiveaction.webp",
+      "description": "When the trial starts, you earn 3 Tokens, up to 5.\n\nWhenever you hit a great basic Skill Check, earn 1 Token.\n\nWhenever another Survivor misses a basic Skill Check, spend 1 Token:The missed Skill Check becomes a good Skill Check.\nYou see that Survivor's Aura for 6s.",
+      "tier": 3
+    },
+    {
+      "id": "S29P03",
+      "name": "Boon: Exponential",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-boonexponential.webp",
+      "description": "While next to a Totem, use — to bless it, creating a unique Boon Totem that combines all your Boons.\n\nDowned Survivors within the Boon's range:Recover 100% faster.\nCan fully recover.",
+      "tier": 3
+    },
+    {
+      "id": "S30P01",
+      "name": "Parental Guidance",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-parentalguidance.webp",
+      "description": "Whenever you stun the Killer, for 7s:You make no Grunts of Pain.\nYou leave no Pools of Blood.\nYou leave no Scratch Marks.",
+      "tier": 3
+    },
+    {
+      "id": "S30P02",
+      "name": "Empathic Connection",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-empathicconnection.webp",
+      "description": "You heal other Survivors 40% faster.\n\nInjured Survivors see your Aura.",
+      "tier": 3
+    },
+    {
+      "id": "S30P03",
+      "name": "Boon: Dark Theory",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-boondarktheory.webp",
+      "description": "While next to a Totem, use — to bless it, creating a unique Boon Totem that combines all your Boons.\n\nSurvivors within the Boon's range gain 3% —. When leaving the range, this ends after 4s.",
+      "tier": 3
+    },
+    {
+      "id": "S31P01",
+      "name": "Inner Focus",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-innerfocus.webp",
+      "description": "Whenever the Killer damages another Survivor, you see the Killer's Aura for 10s.\n\nYou see other Survivors' Scratch Marks.",
+      "tier": 3
+    },
+    {
+      "id": "S31P02",
+      "name": "Residual Manifest",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-residualmanifest.webp",
+      "description": "Whenever you blind the Killer, they gain — for 30s.\n\nYou can rummage Chests 1 time. The first time you rummage a Chest, it will contain an uncommon Flashlight.",
+      "tier": 3
+    },
+    {
+      "id": "S31P03",
+      "name": "Overzealous",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-overzealous.webp",
+      "description": "Whenever you bless or cleanse a Totem, until you take damage, you repair 10% faster. If that Totem was a Hex Totem, the effect is doubled.",
+      "tier": 3
+    },
+    {
+      "id": "S32P01",
+      "name": "Wiretap",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-wiretap.webp",
+      "description": "After repairing 40% of Generators, while next to a Generator, use — to trap it for 120s or until the Killer damages that Generator. All Survivors see that Generator's Aura for that time.\n\nWhile the Killer is within 14m of that Generator, all Survivors see the Killer's Aura.",
+      "tier": 3
+    },
+    {
+      "id": "S32P02",
+      "name": "Reactive Healing",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-reactivehealing.webp",
+      "description": "While injured, whenever another Survivor within 32m of you takes damage, you gain 50% missing healing progress.",
+      "tier": 3
+    },
+    {
+      "id": "S32P03",
+      "name": "Low Profile",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-lowprofile.webp",
+      "description": "When all other Survivors are downed or hooked, for 90s:You make no Grunts of Pain.\nYou leave no Pools of Blood.\nYou leave no Scratch Marks.",
+      "tier": 3
+    },
+    {
+      "id": "S33P01",
+      "name": "Better Than New",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-betterthannew.webp",
+      "description": "Whenever you finish healing another Survivor, until they take damage:They bless and cleanse Totems 50% faster.\nThey heal 50% faster.\nThey unlock Chests 50% faster.",
+      "tier": 3
+    },
+    {
+      "id": "S33P02",
+      "name": "Reassurance",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-reassurance.webp",
+      "description": "Once per Hook State, while within 6m of a hooked Survivor, use — to stop the sacrifice progress for 30s.",
+      "tier": 3
+    },
+    {
+      "id": "S33P03",
+      "name": "Hyperfocus",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-hyperfocus.webp",
+      "description": "Whenever you hit a great basic Skill Check, you earn 1 Token, up to 6.\n\nFor each Token, basic Skill Checks:Appear 4% more often.\nSpin 4% faster.\nWhenever you hit a great, give 30% more progress.\n\n\nWhenever you miss a basic Skill Check, hit a good Skill Check, or stop healing or repairing, lose all Tokens.",
+      "tier": 3
+    },
+    {
+      "id": "S34P01",
+      "name": "Potential Energy",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-potentialenergy.webp",
+      "description": "While repairing, use — to earn Tokens instead of progress, up to 20 Tokens.\n\nWhile you have at least 1 Token, — to spend all Tokens and gain 1% progress for each Token spent.\n\nWhenever you take damage, lose all Tokens.",
+      "tier": 3
+    },
+    {
+      "id": "S34P02",
+      "name": "Fogwise",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-fogwise.webp",
+      "description": "While repairing, whenever you hit a great basic Skill Check, you see the Killer's Aura for 6s.",
+      "tier": 3
+    },
+    {
+      "id": "S34P03",
+      "name": "Quick Gambit",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-quickgambit.webp",
+      "description": "While chased by the Killer:You see the Auras of other Survivors.\nOther Survivors repair 5% faster.\n\n\nWhenever you take damage, cooldown: 40s.",
+      "tier": 3
+    },
+    {
+      "id": "S35P01",
+      "name": "Cut Loose",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-cutloose.webp",
+      "description": "While chased by the Killer, whenever you medium or fast-vault:For up to 6s, your medium and fast vaults are silent.\nDuring that time, whenever you medium or fast-vault, the timer is reset.\n\n\nCooldown: 45s.",
+      "tier": 3
+    },
+    {
+      "id": "S35P02",
+      "name": "Friendly Competition",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-friendlycompetition.webp",
+      "description": "Whenever you finish repairing a Generator with at least 1 other Survivor, Survivors who finished repairing it repair 10% faster for 90s.",
+      "tier": 3
+    },
+    {
+      "id": "S35P03",
+      "name": "Teamwork: Power of Two",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-teamworkpoweroftwo.webp",
+      "description": "Whenever you finish healing another Survivor, while you stay within 16m of each other, you both gain 5% —. When either of you leaves the range, this ends after 4s.",
+      "tier": 3
+    },
+    {
+      "id": "S36P01",
+      "name": "Background Player",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-backgroundplayer.webp",
+      "description": "Whenever the Killer picks-up another Survivor, for the next 10s, when you start running:Gain 50% — for 5s.\nGain — for 20s.",
+      "tier": 3
+    },
+    {
+      "id": "S36P02",
+      "name": "Blood Rush",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-bloodrush.webp",
+      "description": "Until all Generators are completed, whenever you are unhooked, for the next 60s, while —, use — to lose — instantly.\n\nThis is disabled by conspicuous actions.",
+      "tier": 3
+    },
+    {
+      "id": "S36P03",
+      "name": "Teamwork: Collective Stealth",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-teamworkcollectivestealth.webp",
+      "description": "Whenever another Survivor finishes healing you, while within 16m of each other, you both leave no Scratch Marks. When either of you leaves the range, this ends after 4s.",
+      "tier": 3
+    },
+    {
+      "id": "S37P01",
+      "name": "Troubleshooter",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-troubleshooter.webp",
+      "description": "While chased by the Killer:You see the Aura of the Generator with the most progress.\nWhenever you drop a Pallet, you see the Killer's Aura for 6s.\n\n\nWhen the Killer stops chasing you, this ends after 10s.",
+      "tier": 3
+    },
+    {
+      "id": "S37P02",
+      "name": "Made for This",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-madeforthis.webp",
+      "description": "While injured, whenever you finish healing another Survivor, you gain — for 10s.\n\nWhile you are running and have —, you gain 3% —.",
+      "tier": 3
+    },
+    {
+      "id": "S37P03",
+      "name": "Scavenger",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-scavenger.webp",
+      "description": "While repairing and while your Toolbox is empty, whenever you hit a great basic Skill Check, you earn 1 Token.\n\nWhen you have 5 Tokens, spend them all:Your Toolbox is recharged instantly.\nYou repair 50% slower for 30s.\n\n\nYou can rummage Chests 1 time. The first time you rummage a Chest, it will contain an uncommon Toolbox.",
+      "tier": 3
+    },
+    {
+      "id": "S38P01",
+      "name": "Dramaturgy",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-dramaturgy.webp",
+      "description": "While healthy and running, use —:You gain 25% — for 2s.\nYou gain — for 40s.\n\n\nThen, one happens at random:You gain 25% — for 2s.\nYou gain — for 12s.\nYou gain a random rare item with random add-ons.\nYou scream, but nothing happens.\n\n\nThe same effect cannot happen twice in a row.",
+      "tier": 3
+    },
+    {
+      "id": "S38P02",
+      "name": "Scene Partner",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-scenepartner.webp",
+      "description": "While you are within the Killer's Terror Radius, whenever you look at them:Scream, then see the Killer's Aura for 6s.\nThere is a 50% chance you will scream again. If you do, you see the Killer's Aura for 6s more.\n\n\nCooldown: 40s.",
+      "tier": 3
+    },
+    {
+      "id": "S38P03",
+      "name": "Plot Twist",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-plottwist.webp",
+      "description": "While injured, crouched and idle, use — to be downed silently.\n\nWhile downed this way, once per trial:You make no Grunts of Pain.\nYou leave no Pools of Blood.\nYou recover 25% faster.\nYou can fully recover.\n\n\nWhenever you recover this way:You gain 50% — for 4s.\nYou are healed instantly.\n\n\nWhen all Generators are completed, you can use this ability once again.",
+      "tier": 3
+    },
+    {
+      "id": "S39P01",
+      "name": "Lucky Star",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-luckystar.webp",
+      "description": "While hiding in a Locker, you make no Grunts of Pain.\n\nWhenever you exit a Locker, for 30s:You see the Aura of the closest Generator.\nYou see the Auras of other Survivors.\nYou make no Grunts of Pain.\nYou leave no Pools of Blood.\n\n\nCooldown: 25s.",
+      "tier": 3
+    },
+    {
+      "id": "S39P02",
+      "name": "Chemical Trap",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-chemicaltrap.webp",
+      "description": "After repairing 20% of Generators, while next to a Dropped Pallet, use — to trap it for 60s. All Survivors see that Pallet's Aura for that time.\n\nWhen the Killer breaks that Pallet, the trap explodes and they gain 50% — for 4s.",
+      "tier": 3
+    },
+    {
+      "id": "S39P03",
+      "name": "Light-footed",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-lightfooted.webp",
+      "description": "While healthy and running, your footsteps are silent to the Killer.\n\nWhenever you do a fast-action, cooldown: 10s.",
+      "tier": 3
+    },
+    {
+      "id": "S40P01",
+      "name": "Champion of Light",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-championoflight.webp",
+      "description": "While you are using a Flashlight, you gain 50% —.\n\nWhenever you blind the Killer, they gain 20% — for 6s. Cooldown: 40s.",
+      "tier": 3
+    },
+    {
+      "id": "S40P02",
+      "name": "Boon: Illumination",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-boonillumination.webp",
+      "description": "While next to a Totem, use — to bless it, creating a unique Boon Totem that combines all your Boons.\n\nSurvivors within the Boon's range:See the Auras of Chests.\nSee the Auras of Generators.\n\n\nWhile you have a Boon Totem, you bless 200% faster.",
+      "tier": 3
+    },
+    {
+      "id": "S40P03",
+      "name": "Deadline",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-deadline.webp",
+      "description": "While injured, basic Skill Checks:Are 10% more likely to appear.\nAppear in random places.\n\n\nWhenever you miss a basic Skill Check, you lose 50% less progress.",
+      "tier": 3
+    },
+    {
+      "id": "S41P01",
+      "name": "Invocation: Weaving Spiders",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-invocationweavingspiders.webp",
+      "description": "While in the Basement next to the circle, use — to invoke. While invoking, other Survivors see your Aura and can join your Invocation.\n\nWhen the Invocation is completed:All Generators gain 10 permanent charges.\nYou become injured.\nYou gain —.\n\n\nEach Invocation can only be completed once per trial.",
+      "tier": 3
+    },
+    {
+      "id": "S41P02",
+      "name": "Strength in Shadows",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-strengthinshadows.webp",
+      "description": "While in the Basement:You can heal yourself, but 30% slower.\nWhenever you finish healing, you see the Killer's Aura for 10s.",
+      "tier": 3
+    },
+    {
+      "id": "S41P03",
+      "name": "Wicked",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-wicked.webp",
+      "description": "While in the Basement, you can unhook yourself.\n\nWhenever you are unhooked, you see the Killer's Aura for 20s.",
+      "tier": 3
+    },
+    {
+      "id": "S42P01",
+      "name": "Mirrored Illusion",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-mirroredillusion.webp",
+      "description": "After repairing 20% of Generators, while next to a Chest, Exit Gate Switch, Generator, or Totem, use — to create a static illusion for 60s.",
+      "tier": 3
+    },
+    {
+      "id": "S42P02",
+      "name": "Bardic Inspiration",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-bardicinspiration.webp",
+      "description": "While idle, use — to perform, empowering all Survivors within 16m for up to 15s. While you are performing, other Survivors will see your Aura. Roll a d20:1 | You scream, but nothing happens.\n2-10 | Basic Skill Checks give +1% progress.\n11-19 | Basic Skill Checks give +2% progress.\n20 | Basic Skill Checks give +3% progress.\n\n\nIf you complete the performance, this effect ends after 90s. Cooldown: 90s.",
+      "tier": 3
+    },
+    {
+      "id": "S42P03",
+      "name": "Still Sight",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-stillsight.webp",
+      "description": "After being idle for 2s, within 24m, until you start moving:You see the Killer's Aura.\nYou see the Auras of Chests.\nYou see the Auras of Generators.",
+      "tier": 3
+    },
+    {
+      "id": "S43P01",
+      "name": "Finesse",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-finesse.webp",
+      "description": "While healthy, you fast-vault 20% faster.\n\nWhenever you fast-vault, cooldown: 30s.",
+      "tier": 3
+    },
+    {
+      "id": "S43P02",
+      "name": "Hardened",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-hardened.webp",
+      "description": "When you have blessed or cleansed a Totem and unlocked a Chest, whenever you would scream, you see the Killer's Aura for 5s instead.",
+      "tier": 3
+    },
+    {
+      "id": "S43P03",
+      "name": "Specialist",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-specialist.webp",
+      "description": "Whenever you rummage or unlock a Chest, you earn 1 Token, up to 6.\n\nWhile repairing a Generator, whenever you hit a great basic Skill Check, spend all Tokens. For each Token spent, the Generator gains 4% permanent progress.",
+      "tier": 3
+    },
+    {
+      "id": "S44P01",
+      "name": "Eyes of Belmont",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-eyesofbelmont.webp",
+      "description": "Whenever a Generator is completed, you see the Killer's Aura for 3s.\n\nWhenever you see the Killer's Aura for a duration, it is 2s longer.",
+      "tier": 3
+    },
+    {
+      "id": "S44P02",
+      "name": "Exultation",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-exultation.webp",
+      "description": "Whenever you Pallet-stun the Killer:Your item rarity is upgraded to the next tier, if possible.\nIf the item was upgraded, it recharges 75% Charges.\n\n\nCooldown: 20s.",
+      "tier": 3
+    },
+    {
+      "id": "S44P03",
+      "name": "Moment of Glory",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-momentofglory.webp",
+      "description": "After you rummage or unlock 1 Chest, while not —, when you become injured, gain —.\n\nAfter 60s, if you are not downed, you are instantly healed.",
+      "tier": 3
+    },
+    {
+      "id": "S45P01",
+      "name": "Invocation: Treacherous Crows",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-invocationtreacherouscrows.webp",
+      "description": "While in the Basement next to the circle, use — to invoke. While invoking, other Survivors see your Aura and can join your Invocation.\n\nWhen the Invocation is completed:Whenever the Killer scares a Crow while a Survivor is in their Terror Radius, all Survivors see the Killer's Aura for 2s.\nYou become injured.\nYou gain —.\n\n\nEach Invocation can only be completed once per trial.",
+      "tier": 3
+    },
+    {
+      "id": "S45P02",
+      "name": "Clean Break",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-cleanbreak.webp",
+      "description": "Whenever you finish healing another Survivor, while being healed by another Survivor, use — to gain —.\n\nAfter 45s, if you are not downed, you are instantly healed.",
+      "tier": 3
+    },
+    {
+      "id": "S45P03",
+      "name": "Shoulder the Burden",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-shouldertheburden.webp",
+      "description": "Once per trial, if you have less than 2 Hook States while you are next to a hooked Survivor, use — to unhook them:They lose 1 Hook State.\nYou gain 1 Hook State.\nYou scream.\nYou become Injured.\nYou gain — for 120s.",
+      "tier": 3
+    },
+    {
+      "id": "S46P01",
+      "name": "Do No Harm",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-donoharm.webp",
+      "description": "While healing another Survivor, for each Hook State they have:You heal 40% faster.\nGreat basic Skill Checks, grant 3% more progress.\nBasic Skill Checks are 5% more likely to appear.",
+      "tier": 3
+    },
+    {
+      "id": "S46P02",
+      "name": "Duty of Care",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-dutyofcare.webp",
+      "description": "While healthy, whenever you take a protection hit, other Survivors within 12m gain 25% — for 6s.",
+      "tier": 3
+    },
+    {
+      "id": "S46P03",
+      "name": "Rapid Response",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-rapidresponse.webp",
+      "description": "Whenever you fast-exit a Locker, you gain — for 20s.\n\nWhenever you gain —, you see the Killer's Aura for 2s.",
+      "tier": 3
+    },
+    {
+      "id": "S47P01",
+      "name": "Apocalyptic Ingenuity",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-apocalypticingenuity.webp",
+      "description": "After you rummage or unlock 1 Chest, while next to a Broken Pallet, use — for 3s to create a Fragile Pallet.\n\nWithin 32m, you see the Auras of Broken Pallets.",
+      "tier": 3
+    },
+    {
+      "id": "S47P02",
+      "name": "Come and Get Me!",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-comeandgetme.webp",
+      "description": "Whenever you unhook a Survivor, while crouched and idle, use — to have injured and downed Survivors within 24m:Make no Grunts of Pain for 15s.\nLeave no Pools of Blood for 15s.\nLeave no Scratch Marks for 15s.\n\n\nYou scream, then the Killer sees your Aura for 5s.",
+      "tier": 3
+    },
+    {
+      "id": "S47P03",
+      "name": "Teamwork: Toughen Up",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-teamworktoughenup.webp",
+      "description": "While injured, whenever another Survivor within 24m of you blinds or Pallet-stuns the Killer, for 30s:You make no Grunts of Pain.\nYou leave no Pools of Blood.\nYou leave no Scratch Marks.",
+      "tier": 3
+    },
+    {
+      "id": "S48P01",
+      "name": "Conviction",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-conviction.webp",
+      "description": "After you finish healing 1 other Survivor, while downed with at least 25% recovery, use — to recover instantly.\n\nYou gain —, then, after 30s, you are downed instantly.",
+      "tier": 3
+    },
+    {
+      "id": "S48P02",
+      "name": "Last Stand",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-laststand.webp",
+      "description": "After hiding for 90s within the Killer's Terror Radius, when you fast-vault, once per trial, stun the Killer for 3s if they are within 2.5m.",
+      "tier": 3
+    },
+    {
+      "id": "S48P03",
+      "name": "Teamwork: Throw Down",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-teamworkthrowdown.webp",
+      "description": "Whenever you blind or Pallet-stun the Killer, for 10s, other injured Survivors within 24m:Gain —.\nSee the Killer's Aura.",
+      "tier": 3
+    },
+    {
+      "id": "S49P01",
+      "name": "Road Life",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-roadlife.webp",
+      "description": "While injured and repairing a Generator:Whenever you hit a great basic Skill Check, you earn 1 Token.\nWhenever you miss a basic Skill Check, you lose 1 token.\n\n\nWhen you have 4 Tokens, you can heal yourself. Spend all Tokens to heal yourself 10% faster. When you stop healing, this ends after 4s.",
+      "tier": 3
+    },
+    {
+      "id": "S49P02",
+      "name": "ONE-TWO-THREE-FOUR!",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-onetwothreefour.webp",
+      "description": "While idle, use — to perform, empowering all Survivors within 16m for up to 15s. While you are performing, other Survivors will see your Aura. You get special Skill Checks during that time: while healing or repairing, basic Skill Checks are 20% more likely to appear.\n\nIf you complete the performance, the effect ends after 90s. Cooldown: 90s.",
+      "tier": 3
+    },
+    {
+      "id": "S49P03",
+      "name": "Ghost Notes",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-ghostnotes.webp",
+      "description": "While you have —, your Scratch Marks disappear 50% faster.\n\nYou lose — 10% faster.",
+      "tier": 3
+    },
+    {
+      "id": "S50P01",
+      "name": "Bada Bada Boom",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-badabadaboom.webp",
+      "description": "After repairing 20% of Generators, while next to a Window, use — to trap it for 60s. All Survivors see that Window's Aura for that time.\n\nWhen the Killer vaults that Window, the trap explodes and they gain 50% — for 4s.",
+      "tier": 3
+    },
+    {
+      "id": "S50P02",
+      "name": "Change of Plan",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-changeofplan.webp",
+      "description": "When the trial starts, you earn 2 Tokens.\n\nWhile hiding in a Locker and holding a non-event Toolbox, use — and spend 1 Token to transform your Toolbox and add-ons into a Med-Kit of the same rarity with 100% Charges and random add-ons of the same rarity.",
+      "tier": 3
+    },
+    {
+      "id": "S50P03",
+      "name": "Teamwork: Full Circuit",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-teamworkfullcircuit.webp",
+      "description": "For each other Survivor repairing a Generator with you, good basic Skill Check zones are 25% bigger.\n\nWhile repairing with at least 1 other Survivor, you repair 5% faster.",
+      "tier": 3
+    },
+    {
+      "id": "S51P01",
+      "name": "Extrasensory Perception",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-extrasensoryperception.webp",
+      "description": "After crouching for 4s:You see Auras in an expanding radius up to 44m.\nYou gain —.\nYou gain —.\n\n\nWhen you stop crouching, or after 11s, cooldown: 40s.",
+      "tier": 3
+    },
+    {
+      "id": "S51P02",
+      "name": "We See You",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-weseeyou.webp",
+      "description": "Whenever the Killer sees your Aura, you earn 1 Token. Cooldown: 10s.\n\nWhen you have 4 Tokens, spend them all. Then, all Survivors see the Killer's Aura for 15s.",
+      "tier": 3
+    },
+    {
+      "id": "S51P03",
+      "name": "Teamwork: Soft-Spoken",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-teamworksoftspoken.webp",
+      "description": "For each other Survivor repairing a Generator with you, the range of Generator repair noises is 25% smaller.\n\nWhile repairing with at least 1 other Survivor, you repair 5% faster.",
+      "tier": 3
+    },
+    {
+      "id": "Saboteur",
+      "name": "Saboteur",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-saboteur.webp",
+      "description": "Within 56m of where another Survivor was picked-up by the Killer and is being carried, you see the Auras of Hooks and Scourge Hooks.\n\nYou can sabotage Hooks. Cooldown: 60s.",
+      "tier": 3
+    },
+    {
+      "id": "Save_The_Best_For_Last",
+      "name": "Save the best for last",
+      "role": "killer",
+      "image": "/assets/perks/killer-savethebestforlast.webp",
+      "description": "Whenever you damage a Survivor who is not the Obsession with a basic-attack, you earn 1 Token, up to 8.\n\nFor each Token, your successful basic-attack cooldown is 5% shorter.\n\nWhenever the Obsession takes damage, lose 2 Tokens.\n\nWhile the Obsession is dead, you cannot earn Tokens.",
+      "tier": 3
+    },
+    {
+      "id": "SecondWind",
+      "name": "Second Wind",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-secondwind.webp",
+      "description": "After you heal 1 Survivor, while not —, when you are unhooked, you gain —.\n\nAfter 20s, if you are not downed, you are instantly healed.",
+      "tier": 3
+    },
+    {
+      "id": "Self_Care",
+      "name": "Self-Care",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-selfcare.webp",
+      "description": "You can heal yourself, but 65% slower.",
+      "tier": 3
+    },
+    {
+      "id": "SelfSufficient",
+      "name": "Unbreakable",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-unbreakable.webp",
+      "description": "Once per trial, while downed by the Killer, you can fully recover.\n\nWhile downed, you recover 35% faster.",
+      "tier": 3
+    },
+    {
+      "id": "Shadowborn",
+      "name": "Shadowborn",
+      "role": "killer",
+      "image": "/assets/perks/killer-shadowborn.webp",
+      "description": "Whenever you are blinded, gain 10% — for 10s.",
+      "tier": 3
+    },
+    {
+      "id": "Slippery_Meat",
+      "name": "Slippery Meat",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-slipperymeat.webp",
+      "description": "Other Survivors unhook you 100% faster.\n\n\nWhenever you are unhooked, you gain 5% more Haste.",
+      "tier": 3
+    },
+    {
+      "id": "Sloppy_Butcher",
+      "name": "Sloppy Butcher",
+      "role": "killer",
+      "image": "/assets/perks/killer-sloppybutcher.webp",
+      "description": "Whenever you damage a Survivor with a basic-attack:They gain — for —s.\nThey gain — for —s.\n\n\nSurvivors with — lose healing progress —% faster.",
+      "tier": 3
+    },
+    {
+      "id": "Small_Game",
+      "name": "Small Game",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-smallgame.webp",
+      "description": "Within 12m of a Totem, you see its Aura.",
+      "tier": 3
+    },
+    {
+      "id": "SoleSurvivor",
+      "name": "Sole Survivor",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-solesurvivor.webp",
+      "description": "Whenever you are hooked or complete a Generator, you earn 1 Token, up to 6.\n\nFor each Token, other Survivors open Exit Gates 10% faster.\n\nWhen you are the last Survivor, if you have at least 3 Tokens:You can unlock the Hatch.\nFor each Token, the Killer cannot see your Aura for 10s.",
+      "tier": 3
+    },
+    {
+      "id": "Solidarity",
+      "name": "Solidarity",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-solidarity.webp",
+      "description": "While injured and healing another Survivor, you also gain healing progress at 75% speed.",
+      "tier": 3
+    },
+    {
+      "id": "SoulGuard",
+      "name": "Soul Guard",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-soulguard.webp",
+      "description": "While hexed, you can fully recover.\n\nWhenever you fully recover, you gain — for 8s. Cooldown: 30s.",
+      "tier": 3
+    },
+    {
+      "id": "Spies_From_The_Shadows",
+      "name": "Spies from the Shadows",
+      "role": "killer",
+      "image": "/assets/perks/killer-spiesfromtheshadows.webp",
+      "description": "Whenever a Survivor scares a Crow within 40m of you, you are alerted. Cooldown: 3s.",
+      "tier": 3
+    },
+    {
+      "id": "Spine_Chill",
+      "name": "Spine Chill",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-spinechill.webp",
+      "description": "Whenever the Killer looks at you within 40m:You are notified.\nYou cannot scream for 12s.\nYou vault 10% faster for 12s.\n\n\nCooldown: 30s",
+      "tier": 3
+    },
+    {
+      "id": "SpiritFury",
+      "name": "Spirit Fury",
+      "role": "killer",
+      "image": "/assets/perks/killer-spiritfury.webp",
+      "description": "After you break 2 Pallets, when you are Pallet-stunned, the Pallet is destroyed.",
+      "tier": 3
+    },
+    {
+      "id": "Sprint_Burst",
+      "name": "Sprint Burst",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-sprintburst.webp",
+      "description": "Whenever you start running:You gain 50% — for 2s.\nYou gain — for 40s.",
+      "tier": 3
+    },
+    {
+      "id": "StakeOut",
+      "name": "Stake Out",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-stakeout.webp",
+      "description": "After hiding for 15s within 24m of the Killer, while in their Terror Radius, you earn 1 Token, up to 4.\n\nWhile you have at least 1 Token, basic Skill Checks are replaced by special Skill Checks. Special Skill Checks grant +4% more progress.\n\n\nWhenever you hit or miss a special Skill Check, spend 1 Token.",
+      "tier": 3
+    },
+    {
+      "id": "Streetwise",
+      "name": "Streetwise",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-streetwise.webp",
+      "description": "The first time you deplete an item's Charges, you see the Killer's Aura for 8s.\n\nWhenever you loot an item from a Chest, it has 80% more Charges.",
+      "tier": 3
+    },
+    {
+      "id": "Stridor",
+      "name": "Stridor",
+      "role": "killer",
+      "image": "/assets/perks/killer-stridor.webp",
+      "description": "Survivors' breathing noises are 25% louder and their Grunts of Pain are 50% louder.",
+      "tier": 3
+    },
+    {
+      "id": "Surge",
+      "name": "Surge",
+      "role": "killer",
+      "image": "/assets/perks/killer-surge.webp",
+      "description": "Whenever you down a Survivor with a basic-attack, Generators within 32m:Explode, lose 8% progress and start regressing.\nSurvivor repairing them scream.",
+      "tier": 3
+    },
+    {
+      "id": "Surveillance",
+      "name": "Surveillance",
+      "role": "killer",
+      "image": "/assets/perks/killer-surveillance.webp",
+      "description": "You see the Auras of regressing Generators.\n\nWhenever a Generator stops regressing, you see its Aura for 16s.\n\nGenerator repair noises can be heard from 8m farther away.",
+      "tier": 3
+    },
+    {
+      "id": "Technician",
+      "name": "Technician",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-technician.webp",
+      "description": "While repairing a Generator:The range of Generator repair noises is 16m shorter.\nWhenever you miss a basic Skill Check, the Generator does not explode, but loses 2% more progress.",
+      "tier": 3
+    },
+    {
+      "id": "Tenacity",
+      "name": "Tenacity",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-tenacity.webp",
+      "description": "While downed:You gain 50% —.\nYou can crawl and recover at the same time.\nYour Grunts of Pain are 75% quieter.\nThe Killer cannot see your Aura.",
+      "tier": 3
+    },
+    {
+      "id": "TerritorialImperative",
+      "name": "Territorial Imperative",
+      "role": "killer",
+      "image": "/assets/perks/killer-territorialimperative.webp",
+      "description": "Whenever a Survivor enters the Basement while you are 24m away from it, you see their Aura for 6s. Cooldown: 45s.",
+      "tier": 3
+    },
+    {
+      "id": "Thanatophobia",
+      "name": "Thanatophobia",
+      "role": "killer",
+      "image": "/assets/perks/killer-thanatophobia.webp",
+      "description": "For each injured, downed, or hooked Survivor, all Survivors:Cleanse Totems 2% slower.\nRepair 2% slower.\nSabotage Hooks 2% slower.\n\n\nWhile 4 Survivors are either injured, downed or hooked, all above actions are additionally 12% slower.",
+      "tier": 3
+    },
+    {
+      "id": "TheMettleOfMan",
+      "name": "Mettle of Man",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-mettleofman.webp",
+      "description": "After taking 3 protection hits, while injured and until you go down, the next time you would be downed by the Killer, take no damage instead.\n\nWhen you become healthy, while you are at least 16m from the Killer, they see your Aura.\n\nWhen the trial starts, you are more likely to be the Obsession.",
+      "tier": 3
+    },
+    {
+      "id": "This_Is_Not_Happening",
+      "name": "This Is Not Happening",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-thisisnothappening.webp",
+      "description": "Good basic Skill Check zones are 200% bigger.",
+      "tier": 3
+    },
+    {
+      "id": "ThrillingTremors",
+      "name": "Thrilling Tremors",
+      "role": "killer",
+      "image": "/assets/perks/killer-thrillingtremors.webp",
+      "description": "Whenever you pick-up a Survivor, all Generators not being repaired are blocked for 16s. Cooldown: 30s.",
+      "tier": 3
+    },
+    {
+      "id": "Tinkerer",
+      "name": "Tinkerer",
+      "role": "killer",
+      "image": "/assets/perks/killer-tinkerer.webp",
+      "description": "The first time each Generator has 70% progress:You gain — for 16s.\nYou are alerted.",
+      "tier": 3
+    },
+    {
+      "id": "TrailofTorment",
+      "name": "Trail of Torment",
+      "role": "killer",
+      "image": "/assets/perks/killer-trailoftorment.webp",
+      "description": "Whenever you damage a Generator, until it stops regressing:You gain —.\nSurvivors see that Generator's Aura.\n\n\nCooldown: 30s.",
+      "tier": 3
+    },
+    {
+      "id": "Unnerving_Presence",
+      "name": "Unnerving Presence",
+      "role": "killer",
+      "image": "/assets/perks/killer-unnervingpresence.webp",
+      "description": "Survivors within your Terror Radius get 10% more basic Skill Checks.\n\nThe good zone of basic Skill Checks is 60% smaller.",
+      "tier": 3
+    },
+    {
+      "id": "Unrelenting",
+      "name": "Unrelenting",
+      "role": "killer",
+      "image": "/assets/perks/killer-unrelenting.webp",
+      "description": "Your missed basic-attack cooldown is 40% shorter.\n\n\nYour successful basic-attack cooldown is 10% shorter.",
+      "tier": 3
+    },
+    {
+      "id": "Up_The_Ante",
+      "name": "Up the Ante",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-uptheante.webp",
+      "description": "For each other Survivor alive, all Survivors are 3% luckier.\n\nAll Survivors can attempt to unhook themselves.",
+      "tier": 3
+    },
+    {
+      "id": "Urban_Evasion",
+      "name": "Urban Evasion",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-urbanevasion.webp",
+      "description": "While crouched, you gain 100% —.",
+      "tier": 3
+    },
+    {
+      "id": "Vigil",
+      "name": "Vigil",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-vigil.webp",
+      "description": "All Survivors within 16m of you lose — 30% faster.\n\nThis effect ends 15s after they leave your range.",
+      "tier": 3
+    },
+    {
+      "id": "Visionary",
+      "name": "Visionary",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-visionary.webp",
+      "description": "Within 32m of you, you see the Auras of Generators.\n\nWhenever a Generator is completed, cooldown: 16s.",
+      "tier": 3
+    },
+    {
+      "id": "WakeUp",
+      "name": "Wake Up!",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-wakeup.webp",
+      "description": "When all Generators are completed:You see the Auras of Exit Gate Switches.\nWhile opening an Exit Gate, other Survivors see your Aura.\nYou open Exit Gates 10% faster, and an additional 20% faster for each other Survivor alive.",
+      "tier": 3
+    },
+    {
+      "id": "WellMakeIt",
+      "name": "We'll make it",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-wellmakeit.webp",
+      "description": "Whenever you unhook a Survivor, for 90s, you heal other Survivors 100% faster.",
+      "tier": 3
+    },
+    {
+      "id": "WereGonnaLiveForever",
+      "name": "We're Gonna Live Forever",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-weregonnaliveforever.webp",
+      "description": "You heal downed Survivors 100% faster.\n\nWhenever you finish healing a downed Survivor, they gain — for 10s. Cooldown: 30s.",
+      "tier": 3
+    },
+    {
+      "id": "Whispers",
+      "name": "Whispers",
+      "role": "killer",
+      "image": "/assets/perks/killer-whispers.webp",
+      "description": "While within 24m of a Survivor, you randomly hear whispers.\n\n\nWhile more than 24m away from a Survivor, gain 5% —.",
+      "tier": 3
+    },
+    {
+      "id": "WindowsOfOpportunity",
+      "name": "Windows of Opportunity",
+      "role": "survivor",
+      "image": "/assets/perks/survivor-windowsofopportunity.webp",
+      "description": "Within 24m of you see the Auras of Windows.\n\nYou vault Windows —% faster.\n\nWhenever you vault a Window, cooldown: 30s.",
+      "tier": 3
+    },
+    {
+      "id": "ZanshinTactics",
+      "name": "Zanshin Tactics",
+      "role": "killer",
+      "image": "/assets/perks/killer-zanshintactics.webp",
+      "description": "Within 32m, you see the Auras of Pallets and windows.\n\nWhenever a Survivor drops a Pallet, you see their Aura for 5s.",
+      "tier": 3
+    }
+  ]
+}
