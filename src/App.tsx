@@ -13,6 +13,7 @@ import type { CollectionTab } from './components/CollectionPanel'
 import LoadoutControls from './components/LoadoutControls'
 import ForestBackdrop from './components/ForestBackdrop'
 import SoundControls from './components/SoundControls'
+import DeckLoading from './components/DeckLoading'
 import { useBackgroundTheme } from './lib/useBackgroundTheme'
 import { THEME_FILE } from './lib/sound'
 import './App.css'
@@ -31,6 +32,8 @@ type Locks = { character: string | null; perks: (string | null)[] }
 const emptyLocks = (): Locks => ({ character: null, perks: [null, null, null, null] })
 
 function App() {
+  const [cardsReady, setCardsReady] = useState(false)
+  const onCardsReady = useCallback(() => setCardsReady(true), [])
   const [role, setRole] = useState<Role>('survivor')
   const [history, setHistory] = useState<Draw[]>(() => {
     const saved = readSaved<Draw[]>('oracle:history', [])
@@ -94,7 +97,7 @@ function App() {
   }, [panel])
 
   function draw() {
-    if (drawing || allLocked) return
+    if (!cardsReady || drawing || allLocked) return
     try {
       const next = drawFate(role, excluded, { excludedPerks, lockedCharacterId: locks.character, lockedPerks: locks.perks })
       setError('')
@@ -182,11 +185,12 @@ function App() {
           <button className="text-button edit-pool-link" onClick={() => openCollection('perks')}>{perkCount} eligible perks <ChevronRight size={13} /></button>
         </aside>
 
-        <div ref={cardStage} className={`card-stage phase-${phase} ${drawing ? 'is-drawing' : ''} ${result ? 'is-revealed' : ''}`} data-phase={phase} aria-busy={drawing}>
+        <div ref={cardStage} className={`card-stage phase-${phase} ${drawing ? 'is-drawing' : ''} ${result ? 'is-revealed' : ''}`} data-phase={phase} data-scene-ready={cardsReady} aria-busy={drawing || !cardsReady}>
           <div className="ritual-ring ring-outer" aria-hidden="true" /><div className="ritual-ring ring-inner" aria-hidden="true" />
           <RitualEffects phase={phase} />
           <div className="stage-glow" aria-hidden="true" />
-          <div className="scene-container"><Suspense fallback={<div className="deck-loading"><img src="/assets/tarot-back-worn.webp" alt="" /></div>}><CardScene role={role} phase={phase} revealed={!!result} reduced={reduced} instant={ritual.instant} captivity={captivity} /></Suspense></div>
+          {!cardsReady && <DeckLoading />}
+          <div className="scene-container"><Suspense fallback={null}><CardScene role={role} phase={phase} revealed={!!result} reduced={reduced} instant={ritual.instant} captivity={captivity} onReady={onCardsReady} /></Suspense></div>
           {result && <RevealedCard key={result.id} draw={result} phase={phase} revealedPerks={revealedPerks} instant={ritual.instant} reduced={reduced} captivity={captivity} onInspect={inspect} lockedCharacter={locks.character === result.character.id} lockedPerks={locks.perks} />}
           <span className="stage-sigil" aria-hidden="true">✧</span>
           <span className="ritual-chapter" aria-hidden="true">{PHASE_COPY[phase].title}</span>
@@ -202,8 +206,8 @@ function App() {
       </section>
 
       <section className="draw-controls" aria-label="Draw controls">
-        <p className="ritual-status" role="status" aria-live="polite">{phase === 'complete' && result ? `${result.character.name}. The fog has spoken.` : PHASE_COPY[phase].message}</p>
-        <button className="draw-button" disabled={drawing || available.length === 0 || perkCount < 4 || allLocked} onClick={draw}>{lockCount > 0 && !drawing ? <LockKeyhole size={17} strokeWidth={1.5} /> : <Sparkles size={17} strokeWidth={1.5} />}{drawing ? 'Consulting the Entity' : allLocked ? 'All entries locked' : result ? lockCount > 0 ? 'Reroll unlocked' : 'Tempt fate again' : 'Draw your fate'}<span>↗</span></button>
+        <p className="ritual-status" role="status" aria-live="polite">{!cardsReady ? 'THE FOG IS GATHERING.' : phase === 'complete' && result ? `${result.character.name}. The fog has spoken.` : PHASE_COPY[phase].message}</p>
+        <button className="draw-button" disabled={!cardsReady || drawing || available.length === 0 || perkCount < 4 || allLocked} onClick={draw}>{lockCount > 0 && !drawing ? <LockKeyhole size={17} strokeWidth={1.5} /> : <Sparkles size={17} strokeWidth={1.5} />}{drawing ? 'Consulting the Entity' : allLocked ? 'All entries locked' : result ? lockCount > 0 ? 'Reroll unlocked' : 'Tempt fate again' : 'Draw your fate'}<span>↗</span></button>
         {available.length === 0 && <p className="error">Your deck is empty. <button onClick={() => openCollection('characters')}>Choose a character</button> to begin.</p>}
         {perkCount < 4 && <p className="error">Your pool has {perkCount} {role} perks. <button onClick={() => openCollection('perks')}>Choose at least four perks</button> to draw.</p>}
         {allLocked && <p className="error">Every entry is locked. <button onClick={() => setLocks(emptyLocks())}>Release all locks</button> to draw again.</p>}

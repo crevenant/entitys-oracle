@@ -137,11 +137,14 @@ function Tarot({ index, phase, revealed, reduced, instant, captivity, flow, grow
   const { size, camera, gl } = useThree()
   const { height, width } = size
   const offset = index - 2
+  const positioned = useRef(false)
   const selected = index === 2
   const destroyed = !selected && (phase === 'revealing' || phase === 'complete')
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!group.current) return
     const card = group.current
+    const initial = !positioned.current
+    positioned.current = true
     const timeline = gsap.timeline()
     const move = (position: { x: number; y: number; z: number }, rotation: { x: number; y: number; z: number }, duration: number, scale = 1) => {
       timeline.to(card.position, { ...position, duration, ease: 'power3.inOut' })
@@ -188,7 +191,7 @@ function Tarot({ index, phase, revealed, reduced, instant, captivity, flow, grow
         selected ? chosenScale : 1,
       )
     } else {
-      move({ x: offset * 0.78, y: -Math.abs(offset) * 0.17, z: -Math.abs(offset) * 0.24 }, { x: 0, y: 0, z: -offset * 0.16 }, 0.7)
+      move({ x: offset * 0.78, y: -Math.abs(offset) * 0.17, z: -Math.abs(offset) * 0.24 }, { x: 0, y: 0, z: -offset * 0.16 }, initial ? 0 : 0.7)
     }
     return () => { timeline.kill() }
   }, [phase, reduced, index, offset, selected, height, width, camera, gl])
@@ -207,7 +210,7 @@ function Tarot({ index, phase, revealed, reduced, instant, captivity, flow, grow
   </group>
 }
 
-function Deck(props: Props & { onReady: () => void }) {
+function Deck(props: Props) {
   const group = useRef<Group>(null)
   const flow = useMemo(() => {
     const texture = new CanvasTexture(tendrilField(engravingTime()).canvas)
@@ -230,8 +233,7 @@ function Deck(props: Props & { onReady: () => void }) {
   const motion = useRef<DeckMotion>({ x: 0, y: 0, bob: 0, elapsed: 0 })
   const canvas = useThree((state) => state.gl.domElement)
   const pointer = useDeckPointer(canvas)
-  const { onReady, phase, reduced } = props
-  useEffect(() => { onReady() }, [onReady])
+  const { phase, reduced } = props
   const drawing = phase !== 'idle' && phase !== 'complete'
   useFrame((_, delta) => {
     if (!group.current) return
@@ -256,8 +258,20 @@ function Deck(props: Props & { onReady: () => void }) {
   </group>
 }
 
-function FallbackCards({ phase, revealed, reduced, instant, captivity }: Props) {
+function FallbackCards({ phase, revealed, reduced, instant, captivity, onReady }: Props & { onReady: () => void }) {
   const root = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    const lifetime = { active: true, frame: 0 }
+    const images = Array.from(root.current?.querySelectorAll('img') ?? [])
+    // A failed image must still release the usable CSS ritual.
+    void Promise.allSettled(images.map((image) => image.decode())).then(() => {
+      if (!lifetime.active) return
+      lifetime.frame = requestAnimationFrame(() => {
+        lifetime.frame = requestAnimationFrame(() => { if (lifetime.active) onReady() })
+      })
+    })
+    return () => { lifetime.active = false; cancelAnimationFrame(lifetime.frame) }
+  }, [onReady])
   const pointer = useDeckPointer(root)
   const motion = useRef<DeckMotion>({ x: 0, y: 0, bob: 0, elapsed: 0 })
   const drawing = phase !== 'idle' && phase !== 'complete'
@@ -288,14 +302,43 @@ class SceneBoundary extends Component<{ children: ReactNode; fallback: ReactNode
   render() { return this.state.failed ? this.props.fallback : this.props.children }
 }
 
-export default function CardScene(props: Props) {
+function SceneReady({ onReady }: { onReady: () => void }) {
+  const { gl, scene, camera, invalidate } = useThree()
+  const frames = useRef(0)
+  const compiled = useRef(false)
+  const reported = useRef(false)
+  const [error, setError] = useState<Error | null>(null)
+  useEffect(() => {
+    const lifetime = { active: true }
+    compiled.current = false
+    frames.current = 0
+    void gl.compileAsync(scene, camera).then(() => {
+      if (!lifetime.active) return
+      compiled.current = true
+      invalidate()
+    }).catch((cause: unknown) => { if (lifetime.active) setError(cause instanceof Error ? cause : new Error('Card scene initialization failed')) })
+    return () => { lifetime.active = false }
+  }, [gl, scene, camera, invalidate])
+  useFrame(() => {
+    if (!compiled.current || reported.current) return
+    // Frame callbacks run before rendering. Wait for a complete frame so the
+    // artwork, generated textures, and settled fan have actually been drawn.
+    if (++frames.current < 2) { invalidate(); return }
+    reported.current = true
+    onReady()
+  })
+  if (error) throw error
+  return null
+}
+
+export default function CardScene({ onReady: reportReady, ...props }: Props & { onReady: () => void }) {
   const [ready, setReady] = useState(false)
-  const onReady = useCallback(() => setReady(true), [])
-  return <SceneBoundary fallback={<FallbackCards {...props} />}>
-    {!ready && <FallbackCards {...props} />}
-    <Canvas style={{ opacity: ready ? 1 : 0 }} data-ready={ready} frameloop={props.reduced ? 'demand' : 'always'} camera={{ position: [0, 0, 6.9], fov: 36 }} dpr={props.reduced ? 1 : [1, 1.7]} gl={{ alpha: true, antialias: true, powerPreference: 'default' }} fallback={null} aria-hidden="true">
+  const onReady = useCallback(() => { setReady(true); reportReady() }, [reportReady])
+  const fallback = <FallbackCards {...props} onReady={onReady} />
+  return <SceneBoundary fallback={fallback}>
+    <Canvas data-ready={ready} frameloop={props.reduced ? 'demand' : 'always'} camera={{ position: [0, 0, 6.9], fov: 36 }} dpr={props.reduced ? 1 : [1, 1.7]} gl={{ alpha: true, antialias: true, powerPreference: 'default' }} fallback={null} aria-hidden="true">
       <ambientLight intensity={0.65} color={props.role === 'killer' ? '#dab2a0' : '#b8c6ba'} />
-      <Suspense fallback={null}><Deck {...props} onReady={onReady} /><EntityGrasp phase={props.phase} reduced={props.reduced} role={props.role} captivity={props.captivity} /></Suspense>
+      <Suspense fallback={null}><Deck {...props} /><EntityGrasp phase={props.phase} reduced={props.reduced} role={props.role} captivity={props.captivity} /><SceneReady onReady={onReady} /></Suspense>
     </Canvas>
   </SceneBoundary>
 }

@@ -1,0 +1,13 @@
+.deck-loading{position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;pointer-events:none;color:#c5ac7c}
+.deck-loading-sigil{position:relative;width:112px;height:112px;display:grid;place-items:center;margin-bottom:10px;background:radial-gradient(circle,#b99a6114,transparent 68%)}
+.deck-loading-sigil>svg{animation:deck-loading-breathe 2.4s ease-in-out infinite}
+.deck-loading-orbit{position:absolute;inset:0;border:1px solid #b99a612b;border-top-color:#d9be87;border-bottom-color:#b99a6177;border-radius:50%;animation:deck-loading-orbit 3.6s linear infinite}
+.deck-loading-orbit.orbit-reverse{inset:12px;border-style:dashed;border-color:#b99a6144;border-left-color:#d9be87;animation-duration:6s;animation-direction:reverse}
+.deck-loading-ember{position:absolute;top:-2px;left:54px;width:4px;height:4px;border-radius:50%;background:#e2c994;box-shadow:0 0 12px #d9be87}
+.deck-loading p{margin:0;font:400 24px/1.2 var(--serif);letter-spacing:.4px;color:#d7c7a4}
+.deck-loading-caption{font-size:7px;letter-spacing:2.6px;color:#9c9177}
+.card-stage[data-scene-ready=false] .scene-container{opacity:0;pointer-events:none;transition:none}
+.card-stage[data-scene-ready=true] .scene-container{transition:opacity .45s ease}
+.reduced-motion .deck-loading *{animation:none!important}
+@keyframes deck-loading-orbit{to{transform:rotate(360deg)}}
+@keyframes deck-loading-breathe{0%,100%{opacity:.45;transform:scale(.94)}50%{opacity:1;transform:scale(1.04)}}
