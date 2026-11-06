@@ -18,7 +18,7 @@ For a phone on the same trusted Wi-Fi, run `npm.cmd run dev -- --host 0.0.0.0` a
 ## Included
 
 - React + TypeScript + Vite, Three.js / React Three Fiber / Drei, GSAP, Lucide icons.
-- Original generated tarot back, gold engraved styling, moving fog, floating particles, pointer tilt, and a cinematic tarot ritual.
+- Original generated tarot back, gold engraved styling, moving fog, floating particles, and a cinematic tarot ritual. The waiting deck slowly tilts and floats on its own, smoothly follows the mouse while it is over the cards, then resumes its sway on leave. Touch taps do not take over the idle motion. The ritual settles the deck to neutral, and Reduced effects keeps it still.
 - An original fog-filled forest clearing with a distant dying campfire, a hanging hook, layered foreground branches, drifting ash, and an animated ground mist. Survivor moonlight and killer crimson lighting share the same scene; perk colors stay purple.
 - Distressed tarot backs retain the original eye, moth, and thorn engravings with tarnished brass, scorched edges, and hairline violet cracks. Revealed portraits emerge through an ink-like wipe and a passing shadow.
 - The Entity is formed from asymmetric, branching 3D roots with tapered bark surfaces, knots, fine fibers, and independently curling rootlets. The roots reach toward the chosen card, hold its edges, and withdraw during the flip. Locked characters are bound with spectral chains.

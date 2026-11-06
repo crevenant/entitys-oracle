@@ -1,7 +1,7 @@
 import { Component, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import type { CSSProperties, ReactNode } from 'react'
+import type { CSSProperties, ReactNode, RefObject } from 'react'
 import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber'
-import { Float, Sparkles } from '@react-three/drei'
+import { Sparkles } from '@react-three/drei'
 import { Group, SRGBColorSpace, TextureLoader } from 'three'
 import type { PerspectiveCamera } from 'three'
 import gsap from 'gsap'
@@ -11,6 +11,55 @@ import type { Role } from '../lib/oracle'
 import EntityGrasp from './EntityGrasp'
 
 type Props = { phase: RitualPhase; revealed: boolean; reduced: boolean; role: Role }
+
+type DeckPointer = { over: boolean; x: number; y: number }
+type DeckMotion = { x: number; y: number; bob: number; elapsed: number }
+
+function useDeckPointer(source: HTMLElement | RefObject<HTMLElement | null>) {
+  const pointer = useRef<DeckPointer>({ over: false, x: 0, y: 0 })
+  useEffect(() => {
+    const element = 'current' in source ? source.current : source
+    const stage = element?.closest<HTMLElement>('.card-stage')
+    if (!stage) return
+    pointer.current.over = matchMedia('(hover: hover)').matches && stage.matches(':hover')
+    const track = (event: PointerEvent) => {
+      if (event.pointerType !== 'mouse' && event.pointerType !== 'pen') return
+      const bounds = stage.getBoundingClientRect()
+      pointer.current.over = true
+      pointer.current.x = Math.max(-1, Math.min(1, (event.clientX - bounds.left) / bounds.width * 2 - 1))
+      pointer.current.y = Math.max(-1, Math.min(1, (event.clientY - bounds.top) / bounds.height * 2 - 1))
+    }
+    const leave = () => { pointer.current.over = false }
+    const visibility = () => { if (document.hidden) leave() }
+    stage.addEventListener('pointerenter', track)
+    stage.addEventListener('pointermove', track, { capture: true, passive: true })
+    stage.addEventListener('pointerleave', leave)
+    stage.addEventListener('pointercancel', leave)
+    window.addEventListener('blur', leave)
+    document.addEventListener('visibilitychange', visibility)
+    return () => {
+      stage.removeEventListener('pointerenter', track)
+      stage.removeEventListener('pointermove', track, { capture: true })
+      stage.removeEventListener('pointerleave', leave)
+      stage.removeEventListener('pointercancel', leave)
+      window.removeEventListener('blur', leave)
+      document.removeEventListener('visibilitychange', visibility)
+    }
+  }, [source])
+  return pointer
+}
+
+function moveDeck(motion: DeckMotion, pointer: DeckPointer, delta: number, drawing: boolean) {
+  const dt = Math.min(delta, .1)
+  if (!drawing && !pointer.over) motion.elapsed += dt
+  const x = drawing ? 0 : pointer.over ? pointer.y * .055 : Math.sin(motion.elapsed * .26) * .055
+  const y = drawing ? 0 : pointer.over ? pointer.x * .09 : Math.sin(motion.elapsed * .19 + .6) * .09
+  const bob = drawing || pointer.over ? 0 : Math.sin(motion.elapsed * .32) * .025
+  const blend = 1 - Math.exp(-dt * 3.5)
+  motion.x += (x - motion.x) * blend
+  motion.y += (y - motion.y) * blend
+  motion.bob += (bob - motion.bob) * blend
+}
 
 function Tarot({ index, phase, revealed, reduced }: Props & { index: number }) {
   const group = useRef<Group>(null)
@@ -87,28 +136,50 @@ function Tarot({ index, phase, revealed, reduced }: Props & { index: number }) {
 
 function Deck(props: Props & { onReady: () => void }) {
   const group = useRef<Group>(null)
-  const rotation = useRef({ x: 0, y: 0 })
+  const motion = useRef<DeckMotion>({ x: 0, y: 0, bob: 0, elapsed: 0 })
+  const canvas = useThree((state) => state.gl.domElement)
+  const pointer = useDeckPointer(canvas)
   const { onReady, phase, reduced } = props
   useEffect(() => { onReady() }, [onReady])
   const drawing = phase !== 'idle' && phase !== 'complete'
-  useFrame(({ pointer }, delta) => {
+  useFrame((_, delta) => {
     if (!group.current) return
-    if (reduced) { group.current.rotation.set(0, 0, 0); return }
-    const enabled = !reduced && !drawing
-    rotation.current.x += ((enabled ? -pointer.y * 0.055 : 0) - rotation.current.x) * Math.min(delta * 5, 1)
-    rotation.current.y += ((enabled ? pointer.x * 0.09 : 0) - rotation.current.y) * Math.min(delta * 5, 1)
-    group.current.rotation.set(rotation.current.x, rotation.current.y, 0)
+    if (reduced) {
+      motion.current.x = 0; motion.current.y = 0; motion.current.bob = 0
+      group.current.rotation.set(0, 0, 0); group.current.position.y = .15
+      return
+    }
+    moveDeck(motion.current, pointer.current, delta, drawing)
+    group.current.rotation.set(motion.current.x, motion.current.y, 0)
+    group.current.position.y = .15 + motion.current.bob
   })
   return <group ref={group} position={[0, 0.15, 0]}>
-    <Float speed={reduced || drawing ? 0 : 1.2} rotationIntensity={drawing ? 0 : 0.035} floatIntensity={drawing ? 0 : 0.16}>
-      {[0, 1, 3, 4, 2].map((index) => <Tarot key={index} index={index} {...props} />)}
-    </Float>
+    {[0, 1, 3, 4, 2].map((index) => <Tarot key={index} index={index} {...props} />)}
     {!reduced && <Sparkles count={drawing ? 95 : 55} scale={[8, 4.5, 3]} size={drawing ? 2.2 : 1.7} speed={drawing ? 0.65 : 0.24} opacity={drawing ? 0.85 : 0.6} color={phase === 'revealing' ? '#bd84f2' : props.role === 'killer' ? '#bd6651' : '#caa56c'} />}
   </group>
 }
 
 function FallbackCards({ phase, revealed, reduced }: Props) {
-  return <div className={`fallback-cards fallback-${phase} ${revealed ? 'has-result' : ''} ${reduced ? 'is-instant' : ''}`} aria-hidden="true">
+  const root = useRef<HTMLDivElement>(null)
+  const pointer = useDeckPointer(root)
+  const motion = useRef<DeckMotion>({ x: 0, y: 0, bob: 0, elapsed: 0 })
+  const drawing = phase !== 'idle' && phase !== 'complete'
+  useEffect(() => {
+    const element = root.current
+    if (!element) return
+    if (reduced) {
+      motion.current.x = 0; motion.current.y = 0; motion.current.bob = 0
+      element.style.transform = 'none'
+      return
+    }
+    const update = (_time: number, deltaMs: number) => {
+      moveDeck(motion.current, pointer.current, deltaMs / 1000, drawing)
+      element.style.transform = `translateY(${-motion.current.bob * 90}px) rotateX(${motion.current.x}rad) rotateY(${motion.current.y}rad)`
+    }
+    gsap.ticker.add(update)
+    return () => { gsap.ticker.remove(update) }
+  }, [drawing, reduced, pointer])
+  return <div ref={root} className={`fallback-cards fallback-${phase} ${revealed ? 'has-result' : ''} ${reduced ? 'is-instant' : ''}`} aria-hidden="true">
     {[-2, -1, 0, 1, 2].map((offset) => <div className="fallback-card-track" key={offset} style={{ '--offset': offset, '--order': offset + 2, '--distance': Math.abs(offset), '--depth': 5 - Math.abs(offset) } as CSSProperties}><img alt="" src="/assets/tarot-back-worn.webp" style={{ visibility: offset === 0 && revealed ? 'hidden' : undefined }} /></div>)}
   </div>
 }
