@@ -1,0 +1,13 @@
+Use case: identity-preserve.
+Edit target: this exact Jake Park upper-body game portrait. Produce a new ANIMATION POSE SHEET with four equal square columns and two equal square rows, 8 cells, no gutters, no labels, no border. Use the SAME fixed camera, exact head position and size, hair, face identity, scarf, jacket, shoulders and framing as the reference. Uniform dark matte #080b09 background. Preserve game-render appearance.
+The current animation has strained-looking eyes and an unreadably brief blink. Correct this: relaxed, coherent eye directions; both pupils track the SAME distant target and remain naturally within the iris openings. DO NOT expose large white crescents, roll eyes, cross eyes, or stare hard toward the corners. Eye direction changes must be extremely small, only about 3 degrees. Head turns at most 3 degrees. No camera movement.
+Cells in reading order:
+0 neutral, eyes open, exact reference pose.
+1 barely glance toward image-left; tiny head movement, relaxed eyes, small shift of pupil position.
+2 return to the EXACT neutral from cell0, eyes open.
+3 EXACT same stationary head as cell2, both upper eyelids naturally HALF lowered, both pupils still partly visible; a true halfway blink, not a wink. DO NOT move the head, brows, mouth, nose, hair or face shape.
+4 EXACT stationary head as cell2, BOTH eyelids naturally fully CLOSED. Relaxed eyelids, no squint, no lowered head, no frown or new forehead creases. Change only the eyelids and pixels they cover.
+5 EXACT neutral cell0, eyes open.
+6 barely glance toward image-right, tiny head movement, natural pupils, preserve facial identity.
+7 EXACT neutral cell0.
+Body, shoulders and hands must be motionless and pixel-aligned across ALL cells. Keep all facial features pixel-aligned in blink cells2,3,4. No talking, no mouth changes, no dramatic expression, no hair changes, no text or new props.

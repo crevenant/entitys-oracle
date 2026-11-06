@@ -1,0 +1,1035 @@
+[
+  {
+    "id": "0",
+    "name": "Dwight Fairfield",
+    "slug": "dwightfairfield",
+    "reference": "public/assets/characters/survivor-dwightfairfield.webp",
+    "source": "design/portraits/survivors/dwightfairfield/keyframes-v1.png",
+    "status": "rendered",
+    "eyes": [
+      [
+        272,
+        171,
+        16,
+        11
+      ],
+      [
+        328,
+        175,
+        15,
+        11
+      ]
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "1",
+    "name": "Meg Thomas",
+    "slug": "megthomas",
+    "reference": "public/assets/characters/survivor-megthomas.webp",
+    "source": "design/portraits/survivors/megthomas/keyframes-v1.png",
+    "status": "rendered",
+    "eyes": [
+      [
+        257,
+        180,
+        18,
+        13
+      ],
+      [
+        318,
+        185,
+        18,
+        13
+      ]
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "2",
+    "name": "Claudette Morel",
+    "slug": "claudettemorel",
+    "reference": "public/assets/characters/survivor-claudettemorel.webp",
+    "source": "design/portraits/survivors/claudettemorel/keyframes-v1.png",
+    "status": "rendered",
+    "eyes": [
+      [
+        238,
+        165,
+        16,
+        11
+      ],
+      [
+        302,
+        157,
+        16,
+        11
+      ]
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "3",
+    "name": "Jake Park",
+    "slug": "jakepark",
+    "reference": "public/assets/characters/survivor-jakepark.webp",
+    "source": "design/portraits/survivors/jakepark/keyframes-v2.png",
+    "status": "rendered",
+    "eyes": [
+      [
+        214,
+        162,
+        18,
+        13
+      ],
+      [
+        274,
+        154,
+        18,
+        13
+      ]
+    ],
+    "reviewed": true,
+    "version": 2
+  },
+  {
+    "id": "4",
+    "name": "Nea Karlsson",
+    "slug": "neakarlsson",
+    "reference": "public/assets/characters/survivor-neakarlsson.webp",
+    "source": "design/portraits/survivors/neakarlsson/keyframes-v1.png",
+    "status": "rendered",
+    "eyes": [
+      [
+        220,
+        150,
+        18,
+        13
+      ],
+      [
+        282,
+        150,
+        18,
+        13
+      ]
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "5",
+    "name": "Laurie Strode",
+    "slug": "lauriestrode",
+    "reference": "public/assets/characters/survivor-lauriestrode.webp",
+    "source": "design/portraits/survivors/lauriestrode/keyframes-v1.png",
+    "status": "rendered",
+    "eyes": [
+      [
+        256,
+        163,
+        18,
+        13
+      ],
+      [
+        323,
+        175,
+        18,
+        13
+      ]
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "6",
+    "name": "Ace Visconti",
+    "slug": "acevisconti",
+    "reference": "public/assets/characters/survivor-acevisconti.webp",
+    "source": "design/portraits/survivors/acevisconti/keyframes-v1.png",
+    "status": "rendered",
+    "eyes": [],
+    "reviewed": true
+  },
+  {
+    "id": "7",
+    "name": "William \"Bill\" Overbeck",
+    "slug": "billoverbeck",
+    "reference": "public/assets/characters/survivor-billoverbeck.webp",
+    "source": "design/portraits/survivors/billoverbeck/keyframes-v1.png",
+    "status": "rendered",
+    "eyes": [
+      [
+        171,
+        181,
+        18,
+        13
+      ],
+      [
+        241,
+        172,
+        18,
+        13
+      ]
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "8",
+    "name": "Feng Min",
+    "slug": "fengmin",
+    "reference": "public/assets/characters/survivor-fengmin.webp",
+    "source": "design/portraits/survivors/fengmin/keyframes-v1.png",
+    "status": "rendered",
+    "eyes": [
+      [
+        233,
+        133,
+        18,
+        13
+      ],
+      [
+        297,
+        122,
+        18,
+        13
+      ]
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "9",
+    "name": "David King",
+    "slug": "davidking",
+    "reference": "public/assets/characters/survivor-davidking.webp",
+    "source": "design/portraits/survivors/davidking/keyframes-v1.png",
+    "status": "rendered",
+    "eyes": [
+      [
+        243,
+        177,
+        18,
+        13
+      ],
+      [
+        302,
+        163,
+        18,
+        13
+      ]
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "10",
+    "name": "Kate Denson",
+    "slug": "katedenson",
+    "reference": "public/assets/characters/survivor-katedenson.webp",
+    "source": "design/portraits/survivors/katedenson/keyframes-v1.png",
+    "status": "rendered",
+    "eyes": [
+      [
+        193,
+        162,
+        18,
+        13
+      ],
+      [
+        247,
+        151,
+        18,
+        13
+      ]
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "11",
+    "name": "Quentin Smith",
+    "slug": "quentinsmith",
+    "reference": "public/assets/characters/survivor-quentinsmith.webp",
+    "source": "design/portraits/survivors/quentinsmith/keyframes-v1.png",
+    "status": "rendered",
+    "eyes": [
+      [
+        218,
+        141,
+        18,
+        13
+      ],
+      [
+        285,
+        144,
+        18,
+        13
+      ]
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "13",
+    "name": "Adam Francis",
+    "slug": "adamfrancis",
+    "reference": "public/assets/characters/survivor-adamfrancis.webp",
+    "source": "design/portraits/survivors/adamfrancis/keyframes-v1.png",
+    "status": "rendered",
+    "eyes": [
+      [
+        208,
+        167,
+        18,
+        13
+      ],
+      [
+        279,
+        156,
+        18,
+        13
+      ]
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "14",
+    "name": "Jeff Johansen",
+    "slug": "jeffjohansen",
+    "reference": "public/assets/characters/survivor-jeffjohansen.webp",
+    "source": "design/portraits/survivors/jeffjohansen/keyframes-v1.png",
+    "status": "rendered",
+    "eyes": [
+      [
+        239,
+        145,
+        18,
+        13
+      ],
+      [
+        303,
+        140,
+        18,
+        13
+      ]
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "15",
+    "name": "Jane Romero",
+    "slug": "janeromero",
+    "reference": "public/assets/characters/survivor-janeromero.webp",
+    "source": "design/portraits/survivors/janeromero/keyframes-v1.png",
+    "status": "rendered",
+    "eyes": [
+      [
+        253,
+        163,
+        18,
+        13
+      ],
+      [
+        310,
+        178,
+        18,
+        13
+      ]
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "16",
+    "name": "Ashley J. Williams",
+    "slug": "ashleyjwilliams",
+    "reference": "public/assets/characters/survivor-ashleyjwilliams.webp",
+    "source": "design/portraits/survivors/ashleyjwilliams/keyframes-v1.png",
+    "status": "rendered",
+    "eyes": [
+      [
+        207,
+        169,
+        18,
+        13
+      ],
+      [
+        272,
+        163,
+        18,
+        13
+      ]
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "17",
+    "name": "Nancy Wheeler",
+    "slug": "nancywheeler",
+    "reference": "public/assets/characters/survivor-nancywheeler.webp",
+    "source": "design/portraits/survivors/nancywheeler/keyframes-v1.png",
+    "status": "rendered",
+    "eyes": [
+      [
+        209,
+        146,
+        18,
+        13
+      ],
+      [
+        273,
+        151,
+        18,
+        13
+      ]
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "18",
+    "name": "Steve Harrington",
+    "slug": "steveharrington",
+    "reference": "public/assets/characters/survivor-steveharrington.webp",
+    "source": "design/portraits/survivors/steveharrington/keyframes-v1.png",
+    "status": "rendered",
+    "eyes": [
+      [
+        216,
+        189,
+        18,
+        13
+      ],
+      [
+        281,
+        179,
+        18,
+        13
+      ]
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "19",
+    "name": "Yui Kimura",
+    "slug": "yuikimura",
+    "reference": "public/assets/characters/survivor-yuikimura.webp",
+    "source": "design/portraits/survivors/yuikimura/keyframes-v1.png",
+    "status": "rendered",
+    "eyes": [
+      [
+        235,
+        156,
+        17,
+        12
+      ],
+      [
+        289,
+        155,
+        17,
+        12
+      ]
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "20",
+    "name": "Zarina Kassir",
+    "slug": "zarinakassir",
+    "reference": "public/assets/characters/survivor-zarinakassir.webp",
+    "source": "design/portraits/survivors/zarinakassir/keyframes-v1.png",
+    "status": "rendered",
+    "eyes": [
+      [
+        233,
+        166,
+        18,
+        13
+      ],
+      [
+        296,
+        172,
+        18,
+        13
+      ]
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "21",
+    "name": "Cheryl Mason",
+    "slug": "cherylmason",
+    "reference": "public/assets/characters/survivor-cherylmason.webp",
+    "source": "design/portraits/survivors/cherylmason/keyframes-v1.png",
+    "status": "rendered",
+    "eyes": [
+      [
+        212,
+        163,
+        18,
+        13
+      ],
+      [
+        281,
+        149,
+        18,
+        13
+      ]
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "22",
+    "name": "Felix Richter",
+    "slug": "felixrichter",
+    "reference": "public/assets/characters/survivor-felixrichter.webp",
+    "source": "design/portraits/survivors/felixrichter/keyframes-v1.png",
+    "status": "rendered",
+    "eyes": [
+      [
+        199,
+        159,
+        18,
+        13
+      ],
+      [
+        260,
+        155,
+        18,
+        13
+      ]
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "23",
+    "name": "Élodie Rakoto",
+    "slug": "elodierakoto",
+    "reference": "public/assets/characters/survivor-elodierakoto.webp",
+    "source": "design/portraits/survivors/elodierakoto/keyframes-v1.png",
+    "status": "rendered",
+    "eyes": [
+      [
+        228,
+        181,
+        18,
+        13
+      ],
+      [
+        286,
+        175,
+        18,
+        13
+      ]
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "25",
+    "name": "Jill Valentine",
+    "slug": "jillvalentine",
+    "reference": "public/assets/characters/survivor-jillvalentine.webp",
+    "source": "design/portraits/survivors/jillvalentine/keyframes-v1.png",
+    "status": "rendered",
+    "eyes": [
+      [
+        215,
+        162,
+        18,
+        13
+      ],
+      [
+        276,
+        153,
+        18,
+        13
+      ]
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "27",
+    "name": "Mikaela Reid",
+    "slug": "mikaelareid",
+    "reference": "public/assets/characters/survivor-mikaelareid.webp",
+    "source": "design/portraits/survivors/mikaelareid/keyframes-v1.png",
+    "status": "rendered",
+    "eyes": [
+      [
+        234,
+        154,
+        17,
+        12
+      ],
+      [
+        297,
+        163,
+        17,
+        12
+      ]
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "28",
+    "name": "Jonah Vasquez",
+    "slug": "jonahvasquez",
+    "reference": "public/assets/characters/survivor-jonahvasquez.webp",
+    "source": "design/portraits/survivors/jonahvasquez/keyframes-v1.png",
+    "status": "rendered",
+    "eyes": [],
+    "reviewed": true
+  },
+  {
+    "id": "29",
+    "name": "Yoichi Asakawa",
+    "slug": "yoichiasakawa",
+    "reference": "public/assets/characters/survivor-yoichiasakawa.webp",
+    "source": "design/portraits/survivors/yoichiasakawa/keyframes-v1.png",
+    "status": "rendered",
+    "eyes": [
+      [
+        171,
+        204,
+        17,
+        12
+      ],
+      [
+        227,
+        182,
+        18,
+        13
+      ]
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "30",
+    "name": "Haddie Kaur",
+    "slug": "haddiekaur",
+    "reference": "public/assets/characters/survivor-haddiekaur.webp",
+    "source": "design/portraits/survivors/haddiekaur/keyframes-v1.png",
+    "status": "rendered",
+    "eyes": [
+      [
+        226,
+        173,
+        17,
+        12
+      ],
+      [
+        278,
+        159,
+        17,
+        12
+      ]
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "31",
+    "name": "Ada Wong",
+    "slug": "adawong",
+    "reference": "public/assets/characters/survivor-adawong.webp",
+    "source": "design/portraits/survivors/adawong/keyframes-v1.png",
+    "status": "rendered",
+    "eyes": [
+      [
+        246,
+        177,
+        16,
+        12
+      ],
+      [
+        318,
+        171,
+        18,
+        13
+      ]
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "32",
+    "name": "Rebecca Chambers",
+    "slug": "rebeccachambers",
+    "reference": "public/assets/characters/survivor-rebeccachambers.webp",
+    "source": "design/portraits/survivors/rebeccachambers/keyframes-v1.png",
+    "status": "rendered",
+    "eyes": [
+      [
+        263,
+        169,
+        18,
+        13
+      ],
+      [
+        323,
+        188,
+        18,
+        13
+      ]
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "33",
+    "name": "Vittorio Toscano",
+    "slug": "vittoriotoscano",
+    "reference": "public/assets/characters/survivor-vittoriotoscano.webp",
+    "source": "design/portraits/survivors/vittoriotoscano/keyframes-v1.png",
+    "status": "rendered",
+    "eyes": [
+      [
+        218,
+        143,
+        18,
+        13
+      ],
+      [
+        272,
+        145,
+        18,
+        13
+      ]
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "34",
+    "name": "Thalita Lyra",
+    "slug": "thalitalyra",
+    "reference": "public/assets/characters/survivor-thalitalyra.webp",
+    "source": "design/portraits/survivors/thalitalyra/keyframes-v1.png",
+    "status": "rendered",
+    "eyes": [
+      [
+        230,
+        153,
+        20,
+        15
+      ],
+      [
+        294,
+        155,
+        20,
+        15
+      ]
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "35",
+    "name": "Renato Lyra",
+    "slug": "renatolyra",
+    "reference": "public/assets/characters/survivor-renatolyra.webp",
+    "source": "design/portraits/survivors/renatolyra/keyframes-v1.png",
+    "status": "rendered",
+    "eyes": [
+      [
+        241,
+        164,
+        18,
+        13
+      ],
+      [
+        298,
+        162,
+        18,
+        13
+      ]
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "36",
+    "name": "Gabriel Soma",
+    "slug": "gabrielsoma",
+    "reference": "public/assets/characters/survivor-gabrielsoma.webp",
+    "source": "design/portraits/survivors/gabrielsoma/keyframes-v1.png",
+    "status": "rendered",
+    "eyes": [
+      [
+        202,
+        139,
+        18,
+        13
+      ],
+      [
+        260,
+        135,
+        18,
+        13
+      ]
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "37",
+    "name": "Nicolas Cage",
+    "slug": "nicolascage",
+    "reference": "public/assets/characters/survivor-nicolascage.webp",
+    "source": "design/portraits/survivors/nicolascage/keyframes-v1.png",
+    "status": "rendered",
+    "eyes": [
+      [
+        217,
+        150,
+        18,
+        13
+      ],
+      [
+        278,
+        141,
+        18,
+        13
+      ]
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "38",
+    "name": "Ellen Ripley",
+    "slug": "ellenripley",
+    "reference": "public/assets/characters/survivor-ellenripley.webp",
+    "source": "design/portraits/survivors/ellenripley/keyframes-v1.png",
+    "status": "rendered",
+    "eyes": [
+      [
+        242,
+        155,
+        18,
+        13
+      ],
+      [
+        300,
+        157,
+        18,
+        13
+      ]
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "39",
+    "name": "Alan Wake",
+    "slug": "alanwake",
+    "reference": "public/assets/characters/survivor-alanwake.webp",
+    "source": "design/portraits/survivors/alanwake/keyframes-v1.png",
+    "status": "rendered",
+    "eyes": [
+      [
+        195,
+        171,
+        18,
+        13
+      ],
+      [
+        255,
+        178,
+        18,
+        13
+      ]
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "42",
+    "name": "Lara Croft",
+    "slug": "laracroft",
+    "reference": "public/assets/characters/survivor-laracroft.webp",
+    "source": "design/portraits/survivors/laracroft/keyframes-v1.png",
+    "status": "rendered",
+    "eyes": [
+      [
+        214,
+        167,
+        18,
+        13
+      ],
+      [
+        283,
+        164,
+        18,
+        13
+      ]
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "43",
+    "name": "Trevor Belmont",
+    "slug": "trevorbelmont",
+    "reference": "public/assets/characters/survivor-trevorbelmont.webp",
+    "source": "design/portraits/survivors/trevorbelmont/keyframes-v1.png",
+    "status": "rendered",
+    "eyes": [
+      [
+        191,
+        169,
+        18,
+        13
+      ],
+      [
+        255,
+        164,
+        18,
+        13
+      ]
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "44",
+    "name": "Taurie Cain",
+    "slug": "tauriecain",
+    "reference": "public/assets/characters/survivor-tauriecain.webp",
+    "source": "design/portraits/survivors/tauriecain/keyframes-v1.png",
+    "status": "rendered",
+    "eyes": [
+      [
+        246,
+        118,
+        18,
+        14
+      ],
+      [
+        306,
+        120,
+        18,
+        14
+      ]
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "45",
+    "name": "Orela Rose",
+    "slug": "orelarose",
+    "reference": "public/assets/characters/survivor-orelarose.webp",
+    "source": "design/portraits/survivors/orelarose/keyframes-v1.png",
+    "status": "rendered",
+    "eyes": [
+      [
+        164,
+        168,
+        17,
+        12
+      ],
+      [
+        230,
+        166,
+        18,
+        13
+      ]
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "46",
+    "name": "Rick Grimes",
+    "slug": "rickgrimes",
+    "reference": "public/assets/characters/survivor-rickgrimes.webp",
+    "source": "design/portraits/survivors/rickgrimes/keyframes-v1.png",
+    "status": "rendered",
+    "eyes": [
+      [
+        294,
+        128,
+        17,
+        12
+      ],
+      [
+        350,
+        134,
+        16,
+        12
+      ]
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "47",
+    "name": "Michonne Grimes",
+    "slug": "michonnegrimes",
+    "reference": "public/assets/characters/survivor-michonnegrimes.webp",
+    "source": "design/portraits/survivors/michonnegrimes/keyframes-v1.png",
+    "status": "rendered",
+    "eyes": [
+      [
+        211,
+        145,
+        18,
+        13
+      ],
+      [
+        272,
+        155,
+        18,
+        13
+      ]
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "48",
+    "name": "Vee Boonyasak",
+    "slug": "veeboonyasak",
+    "reference": "public/assets/characters/survivor-veeboonyasak.webp",
+    "source": "design/portraits/survivors/veeboonyasak/keyframes-v1.png",
+    "status": "rendered",
+    "eyes": [
+      [
+        259,
+        157,
+        18,
+        13
+      ],
+      [
+        323,
+        155,
+        18,
+        13
+      ]
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "49",
+    "name": "Dustin Henderson",
+    "slug": "dustinhenderson",
+    "reference": "public/assets/characters/survivor-dustinhenderson.webp",
+    "source": "design/portraits/survivors/dustinhenderson/keyframes-v1.png",
+    "status": "rendered",
+    "eyes": [
+      [
+        206,
+        166,
+        17,
+        12
+      ],
+      [
+        259,
+        157,
+        18,
+        13
+      ]
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "50",
+    "name": "Eleven",
+    "slug": "eleven",
+    "reference": "public/assets/characters/survivor-eleven.webp",
+    "source": "design/portraits/survivors/eleven/keyframes-v1.png",
+    "status": "rendered",
+    "eyes": [
+      [
+        225,
+        190,
+        18,
+        13
+      ],
+      [
+        296,
+        185,
+        18,
+        13
+      ]
+    ],
+    "reviewed": true
+  }
+]

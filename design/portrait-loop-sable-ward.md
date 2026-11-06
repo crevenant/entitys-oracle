@@ -1,6 +1,6 @@
 # Sable Ward animated portrait prototype
 
-Status: integrated for Sable Ward (character ID `40`) in the normal card and enlarged view. Other characters retain their original stills.
+Status: integrated for Sable Ward (character ID `40`) in the normal card and enlarged view. The remaining survivor loops are documented in `design/portraits/survivors/README.md`; killer portraits retain their original stills.
 
 ## Creation and source
 

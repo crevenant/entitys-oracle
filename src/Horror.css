@@ -55,7 +55,11 @@
 .app .revealed-card::after{content:'';position:absolute;inset:-1px;border:11px solid transparent;border-image:url('/assets/tarot-back-worn.webp') 40 stretch;box-shadow:none;z-index:4;pointer-events:none}
 .app[data-role=killer] .revealed-card{--face-haze:#211713;--face-ink:#0a0908;border-color:#3d2c23}
 .app .card-roman{color:#b5a17a;text-shadow:0 1px 4px #000}
-.app .portrait-frame{background:radial-gradient(ellipse at 50% 37%,#55574c12,transparent 66%)}
+.app .portrait-frame{
+  background:radial-gradient(ellipse at 50% 37%,#55574c12,transparent 66%);
+  mask-image:linear-gradient(#000 0 64%,transparent 100%),linear-gradient(90deg,transparent,#000 8% 92%,transparent);
+  mask-composite:intersect;
+}
 .app .character-portrait{filter:var(--portrait-tone)}
 .app .portrait-shade{background:radial-gradient(ellipse at 50% 45%,transparent 33%,#05080677 88%),linear-gradient(0deg,var(--face-ink),#080b09d9 12%,transparent 47%)}
 .app .portrait-frame::after{content:'';position:absolute;inset:3px 5px 5px;border:1px solid #aa8a4c30;border-radius:48% 48% 2px 2px;box-shadow:inset 0 0 16px #0005;mask-image:linear-gradient(#000 12%,#0008 56%,transparent 92%);pointer-events:none}

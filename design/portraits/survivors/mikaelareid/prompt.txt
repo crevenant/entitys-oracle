@@ -1,0 +1,13 @@
+Use case: identity-preserve.
+Asset type: animation keyframe sprite sheet for an eerie looping game portrait.
+Input image 1 is the EXACT identity, outfit, hand/prop pose and square framing reference for Mikaela Reid from Dead by Daylight. Preserve the existing realistic game-render style, face, ethnicity, age, proportions, hairstyle, costume, glasses, hands and any held props.
+Create ONE sheet with exactly FOUR equal SQUARE columns by TWO equal SQUARE rows, 8 cells in reading order, edge-to-edge, NO gutters, NO writing, NO borders. Every cell shows the SAME entire upper-body portrait and a uniform near-black matte #080b09 background. Keep the SAME locked camera, body scale, subject placement, hair, shoulders and hands in every cell. No camera movement.
+Frame 0 top-left: neutral, original reference head angle and eye direction, eyes open.
+Frame 1: very small alert glance toward image-left, with a slight natural head turn of ONLY 4 degrees; body and hands motionless.
+Frame 2: EXACT neutral pose from frame 0, eyes open.
+Frame 3: EXACT neutral head angle from frame 2; ONLY the upper eyelids halfway lowered in a natural blink, pupils partly visible. No head dip, no face movement.
+Frame 4: EXACT neutral head angle from frame 2; ONLY eyelids fully closed in a quick relaxed blink. No squinting, no expression change, no moving eyebrows or mouth. Keep eye socket locations identical.
+Frame 5: EXACT neutral pose from frame 0, eyes open again.
+Frame 6: very small alert glance toward image-right, head turned ONLY 4 degrees, body and hands motionless.
+Frame 7: EXACT original neutral pose frame 0, eyes open, same lighting.
+Keep changes subtle and believable, suitable for optical-flow interpolation of head poses. The blink frames must have pixel-aligned heads and must differ ONLY around the eyes. Preserve glasses on characters wearing them. No speaking, smiling, teeth changes, double faces, added fingers, new objects, decorations, tarot borders, or effects.

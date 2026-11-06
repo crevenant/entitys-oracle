@@ -1,0 +1,7 @@
+{
+  "jakepark": {
+    "halfPose": 3,
+    "startFrame": 82,
+    "poses": ["half", "closed", "closed", "closed", "half"]
+  }
+}
