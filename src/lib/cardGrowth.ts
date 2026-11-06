@@ -4,7 +4,7 @@ const WIDTH = 384, HEIGHT = 576, STEPS = 36, TAU = Math.PI * 2
 const clamp = (value: number) => Math.max(0, Math.min(1, value))
 const smooth = (value: number) => { const t = clamp(value); return t * t * (3 - 2 * t) }
 
-/** New root tips advance outward, branch, and disappear only after fading away. */
+/** Smoky root tips advance outward while faint wisps lift off and dissipate. */
 export function createTendrilGrowth() {
   const canvas = document.createElement('canvas'); canvas.width = WIDTH; canvas.height = HEIGHT
   const context = canvas.getContext('2d')!
@@ -16,6 +16,14 @@ export function createTendrilGrowth() {
     pixels.data[index + 3] = Math.round(tendrilMotionMask(x / (WIDTH - 1), y / (HEIGHT - 1)) * 255)
   }
   maskContext.putImageData(pixels, 0, 0)
+  // A cached soft puff avoids blurring a full texture on every animation frame.
+  const mist = document.createElement('canvas'); mist.width = mist.height = 48
+  const mistContext = mist.getContext('2d')!
+  const vapor = mistContext.createRadialGradient(24, 24, 0, 24, 24, 24)
+  vapor.addColorStop(0, 'rgba(115,133,123,.34)')
+  vapor.addColorStop(.35, 'rgba(85,106,96,.16)')
+  vapor.addColorStop(1, 'rgba(65,88,77,0)')
+  mistContext.fillStyle = vapor; mistContext.fillRect(0, 0, 48, 48)
   const roots = Array.from({ length: 18 }, (_, index) => {
     const angle = index / 18 * TAU + .12
     const dx = Math.cos(angle), dy = Math.sin(angle) / 1.5
@@ -46,9 +54,9 @@ export function createTendrilGrowth() {
           const angle = root.angle + curl + Math.sin(phase + root.seed) * u * .08
           points.push([(.5 + Math.cos(angle) * r) * WIDTH, (.45 + Math.sin(angle) * r / 1.5) * HEIGHT])
         }
-        // Dark bark consumes the old engraving; a narrow brass ridge catches light.
-        context.globalAlpha = opacity
-        for (const [width, color] of [[5.5, '#0d100c'], [3, '#57462c'], [.8, '#ad8b50']] as const) {
+        // Translucent edges build a smoky silhouette around a dark, narrow core.
+        for (const [width, color, alpha] of [[11, '#17221d', .08], [7, '#101914', .2], [4, '#0a100d', .6], [1.7, '#090e0c', .85]] as const) {
+          context.globalAlpha = opacity * alpha
           context.strokeStyle = color; context.lineWidth = width
           context.beginPath(); points.forEach(([x, y], i) => { if (i) context.lineTo(x, y); else context.moveTo(x, y) }); context.stroke()
         }
@@ -60,9 +68,24 @@ export function createTendrilGrowth() {
           const angle = root.angle + side * (.65 + Math.sin(phase + root.seed) * .24)
           const distance = 19 * extension
           const endX = point[0] + Math.cos(angle) * distance, endY = point[1] + Math.sin(angle) * distance
-          context.strokeStyle = '#8e7043'; context.lineWidth = 1.2
-          context.beginPath(); context.moveTo(...point)
-          context.quadraticCurveTo(point[0] + Math.cos(angle + side * .7) * distance * .6, point[1] + Math.sin(angle + side * .7) * distance * .6, endX, endY); context.stroke()
+          for (const [width, alpha] of [[4.5, .13], [2.5, .3], [1, .65]] as const) {
+            context.globalAlpha = opacity * alpha
+            context.strokeStyle = '#101914'; context.lineWidth = width
+            context.beginPath(); context.moveTo(...point)
+            context.quadraticCurveTo(point[0] + Math.cos(angle + side * .7) * distance * .6, point[1] + Math.sin(angle + side * .7) * distance * .6, endX, endY); context.stroke()
+          }
+        }
+        for (let wisp = 0; wisp < 3; wisp++) {
+          const attach = .22 + wisp * .28
+          if (length < attach) continue
+          const point = points[Math.min(STEPS, Math.round(attach / length * STEPS))]
+          const lift = (cycle * 3 + root.offset + wisp * .271) % 1
+          const fade = Math.sin(lift * Math.PI) ** 2
+          const radius = 4 + lift * 6
+          const x = point[0] + Math.sin(lift * 4 + root.seed) * 3
+          const y = point[1] - lift * 16
+          context.globalAlpha = opacity * fade * .32
+          context.drawImage(mist, x - radius, y - radius * 1.6, radius * 2, radius * 3.2)
         }
       }
       context.globalAlpha = 1
