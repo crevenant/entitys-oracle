@@ -19,12 +19,12 @@ export type MotionMode = 'system' | 'full' | 'reduced'
 export type SoundCue = Exclude<RitualPhase, 'idle' | 'complete'> | 'perk'
 
 export const PHASE_COPY: Record<RitualPhase, { title: string; message: string }> = {
-  idle: { title: 'THE VEIL IS STILL', message: 'THE CARDS ARE WAITING.' },
-  gathering: { title: 'I · THE SUMMONING', message: 'Something stirs beyond the veil…' },
-  shuffling: { title: 'II · THE SHUFFLE', message: 'Your choices slip into the dark…' },
-  orbiting: { title: 'III · THE RITUAL', message: 'The Entity weighs your fate…' },
-  choosing: { title: 'IV · THE CHOSEN', message: 'One card answers the call.' },
-  flipping: { title: 'V · THE REVELATION', message: 'The veil is lifting…' },
-  revealing: { title: 'VI · THE FOUR GIFTS', message: 'Your gifts emerge from the fog…' },
-  complete: { title: 'THE FATE IS SEALED', message: 'The fog has spoken.' },
+  idle: { title: 'IT KNOWS YOU ARE HERE', message: 'IT HAS BEEN WAITING FOR YOU.' },
+  gathering: { title: 'I · THE HUNGER', message: 'You called. Something answered.' },
+  shuffling: { title: 'II · THE UNRAVELLING', message: 'It strips the choice from your hands…' },
+  orbiting: { title: 'III · THE FEEDING', message: 'Your fear has drawn its attention…' },
+  choosing: { title: 'IV · THE CONDEMNED', message: 'It has found a use for you.' },
+  flipping: { title: 'V · THE SENTENCE', message: 'Look upon what it has chosen.' },
+  revealing: { title: 'VI · THE CRUEL GIFTS', message: 'Four gifts. None given in mercy.' },
+  complete: { title: 'YOU BELONG TO IT', message: 'The Entity has claimed its due.' },
 }

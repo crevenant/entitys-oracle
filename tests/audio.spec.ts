@@ -56,7 +56,7 @@ test('music ducks for a draw, continues after skip, and pauses when hidden', asy
   const level = () => page.evaluate(() => (window as unknown as { oracleMusicGain: AudioParam }).oracleMusicGain.value)
   await expect.poll(level).toBeCloseTo(.4, 2)
   const start = await theme.evaluate((audio: HTMLAudioElement) => audio.currentTime)
-  await page.getByRole('button', { name: 'Answer the summons' }).click()
+  await page.getByRole('button', { name: 'Seal your fate' }).click()
   await expect.poll(level).toBeCloseTo(.128, 2)
   await expect.poll(() => theme.evaluate((audio: HTMLAudioElement) => audio.currentTime)).toBeGreaterThan(start)
   await page.getByRole('button', { name: 'Skip the ritual' }).click()

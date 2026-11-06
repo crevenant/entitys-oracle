@@ -168,8 +168,8 @@ function App() {
     <main id="oracle">
       <section className="intro">
         <p className="eyebrow"><span /> A DEAD BY DAYLIGHT RANDOMIZER <span /></p>
-        <h1 className="summons-title">The <em><span className="title-haunting" aria-hidden="true">fog</span>fog</em> has plans for you.</h1>
-        <p className="intro-copy">One character. Four perks. Your next trial belongs to the Entity.</p>
+        <h1 className="summons-title">The Entity <em><span className="title-haunting" aria-hidden="true">hungers.</span>hungers.</em></h1>
+        <p className="intro-copy">One character. Four perks. Feed it your suffering.</p>
       </section>
 
       <div className="role-switch" role="group" aria-label="Choose your role">
@@ -181,9 +181,9 @@ function App() {
       <section className="ritual-layout" aria-label="Tarot ritual">
         <aside className="ritual-note left-note">
           <SummoningSeal />
-          <span className="section-number">I. THE SUMMONS</span>
-          <h2>You have been<br />summoned.</h2>
-          <p>Offer yourself. The Entity<br className="desktop-break" /> will choose the rest.</p>
+          <span className="section-number">I. THE SURRENDER</span>
+          <h2>Your will<br />ends here.</h2>
+          <p>It heard you praying.<br className="desktop-break" /> It came to watch you break.</p>
           <div className="note-rule" />
           <button className="text-button" onClick={() => openCollection('characters')}>{available.length} {role === 'survivor' ? 'survivors' : 'killers'} in your deck <ChevronRight size={13} /></button>
           <button className="text-button edit-pool-link" onClick={() => openCollection('perks')}>{perkCount} eligible perks <ChevronRight size={13} /></button>
@@ -202,24 +202,24 @@ function App() {
 
         <aside className="ritual-note right-note">
           <span className="gift-inscription" aria-hidden="true">IV</span>
-          <span className="section-number">II. THE GIFTS</span>
-          <h2>Accept what<br />answers.</h2>
-          <p>Four gifts from something<br className="desktop-break" /> that knows your fear.</p>
+          <span className="section-number">II. THE CRUEL GIFTS</span>
+          <h2>Mercy was<br />never offered.</h2>
+          <p>Four gifts to keep you alive.<br className="desktop-break" /> Long enough to suffer.</p>
           <div className="mini-perks" aria-hidden="true">{[1, 2, 3, 4].map((n) => <span className={result && n <= revealedPerks ? 'gift-lit' : ''} style={{ '--gift': n - 1 } as CSSProperties} key={n}><b>III</b></span>)}</div>
           <span className="subtle purple-text">TIER III · VERY RARE</span>
         </aside>
       </section>
 
       <section className="draw-controls" aria-label="Draw controls">
-        <p className="ritual-status" role="status" aria-live="polite">{!cardsReady ? 'THE FOG IS GATHERING.' : phase === 'complete' && result ? `${result.character.name}. The fog has spoken.` : PHASE_COPY[phase].message}</p>
-        <button className="draw-button" disabled={!cardsReady || drawing || available.length === 0 || perkCount < 4 || allLocked} onClick={draw}>{lockCount > 0 && !drawing ? <LockKeyhole size={17} strokeWidth={1.5} /> : <Sparkles size={17} strokeWidth={1.5} />}{drawing ? 'Consulting the Entity' : allLocked ? 'All entries locked' : result ? lockCount > 0 ? 'Reroll unlocked' : 'Tempt fate again' : 'Answer the summons'}<span>↗</span></button>
+        <p className="ritual-status" role="status" aria-live="polite">{!cardsReady ? 'SOMETHING HAS FOUND YOU.' : phase === 'complete' && result ? `${result.character.name}. ${PHASE_COPY.complete.message}` : PHASE_COPY[phase].message}</p>
+        <button className="draw-button" disabled={!cardsReady || drawing || available.length === 0 || perkCount < 4 || allLocked} onClick={draw}>{lockCount > 0 && !drawing ? <LockKeyhole size={17} strokeWidth={1.5} /> : <Sparkles size={17} strokeWidth={1.5} />}{drawing ? 'The Entity is feeding' : allLocked ? 'All entries locked' : result ? lockCount > 0 ? 'Reroll unlocked' : 'Tempt fate again' : 'Seal your fate'}<span>↗</span></button>
         {available.length === 0 && <p className="error">Your deck is empty. <button onClick={() => openCollection('characters')}>Choose a character</button> to begin.</p>}
         {perkCount < 4 && <p className="error">Your pool has {perkCount} {role} perks. <button onClick={() => openCollection('perks')}>Choose at least four perks</button> to draw.</p>}
         {allLocked && <p className="error">Every entry is locked. <button onClick={() => setLocks(emptyLocks())}>Release all locks</button> to draw again.</p>}
         {lockCount > 0 && !allLocked && <p className="held-summary"><LockKeyhole size={10} />{lockCount} of 5 entries held for the next draw</p>}
         {error && <p className="error" role="alert">{error}</p>}
         {musicEnabled && !preferences.muted && themeState === 'waiting' && <button className="theme-start" onClick={startTheme}><Volume2 size={12} />Start background theme</button>}
-        <div className="draw-afterword">{drawing ? <button className="skip-ritual" onClick={ritual.skip}>Skip the ritual <ChevronRight size={12} /></button> : <p className="draw-hint">{result ? reduced || ritual.instant ? 'Click the card for a closer look, or inspect a perk.' : 'Click the card to challenge the Entity, or inspect a perk.' : 'The offering is yours. The choice is not.'}</p>}</div>
+        <div className="draw-afterword">{drawing ? <button className="skip-ritual" onClick={ritual.skip}>Skip the ritual <ChevronRight size={12} /></button> : <p className="draw-hint">{result ? reduced || ritual.instant ? 'Click the card for a closer look, or inspect a perk.' : 'Click the card to challenge the Entity, or inspect a perk.' : 'Beg if you must. It likes that.'}</p>}</div>
         <div className="motion-notice">{reduced ? <><Moon size={11} /><span>{motion === 'system' ? 'Device motion preference: instant reveal.' : 'Reduced effects: instant reveal.'}</span><button onClick={() => setMotion('full')}>Enable full ritual</button></> : <><Sparkles size={11} /><span>{motion === 'full' ? 'Full ritual enabled' : 'Cinematic ritual · Following device'}</span><button onClick={() => setPanel('settings')}>Adjust</button></>}</div>
       </section>
 
@@ -227,7 +227,7 @@ function App() {
 
     </main>
 
-    <footer><span><span className="connection-dot" /> AN UNOFFICIAL OFFERING TO THE FOG</span><span>Made for the unpredictable. <span className="footer-diamond">◇</span></span></footer>
+    <footer><span><span className="connection-dot" /> AN UNOFFICIAL OFFERING TO THE FOG</span><span>Hope is how it keeps you here. <span className="footer-diamond">◇</span></span></footer>
 
     <dialog ref={dialog} aria-label={panel === 'collection' ? 'Your collection' : panel === 'history' ? 'Past fates' : panel === 'perk' ? 'Perk details' : 'Ritual settings'} className={`modal ${panel === 'collection' ? 'collection-modal' : ''}`} onCancel={() => setPanel(null)} onClick={(event) => { if (event.target === event.currentTarget) setPanel(null) }} onClose={() => setPanel(null)}>
       <div className="modal-content">
@@ -236,7 +236,7 @@ function App() {
         {panel === 'history' && <><p className="eyebrow">ECHOES IN THE FOG</p><h2>Past fates</h2><p className="modal-copy">Your last 20 draws, saved on this device. Choose one to revisit its hand.</p>
           {history.length ? <><div className="history-list">{history.map((entry) => <button key={entry.id} onClick={() => restoreDraw(entry)} disabled={drawing}><img src={entry.character.image} alt="" /><span><strong>{entry.character.name}</strong><small>{entry.perks.map((p) => p.name).join(' · ')}</small></span><ChevronRight size={16} /></button>)}</div><button className="text-button clear-history" onClick={() => setHistory([])}>Clear saved history</button></> : <div className="empty-state"><History size={30} /><p>No fate has been written yet.</p><button className="text-button" onClick={() => setPanel(null)}>Return to the ritual <ChevronRight size={14} /></button></div>}
         </>}
-        {panel === 'settings' && <><p className="eyebrow">SET THE ATMOSPHERE</p><h2>Ritual settings</h2><p className="modal-copy">Make the fog feel like home.</p><SoundControls music={musicEnabled} musicVolume={musicVolume} muted={preferences.muted} themeState={themeState} onMusic={(music) => setPreferences((previous) => ({ ...previous, music }))} onMusicVolume={(musicVolume) => setPreferences((previous) => ({ ...previous, musicVolume }))} onUnmute={() => setPreferences((previous) => ({ ...previous, muted: false }))} enabled={preferences.sound} volume={soundVolume} onEnabled={(sound) => setPreferences((previous) => ({ ...previous, sound }))} onVolume={(volume) => setPreferences((previous) => ({ ...previous, volume }))} /><label className="setting"><span><strong><Sparkles size={18} /> Haptic feedback</strong><small>{'vibrate' in navigator ? 'A gentle pulse with each revelation on supported devices.' : 'Vibration is unavailable in this browser.'}</small></span><input type="checkbox" disabled={!('vibrate' in navigator)} checked={preferences.haptics} onChange={(event) => setPreferences({ ...preferences, haptics: event.target.checked })} /></label><fieldset className="motion-setting"><legend><Moon size={18} /> Motion effects</legend><div className="motion-options"><button aria-pressed={motion === 'system'} onClick={() => setMotion('system')}>Follow device</button><button aria-pressed={motion === 'full'} onClick={() => setMotion('full')}>Full ritual</button><button aria-pressed={motion === 'reduced'} onClick={() => setMotion('reduced')}>Reduced effects</button></div><p className="motion-explanation">{motion === 'full' ? 'Cinematic shuffling, a card flip, and four staged perk reveals. This choice is saved for this app.' : motion === 'reduced' ? 'Reveal instantly, with no shuffling or moving particles.' : systemReduced ? 'Your device prefers reduced motion, so draws reveal instantly. Choose Full ritual to play the animation in this app.' : 'Your device allows animation, so the full cinematic ritual plays.'}</p></fieldset><p className="catalog-note">Character and perk artwork © Behaviour Interactive and their respective owners. This is an unofficial fan project, unaffiliated with Dead by Daylight.</p></>}
+        {panel === 'settings' && <><p className="eyebrow">SET THE ATMOSPHERE</p><h2>Ritual settings</h2><p className="modal-copy">Choose how the darkness finds you.</p><SoundControls music={musicEnabled} musicVolume={musicVolume} muted={preferences.muted} themeState={themeState} onMusic={(music) => setPreferences((previous) => ({ ...previous, music }))} onMusicVolume={(musicVolume) => setPreferences((previous) => ({ ...previous, musicVolume }))} onUnmute={() => setPreferences((previous) => ({ ...previous, muted: false }))} enabled={preferences.sound} volume={soundVolume} onEnabled={(sound) => setPreferences((previous) => ({ ...previous, sound }))} onVolume={(volume) => setPreferences((previous) => ({ ...previous, volume }))} /><label className="setting"><span><strong><Sparkles size={18} /> Haptic feedback</strong><small>{'vibrate' in navigator ? 'A gentle pulse with each revelation on supported devices.' : 'Vibration is unavailable in this browser.'}</small></span><input type="checkbox" disabled={!('vibrate' in navigator)} checked={preferences.haptics} onChange={(event) => setPreferences({ ...preferences, haptics: event.target.checked })} /></label><fieldset className="motion-setting"><legend><Moon size={18} /> Motion effects</legend><div className="motion-options"><button aria-pressed={motion === 'system'} onClick={() => setMotion('system')}>Follow device</button><button aria-pressed={motion === 'full'} onClick={() => setMotion('full')}>Full ritual</button><button aria-pressed={motion === 'reduced'} onClick={() => setMotion('reduced')}>Reduced effects</button></div><p className="motion-explanation">{motion === 'full' ? 'Cinematic shuffling, a card flip, and four staged perk reveals. This choice is saved for this app.' : motion === 'reduced' ? 'Reveal instantly, with no shuffling or moving particles.' : systemReduced ? 'Your device prefers reduced motion, so draws reveal instantly. Choose Full ritual to play the animation in this app.' : 'Your device allows animation, so the full cinematic ritual plays.'}</p></fieldset><p className="catalog-note">Character and perk artwork © Behaviour Interactive and their respective owners. This is an unofficial fan project, unaffiliated with Dead by Daylight.</p></>}
         {panel === 'perk' && perk && <><p className="eyebrow purple-text">VERY RARE · TIER III</p><div className="perk-detail-icon"><img src={perk.image} alt="" /></div><h2>{perk.name}</h2><p className="perk-description">{perk.description}</p><p className="catalog-note">{perk.role === 'killer' ? 'Killer' : 'Survivor'} perk · Local community-data snapshot; descriptions may differ from the live game.</p></>}
       </div>
     </dialog>

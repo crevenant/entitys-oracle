@@ -11,7 +11,7 @@ async function setup(page: Page, motion = 'full', id = '40') {
     localStorage.setItem('oracle:excluded', JSON.stringify(excluded))
   }, { motion, excluded: catalog.characters.filter((entry) => entry.id !== id).map((entry) => entry.id) })
   await page.goto('/')
-  await page.getByRole('button', { name: 'Answer the summons' }).click()
+  await page.getByRole('button', { name: 'Seal your fate' }).click()
 }
 
 test('Sable plays a silent inline loop and transfers playback to and from her close-up', async ({ page }, testInfo) => {

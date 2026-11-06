@@ -9,7 +9,7 @@ export default function DeckLoading() {
       <Eye size={36} strokeWidth={1} />
       <span className="deck-loading-ember" />
     </div>
-    <p>Gathering the cards<span aria-hidden="true">…</span></p>
-    <span className="deck-loading-caption">A FATE STIRS IN THE FOG</span>
+    <p>Something is waking<span aria-hidden="true">…</span></p>
+    <span className="deck-loading-caption">IT ALREADY KNOWS YOUR NAME</span>
   </div>
 }
