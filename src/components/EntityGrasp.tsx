@@ -8,6 +8,7 @@ import type { Role } from '../lib/oracle'
 import { captureReach, captiveMotion, captivityTime } from '../lib/captivity'
 import type { CaptivityClock } from '../lib/captivity'
 import type { PerspectiveCamera } from 'three'
+import { CARD_REVEAL } from '../lib/ritual'
 
 const poses: Record<RitualPhase, EntityPose> = {
   idle: { reach: .03, agitation: .1 },
@@ -27,13 +28,13 @@ export default function EntityGrasp({ phase, reduced, role, captivity }: { phase
   const elapsed = useRef(0)
   const width = useThree((state) => state.size.width)
   const { size, camera, gl } = useThree()
-  const frame = useRef({ halfWidth: 1, halfHeight: 1.5, centerY: 0, unitsPerPixel: .01 })
+  const frame = useRef({ halfWidth: 1, halfHeight: 1.5, centerY: 0, unitsPerPixel: .01, depthScale: .005 })
   useLayoutEffect(() => {
     const stage = gl.domElement.closest('.card-stage')
     if (!stage) return
     const css = getComputedStyle(stage)
     const units = 2 * Math.tan((camera as PerspectiveCamera).fov * Math.PI / 360) * (camera.position.z - .86) / size.height
-    frame.current = { halfWidth: (parseFloat(css.getPropertyValue('--reveal-width')) / 2 + 1) * units, halfHeight: parseFloat(css.getPropertyValue('--reveal-height')) / 2 * units, centerY: parseFloat(css.getPropertyValue('--reveal-center-offset')) * units - .15, unitsPerPixel: units }
+    frame.current = { halfWidth: (parseFloat(css.getPropertyValue('--reveal-width')) / 2 + 1) * units, halfHeight: parseFloat(css.getPropertyValue('--reveal-height')) / 2 * units, centerY: parseFloat(css.getPropertyValue('--reveal-center-offset')) * units - .15, unitsPerPixel: units, depthScale: (camera.position.z - .86) / CARD_REVEAL.perspective }
   }, [size.height, size.width, camera, gl])
 
   useLayoutEffect(() => { runtime.current = rig; updateEntityRig(rig, 0, pose.current) }, [rig])
@@ -55,7 +56,7 @@ export default function EntityGrasp({ phase, reduced, role, captivity }: { phase
     const after = captivityTime(captivity)
     if (after >= 0) {
       const reach = captureReach(after), motion = captiveMotion(after), fit = frame.current
-      updateEntityRig(runtime.current, clock.elapsedTime, { reach, agitation: after < .4 ? 1 : .4 }, { ...fit, x: motion.x * fit.unitsPerPixel, y: motion.y * fit.unitsPerPixel, roll: motion.roll })
+      updateEntityRig(runtime.current, clock.elapsedTime, { reach, agitation: after < .4 ? 1 : .4 }, { ...fit, motion })
     } else updateEntityRig(runtime.current, clock.elapsedTime, pose.current)
   })
 

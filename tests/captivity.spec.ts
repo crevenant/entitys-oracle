@@ -20,13 +20,15 @@ test('the slam destroys the other cards, the Entity captures the chosen card, an
     const values = []
     for (let index = 0; index < 65; index++) {
       const matrix = new DOMMatrixReadOnly(getComputedStyle(element).transform)
-      values.push({ x: matrix.m41, y: matrix.m42, roll: Math.atan2(matrix.m12, matrix.m11) })
+      values.push({ x: matrix.m41, y: matrix.m42, z: matrix.m43, roll: Math.atan2(matrix.m12, matrix.m11), pitch: matrix.m23, yaw: matrix.m13 })
       await new Promise((resolve) => setTimeout(resolve, 35))
     }
     return values
   })
   expect(movement.some((value) => Math.abs(value.x) > .3)).toBe(true)
-  expect(movement.every((value) => Math.abs(value.x) < 3 && Math.abs(value.y) < 2 && Math.abs(value.roll) < .025)).toBe(true)
+  expect(movement.some((value) => Math.abs(value.z) > 3)).toBe(true)
+  expect(movement.some((value) => Math.abs(value.pitch) > .04 && Math.abs(value.yaw) > .04)).toBe(true)
+  expect(movement.every((value) => Math.abs(value.x) < 3 && Math.abs(value.y) < 2 && Math.abs(value.z) <= 16 && Math.abs(value.roll) < .05)).toBe(true)
   expect(await page.locator('.scene-container').evaluate((element) => getComputedStyle(element).pointerEvents)).toBe('none')
   await page.getByRole('button', { name: /^View .+, tier III$/ }).first().click()
   await expect(page.getByRole('dialog')).toBeVisible()

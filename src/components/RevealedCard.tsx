@@ -15,17 +15,23 @@ type Props = { draw: Draw; phase: RitualPhase; revealedPerks: number; instant: b
 export default function RevealedCard({ draw, phase, revealedPerks, instant, reduced, captivity, onInspect, lockedCharacter, lockedPerks }: Props) {
   const shell = useRef<HTMLDivElement>(null)
   const captive = useRef<HTMLDivElement>(null)
+  const contact = useRef<HTMLDivElement>(null)
   useLayoutEffect(() => {
     const element = captive.current
     if (!element) return
-    if (instant || reduced) { element.style.transform = 'none'; return }
+    const shadow = contact.current
+    if (instant || reduced) { element.style.transform = 'none'; if (shadow) shadow.removeAttribute('style'); return }
     const update = () => {
       const time = captivityTime(captivity)
       const motion = captiveMotion(time)
-      element.style.transform = time < 0 ? 'none' : `translate3d(${motion.x}px,${motion.y}px,0) rotate(${motion.roll}deg)`
+      element.style.transform = time < 0 ? 'none' : `translate3d(${motion.x}px,${motion.y}px,${motion.z}px) rotateZ(${motion.roll}deg) rotateY(${motion.yaw}deg) rotateX(${motion.pitch}deg)`
+      if (shadow) {
+        shadow.style.opacity = `${1 - Math.max(0, motion.z) * .012}`
+        shadow.style.transform = `translateX(${motion.x * .35}px) scale(${1 + motion.z * .004},${1 + motion.z * .002})`
+      }
     }
     gsap.ticker.add(update)
-    return () => { gsap.ticker.remove(update); element.style.transform = 'none' }
+    return () => { gsap.ticker.remove(update); element.style.transform = 'none'; shadow?.removeAttribute('style') }
   }, [instant, reduced, captivity])
   useLayoutEffect(() => {
     if (instant || !shell.current) return
@@ -47,7 +53,7 @@ export default function RevealedCard({ draw, phase, revealedPerks, instant, redu
   const style = { '--flip-duration': `${CARD_REVEAL.turn}s`, '--flight-duration': `${CARD_REVEAL.impact + CARD_REVEAL.settle}s`, '--lift-start': `${CARD_REVEAL.lift}px`, '--depth-start': `${CARD_REVEAL.depth}px`, '--card-perspective': `${CARD_REVEAL.perspective}px` } as CSSProperties
   return <div ref={shell} className={`reveal-shell ${instant ? 'is-instant' : ''} ${lit ? 'is-lit' : ''}`} style={style}>
     <div className="reveal-aura" aria-hidden="true" />
-    <div className="reveal-contact-shadow" aria-hidden="true" />
+    <div ref={contact} className="captive-contact" aria-hidden="true"><div className="reveal-contact-shadow" /></div>
     <div ref={captive} className="captive-card"><div className="reveal-flight"><div className="reveal-turn">
       <div className="reveal-back reveal-face" aria-hidden="true"><CardBack reduced={reduced || phase === 'revealing' || phase === 'complete'} /></div>
       <article className="revealed-card reveal-face reveal-front" aria-label={lit ? `Your fate: ${draw.character.name}` : 'Your chosen card'} aria-hidden={!lit}>
