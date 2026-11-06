@@ -1,5 +1,6 @@
 import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react'
-import { BookOpen, ChevronRight, Eye, History, LockKeyhole, Moon, Settings2, Shield, Skull, Sparkles, Volume2, VolumeX, X } from 'lucide-react'
+import type { CSSProperties } from 'react'
+import { BookOpen, ChevronRight, Eye, HeartPulse, History, LockKeyhole, Moon, Settings2, Sparkles, Volume2, VolumeX, X } from 'lucide-react'
 import { catalog, drawFate, readSaved, save } from './lib/oracle'
 import type { Draw, Perk, Role } from './lib/oracle'
 import { useRitual } from './lib/useRitual'
@@ -14,6 +15,7 @@ import LoadoutControls from './components/LoadoutControls'
 import ForestBackdrop from './components/ForestBackdrop'
 import SoundControls from './components/SoundControls'
 import DeckLoading from './components/DeckLoading'
+import SummoningSeal from './components/SummoningSeal'
 import { useBackgroundTheme } from './lib/useBackgroundTheme'
 import { THEME_FILE } from './lib/sound'
 import './App.css'
@@ -24,6 +26,7 @@ import './Sound.css'
 import './CardEye.css'
 import './CardInspection.css'
 import './PortraitVideo.css'
+import './Summons.css'
 
 const CardScene = lazy(() => import('./components/CardScene'))
 type Panel = 'collection' | 'history' | 'settings' | 'perk' | null
@@ -165,21 +168,22 @@ function App() {
     <main id="oracle">
       <section className="intro">
         <p className="eyebrow"><span /> A DEAD BY DAYLIGHT RANDOMIZER <span /></p>
-        <h1>Let the <em>Entity</em> decide.</h1>
-        <p className="intro-copy">One character. Four perks. A fate written in the fog.</p>
+        <h1 className="summons-title">The <em><span className="title-haunting" aria-hidden="true">fog</span>fog</em> has plans for you.</h1>
+        <p className="intro-copy">One character. Four perks. Your next trial belongs to the Entity.</p>
       </section>
 
       <div className="role-switch" role="group" aria-label="Choose your role">
-        <button aria-pressed={role === 'survivor'} disabled={drawing} onClick={() => changeRole('survivor')}><Shield size={15} strokeWidth={1.5} /> Survivor</button>
+        <button className="survivor-choice" aria-pressed={role === 'survivor'} disabled={drawing} onClick={() => changeRole('survivor')}><HeartPulse size={15} strokeWidth={1.5} /> Survivor</button>
         <span className="role-divider" />
-        <button aria-pressed={role === 'killer'} disabled={drawing} onClick={() => changeRole('killer')}><Skull size={16} strokeWidth={1.5} /> Killer</button>
+        <button className="killer-choice" aria-pressed={role === 'killer'} disabled={drawing} onClick={() => changeRole('killer')}><svg className="role-scratches" width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.2" aria-hidden="true"><path d="m7 2-4 16M12 1 8 18M17 2l-4 15M2 7l16 6" /></svg> Killer</button>
       </div>
 
       <section className="ritual-layout" aria-label="Tarot ritual">
         <aside className="ritual-note left-note">
-          <span className="section-number">I. THE OFFERING</span>
-          <h2>Surrender<br />your choice.</h2>
-          <p>Enter the fog with a hand<br className="desktop-break" /> you never saw coming.</p>
+          <SummoningSeal />
+          <span className="section-number">I. THE SUMMONS</span>
+          <h2>You have been<br />summoned.</h2>
+          <p>Offer yourself. The Entity<br className="desktop-break" /> will choose the rest.</p>
           <div className="note-rule" />
           <button className="text-button" onClick={() => openCollection('characters')}>{available.length} {role === 'survivor' ? 'survivors' : 'killers'} in your deck <ChevronRight size={13} /></button>
           <button className="text-button edit-pool-link" onClick={() => openCollection('perks')}>{perkCount} eligible perks <ChevronRight size={13} /></button>
@@ -197,24 +201,25 @@ function App() {
         </div>
 
         <aside className="ritual-note right-note">
-          <span className="section-number">II. THE REVELATION</span>
-          <h2>Four gifts.<br />One dark destiny.</h2>
-          <p>Every perk drawn at its<br className="desktop-break" /> highest tier. Always purple.</p>
-          <div className="mini-perks" aria-hidden="true">{[1, 2, 3, 4].map((n) => <span className={result && n <= revealedPerks ? 'gift-lit' : ''} key={n}>III</span>)}</div>
+          <span className="gift-inscription" aria-hidden="true">IV</span>
+          <span className="section-number">II. THE GIFTS</span>
+          <h2>Accept what<br />answers.</h2>
+          <p>Four gifts from something<br className="desktop-break" /> that knows your fear.</p>
+          <div className="mini-perks" aria-hidden="true">{[1, 2, 3, 4].map((n) => <span className={result && n <= revealedPerks ? 'gift-lit' : ''} style={{ '--gift': n - 1 } as CSSProperties} key={n}><b>III</b></span>)}</div>
           <span className="subtle purple-text">TIER III · VERY RARE</span>
         </aside>
       </section>
 
       <section className="draw-controls" aria-label="Draw controls">
         <p className="ritual-status" role="status" aria-live="polite">{!cardsReady ? 'THE FOG IS GATHERING.' : phase === 'complete' && result ? `${result.character.name}. The fog has spoken.` : PHASE_COPY[phase].message}</p>
-        <button className="draw-button" disabled={!cardsReady || drawing || available.length === 0 || perkCount < 4 || allLocked} onClick={draw}>{lockCount > 0 && !drawing ? <LockKeyhole size={17} strokeWidth={1.5} /> : <Sparkles size={17} strokeWidth={1.5} />}{drawing ? 'Consulting the Entity' : allLocked ? 'All entries locked' : result ? lockCount > 0 ? 'Reroll unlocked' : 'Tempt fate again' : 'Draw your fate'}<span>↗</span></button>
+        <button className="draw-button" disabled={!cardsReady || drawing || available.length === 0 || perkCount < 4 || allLocked} onClick={draw}>{lockCount > 0 && !drawing ? <LockKeyhole size={17} strokeWidth={1.5} /> : <Sparkles size={17} strokeWidth={1.5} />}{drawing ? 'Consulting the Entity' : allLocked ? 'All entries locked' : result ? lockCount > 0 ? 'Reroll unlocked' : 'Tempt fate again' : 'Answer the summons'}<span>↗</span></button>
         {available.length === 0 && <p className="error">Your deck is empty. <button onClick={() => openCollection('characters')}>Choose a character</button> to begin.</p>}
         {perkCount < 4 && <p className="error">Your pool has {perkCount} {role} perks. <button onClick={() => openCollection('perks')}>Choose at least four perks</button> to draw.</p>}
         {allLocked && <p className="error">Every entry is locked. <button onClick={() => setLocks(emptyLocks())}>Release all locks</button> to draw again.</p>}
         {lockCount > 0 && !allLocked && <p className="held-summary"><LockKeyhole size={10} />{lockCount} of 5 entries held for the next draw</p>}
         {error && <p className="error" role="alert">{error}</p>}
         {musicEnabled && !preferences.muted && themeState === 'waiting' && <button className="theme-start" onClick={startTheme}><Volume2 size={12} />Start background theme</button>}
-        <div className="draw-afterword">{drawing ? <button className="skip-ritual" onClick={ritual.skip}>Skip the ritual <ChevronRight size={12} /></button> : <p className="draw-hint">{result ? reduced || ritual.instant ? 'Click the card for a closer look, or inspect a perk.' : 'Click the card to challenge the Entity, or inspect a perk.' : 'A little chance. A little chaos. Entirely your next trial.'}</p>}</div>
+        <div className="draw-afterword">{drawing ? <button className="skip-ritual" onClick={ritual.skip}>Skip the ritual <ChevronRight size={12} /></button> : <p className="draw-hint">{result ? reduced || ritual.instant ? 'Click the card for a closer look, or inspect a perk.' : 'Click the card to challenge the Entity, or inspect a perk.' : 'The offering is yours. The choice is not.'}</p>}</div>
         <div className="motion-notice">{reduced ? <><Moon size={11} /><span>{motion === 'system' ? 'Device motion preference: instant reveal.' : 'Reduced effects: instant reveal.'}</span><button onClick={() => setMotion('full')}>Enable full ritual</button></> : <><Sparkles size={11} /><span>{motion === 'full' ? 'Full ritual enabled' : 'Cinematic ritual · Following device'}</span><button onClick={() => setPanel('settings')}>Adjust</button></>}</div>
       </section>
 

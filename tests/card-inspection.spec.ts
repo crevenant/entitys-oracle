@@ -5,7 +5,7 @@ test('one card click escalates the Entity three times and shoves the same fate i
   const errors: string[] = []
   page.on('pageerror', (error) => errors.push(error.message))
   await page.goto('/')
-  await page.getByRole('button', { name: 'Draw your fate' }).click()
+  await page.getByRole('button', { name: 'Answer the summons' }).click()
   const challenge = page.getByRole('button', { name: 'Challenge the Entity for a closer look' })
   await expect(challenge).toBeEnabled({ timeout: 8000 })
   const original = await page.locator('.reveal-front').boundingBox()
@@ -48,7 +48,7 @@ test('one card click escalates the Entity three times and shoves the same fate i
 test('Reduced effects opens a still close-up by keyboard, fits after resizing, and dismisses outside', async ({ page }) => {
   await page.addInitScript(() => localStorage.setItem('oracle:preferences', JSON.stringify({ motion: 'reduced', music: false, sound: false })))
   await page.goto('/')
-  await page.getByRole('button', { name: 'Draw your fate' }).click()
+  await page.getByRole('button', { name: 'Answer the summons' }).click()
   const enlarge = page.getByRole('button', { name: 'Enlarge character card' })
   await expect(enlarge).toBeEnabled()
   await enlarge.press('Enter')

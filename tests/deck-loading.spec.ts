@@ -14,7 +14,7 @@ for (const reduced of [false, true]) {
     try {
       await page.goto('/', { waitUntil: 'domcontentloaded' })
       const loader = page.locator('.deck-loading')
-      const draw = page.getByRole('button', { name: 'Draw your fate' })
+      const draw = page.getByRole('button', { name: 'Answer the summons' })
       await expect(loader).toBeVisible()
       await expect(draw).toBeDisabled()
       await expect(page.locator('.card-stage')).toHaveAttribute('aria-busy', 'true')
@@ -62,11 +62,11 @@ test('devices without WebGL keep loading until fallback artwork is decoded', asy
     await page.goto('/', { waitUntil: 'domcontentloaded' })
     await expect(page.locator('.fallback-cards')).toHaveCount(1)
     await expect(page.locator('.deck-loading')).toBeVisible()
-    await expect(page.getByRole('button', { name: 'Draw your fate' })).toBeDisabled()
+    await expect(page.getByRole('button', { name: 'Answer the summons' })).toBeDisabled()
     releaseArtwork()
     await expect(page.locator('.deck-loading')).toHaveCount(0)
     await expect(page.locator('.fallback-cards')).toBeVisible()
-    await page.getByRole('button', { name: 'Draw your fate' }).click()
+    await page.getByRole('button', { name: 'Answer the summons' }).click()
     await expect(page.getByRole('button', { name: 'Tempt fate again' })).toBeEnabled()
   } finally { releaseArtwork() }
 })

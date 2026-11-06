@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test'
 
 test('the card turns continuously, rises in depth, lands on the reveal beat, and skips cleanly', async ({ page }) => {
   await page.goto('/')
-  await page.getByRole('button', { name: 'Draw your fate' }).click()
+  await page.getByRole('button', { name: 'Answer the summons' }).click()
   await expect(page.locator('.card-stage')).toHaveAttribute('data-phase', 'flipping', { timeout: 5000 })
   const motion = await page.evaluate(() => {
     const animation = (selector: string) => {

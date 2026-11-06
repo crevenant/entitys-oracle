@@ -1,0 +1,52 @@
+/* A quiet summons: worn brass, bone lettering, and movement at the edges. */
+.app .summons-title{font-size:clamp(46px,5.4vw,76px);text-wrap:balance;color:#e8e1d1;letter-spacing:-1.9px}
+.summons-title em{position:relative;display:inline-block;isolation:isolate}
+.app .summons-title em{color:#bba274;text-shadow:0 2px 18px #66512b33}
+.title-haunting{position:absolute;inset:0;z-index:-1;pointer-events:none;color:#736d55;opacity:0;filter:blur(3px);animation:summons-shadow 17s ease-in-out infinite}
+.app .intro-copy{font-size:11px;letter-spacing:.35px}
+.app .intro>.eyebrow{color:#af9563}
+.intro>.eyebrow>span{position:relative}
+.intro>.eyebrow>span::after{content:'';position:absolute;right:0;top:-3px;width:1px;height:7px;background:#b99a6144;transform:rotate(25deg)}
+
+.app .ritual-note{isolation:isolate;padding:20px 0 20px 18px}
+.ritual-note::before{content:'';position:absolute;left:0;top:30px;bottom:26px;width:1px;background:linear-gradient(transparent,#a88e5a55 23%,#a88e5a1a 58%,transparent);pointer-events:none}
+.ritual-note::after{content:'';position:absolute;left:-3px;top:84px;width:7px;height:1px;background:#bba27477;box-shadow:0 4px #bba27433,0 77px #bba27433;transform:rotate(-25deg);pointer-events:none}
+.app .ritual-note .section-number{display:block;font-size:7px;letter-spacing:2.3px;color:#b29b6e}
+.app .ritual-note h2{font-size:33px;line-height:1.04;letter-spacing:-.35px;margin:15px 0 14px;color:#ddd2bd}
+.app .ritual-note p{font-size:10px;line-height:1.9;color:#a0a494}
+.app .ritual-note .text-button{font-size:9px;min-height:24px;color:#c2ae80}
+.app .ritual-note .text-button:hover{color:#e1c991}
+.app .ritual-note .note-rule{width:59px;height:5px;margin:18px 0 11px;background:linear-gradient(170deg,transparent 39%,#a9936255 44%,transparent 49%),linear-gradient(176deg,transparent 49%,#a9936233 54%,transparent 59%)}
+.summoning-seal{display:block;width:70px;height:70px;margin:-5px 0 13px -4px;color:#a98b55}
+.seal-rings{opacity:.65}
+.seal-roots{opacity:.45;transform-origin:50px 66px;animation:summons-roots 19s ease-in-out infinite}
+.gift-inscription{position:relative;display:grid;place-items:center;width:52px;height:52px;margin:0 0 26px 3px;font:400 25px var(--serif);color:#9b79ae99;text-shadow:0 0 20px #9460b72b}
+.gift-inscription::before{content:'';position:absolute;inset:7px;border:1px solid #9776aa44;transform:rotate(45deg);background:linear-gradient(145deg,#5b356b18,transparent);clip-path:polygon(0 0,48% 0,49% 8%,52% 0,100% 0,100% 100%,0 100%,0 55%,6% 52%,0 49%)}
+.gift-inscription::after{content:'';position:absolute;inset:-1px;border-block:1px solid #9776aa22;transform:rotate(-13deg)}
+.app .mini-perks{gap:13px;margin:25px 0 22px 4px}
+.app .mini-perks>span{position:relative;isolation:isolate;background:radial-gradient(#5b356b55,#1d1721);border-color:#9365a46b;box-shadow:inset 0 0 7px #0009}
+.mini-perks>span b{font-weight:400;transform:rotate(-45deg);color:#bd9fcc}
+.mini-perks>span::before{content:'';position:absolute;inset:-1px;z-index:1;background:#b395bd7a;clip-path:polygon(53% 0,47% 31%,61% 45%,42% 69%,49% 100%,45% 74%,57% 46%,43% 33%,50% 0);pointer-events:none}
+.mini-perks>span::after{content:'';position:absolute;inset:0;z-index:-1;background:#b475d7;opacity:0;box-shadow:0 0 15px 4px #a76bce88;animation:summons-gift 16s ease-in-out infinite;animation-delay:calc(var(--gift)*3s);pointer-events:none}
+.app .mini-perks>.gift-lit{background:#8954a872;border-color:#cd99e7;box-shadow:0 0 15px #aa64d34f}
+.mini-perks>.gift-lit::after{animation:none;opacity:.35}
+.app .ritual-note .subtle{font-size:7px;letter-spacing:1.4px;color:#a58ab5!important}
+
+.app .role-switch{position:relative;border-color:#9b82553d;background:linear-gradient(120deg,#070b09ed,#11140ee0);box-shadow:0 4px 25px #0006,inset 0 1px #c0a36b08}
+.role-switch::before,.role-switch::after{content:'';position:absolute;left:-4px;top:9px;width:8px;height:1px;background:#b29b6e66;transform:rotate(-45deg);pointer-events:none}
+.role-switch::after{left:auto;right:-4px;top:auto;bottom:9px}
+.survivor-choice[aria-pressed=true]>svg{animation:summons-heartbeat 9s ease-in-out infinite;transform-origin:center}
+.killer-choice .role-scratches{opacity:.6;transition:opacity .3s,filter .3s}
+.killer-choice[aria-pressed=true] .role-scratches{opacity:1;filter:drop-shadow(0 0 4px #bb655855)}
+.app .draw-button{position:relative;min-width:278px}
+.draw-button::after{content:'';position:absolute;inset:7px;border-inline:1px solid #241d1544;pointer-events:none;clip-path:polygon(0 0,2% 0,1% 41%,2% 52%,0 100%,100% 100%,98% 75%,99% 45%,98% 0,100% 0,100% 100%,0 100%)}
+
+@keyframes summons-shadow{0%,72%,100%{opacity:0;transform:translate(0,0)}80%{opacity:.26;transform:translate(5px,-1px)}88%{opacity:.12;transform:translate(-3px,2px)}}
+@keyframes summons-roots{0%,65%,100%{transform:scaleY(1);opacity:.45}80%{transform:scaleY(1.07);opacity:.7}}
+@keyframes summons-gift{0%,8%,28%,100%{opacity:0}18%{opacity:.34}}
+@keyframes summons-heartbeat{0%,72%,82%,100%{transform:scale(1)}75%{transform:scale(1.1)}78%{transform:scale(.97)}}
+.reduced-motion .title-haunting,.reduced-motion .seal-roots,.reduced-motion .survivor-choice>svg,.reduced-motion .mini-perks>span::after{animation:none}
+.reduced-motion .title-haunting{display:none}
+@media(max-width:1150px){.app .ritual-note{padding-left:12px}.app .ritual-note h2{font-size:28px}.app .ritual-note p{font-size:9px}.app .ritual-note .section-number{font-size:6px;letter-spacing:1.8px}.app .ritual-note .text-button{font-size:8px}.app .mini-perks{gap:11px}}
+@media(max-width:800px){.app .summons-title{font-size:58px}.app .intro-copy{max-width:390px;margin-inline:auto;line-height:1.8}.title-haunting{filter:blur(2px)}}
+@media(max-width:520px){.app .summons-title{font-size:46px;line-height:1.06;letter-spacing:-1.1px;max-width:350px;margin:17px auto 15px}.app .intro-copy{max-width:275px;font-size:10px;line-height:1.8}.app .draw-button{min-width:265px;font-size:9px;letter-spacing:1.5px}}
