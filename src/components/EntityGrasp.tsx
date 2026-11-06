@@ -5,6 +5,9 @@ import { createEntityRig, updateEntityRig } from '../lib/entityRig'
 import type { EntityPose } from '../lib/entityRig'
 import type { RitualPhase } from '../lib/ritual'
 import type { Role } from '../lib/oracle'
+import { captureReach, captiveMotion, captivityTime } from '../lib/captivity'
+import type { CaptivityClock } from '../lib/captivity'
+import type { PerspectiveCamera } from 'three'
 
 const poses: Record<RitualPhase, EntityPose> = {
   idle: { reach: .03, agitation: .1 },
@@ -17,12 +20,21 @@ const poses: Record<RitualPhase, EntityPose> = {
   complete: { reach: .03, agitation: .1 },
 }
 
-export default function EntityGrasp({ phase, reduced, role }: { phase: RitualPhase; reduced: boolean; role: Role }) {
+export default function EntityGrasp({ phase, reduced, role, captivity }: { phase: RitualPhase; reduced: boolean; role: Role; captivity: CaptivityClock }) {
   const rig = useMemo(() => createEntityRig(), [])
   const runtime = useRef(rig)
   const pose = useRef<EntityPose>({ ...poses.idle })
   const elapsed = useRef(0)
   const width = useThree((state) => state.size.width)
+  const { size, camera, gl } = useThree()
+  const frame = useRef({ halfWidth: 1, halfHeight: 1.5, centerY: 0, unitsPerPixel: .01 })
+  useLayoutEffect(() => {
+    const stage = gl.domElement.closest('.card-stage')
+    if (!stage) return
+    const css = getComputedStyle(stage)
+    const units = 2 * Math.tan((camera as PerspectiveCamera).fov * Math.PI / 360) * (camera.position.z - .86) / size.height
+    frame.current = { halfWidth: (parseFloat(css.getPropertyValue('--reveal-width')) / 2 + 1) * units, halfHeight: parseFloat(css.getPropertyValue('--reveal-height')) / 2 * units, centerY: parseFloat(css.getPropertyValue('--reveal-center-offset')) * units - .15, unitsPerPixel: units }
+  }, [size.height, size.width, camera, gl])
 
   useLayoutEffect(() => { runtime.current = rig; updateEntityRig(rig, 0, pose.current) }, [rig])
   useEffect(() => () => rig.dispose(), [rig])
@@ -40,7 +52,11 @@ export default function EntityGrasp({ phase, reduced, role }: { phase: RitualPha
     // Slower root motion still looks fluid at 30 updates per second on a phone.
     if (width < 600 && elapsed.current < 1 / 30) return
     elapsed.current = 0
-    updateEntityRig(runtime.current, clock.elapsedTime, pose.current)
+    const after = captivityTime(captivity)
+    if (after >= 0) {
+      const reach = captureReach(after), motion = captiveMotion(after), fit = frame.current
+      updateEntityRig(runtime.current, clock.elapsedTime, { reach, agitation: after < .4 ? 1 : .4 }, { ...fit, x: motion.x * fit.unitsPerPixel, y: motion.y * fit.unitsPerPixel, roll: motion.roll })
+    } else updateEntityRig(runtime.current, clock.elapsedTime, pose.current)
   })
 
   return <group visible={!reduced}>

@@ -7,11 +7,26 @@ import gsap from 'gsap'
 import type { RitualPhase } from '../lib/ritual'
 import SpectralBinding from './SpectralBinding'
 import CardBack, { CardEyeIcon } from './CardBack'
+import { captiveMotion, captivityTime } from '../lib/captivity'
+import type { CaptivityClock } from '../lib/captivity'
 
-type Props = { draw: Draw; phase: RitualPhase; revealedPerks: number; instant: boolean; reduced: boolean; onInspect: (perk: Perk) => void; lockedCharacter: boolean; lockedPerks: (string | null)[] }
+type Props = { draw: Draw; phase: RitualPhase; revealedPerks: number; instant: boolean; reduced: boolean; captivity: CaptivityClock; onInspect: (perk: Perk) => void; lockedCharacter: boolean; lockedPerks: (string | null)[] }
 
-export default function RevealedCard({ draw, phase, revealedPerks, instant, reduced, onInspect, lockedCharacter, lockedPerks }: Props) {
+export default function RevealedCard({ draw, phase, revealedPerks, instant, reduced, captivity, onInspect, lockedCharacter, lockedPerks }: Props) {
   const shell = useRef<HTMLDivElement>(null)
+  const captive = useRef<HTMLDivElement>(null)
+  useLayoutEffect(() => {
+    const element = captive.current
+    if (!element) return
+    if (instant || reduced) { element.style.transform = 'none'; return }
+    const update = () => {
+      const time = captivityTime(captivity)
+      const motion = captiveMotion(time)
+      element.style.transform = time < 0 ? 'none' : `translate3d(${motion.x}px,${motion.y}px,0) rotate(${motion.roll}deg)`
+    }
+    gsap.ticker.add(update)
+    return () => { gsap.ticker.remove(update); element.style.transform = 'none' }
+  }, [instant, reduced, captivity])
   useLayoutEffect(() => {
     if (instant || !shell.current) return
     const animations = ['.reveal-flight', '.reveal-turn', '.reveal-contact-shadow'].flatMap((selector) => shell.current!.querySelector(selector)?.getAnimations() ?? [])
@@ -33,7 +48,7 @@ export default function RevealedCard({ draw, phase, revealedPerks, instant, redu
   return <div ref={shell} className={`reveal-shell ${instant ? 'is-instant' : ''} ${lit ? 'is-lit' : ''}`} style={style}>
     <div className="reveal-aura" aria-hidden="true" />
     <div className="reveal-contact-shadow" aria-hidden="true" />
-    <div className="reveal-flight"><div className="reveal-turn">
+    <div ref={captive} className="captive-card"><div className="reveal-flight"><div className="reveal-turn">
       <div className="reveal-back reveal-face" aria-hidden="true"><CardBack reduced={reduced || phase === 'revealing' || phase === 'complete'} /></div>
       <article className="revealed-card reveal-face reveal-front" aria-label={lit ? `Your fate: ${draw.character.name}` : 'Your chosen card'} aria-hidden={!lit}>
         <span className="card-roman">{draw.character.role === 'survivor' ? 'XVII' : 'XIII'} {lockedCharacter ? <LockKeyhole size={15} /> : <CardEyeIcon />} {draw.character.role.toUpperCase()}</span>
@@ -47,7 +62,7 @@ export default function RevealedCard({ draw, phase, revealedPerks, instant, redu
         <span className="card-bottom">◇ &nbsp; {revealedPerks === 4 ? 'YOUR FATE IS SEALED' : 'THE FOG HOLDS ITS SECRETS'} &nbsp; ◇</span>
         {lockedCharacter && <SpectralBinding />}
       </article>
-    </div></div>
+    </div></div></div>
     {revealedPerks > 0 && !instant && <div key={revealedPerks} className="gift-ripple" aria-hidden="true" />}
   </div>
 }

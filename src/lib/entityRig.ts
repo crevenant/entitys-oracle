@@ -20,6 +20,7 @@ type Root = {
 }
 
 export type EntityPose = { reach: number; agitation: number }
+export type EntityGrip = { halfWidth: number; halfHeight: number; centerY: number; x: number; y: number; roll: number }
 export type EntityRig = ReturnType<typeof createEntityRig>
 
 // Hand-placed paths keep the silhouette deliberately uneven, rather than mirrored.
@@ -230,13 +231,21 @@ export function createEntityRig() {
     return { branch, mesh }
   })
   return {
-    group, material, texture, roots: allRoots, knots,
+    group, material, texture, roots: allRoots, mainRoots: roots, knots,
     baseColor: new Color('#514739'),
     dispose() { for (const root of allRoots) root.geometry.dispose(); knotGeometry.dispose(); material.dispose(); texture.dispose() },
   }
 }
 
-export function updateEntityRig(rig: EntityRig, time: number, pose: EntityPose) {
+export function updateEntityRig(rig: EntityRig, time: number, pose: EntityPose, grip?: EntityGrip) {
+  const anchors = [[-1, .05], [1, -.4], [-1, .75], [1, .7], [-.4, -1]]
+  rig.mainRoots.forEach((root, index) => {
+    if (!grip) { root.grip.set(...definitions[index].grip); return }
+    const [x, y] = anchors[index]
+    const angle = -grip.roll * Math.PI / 180
+    const ax = x * grip.halfWidth, ay = y * grip.halfHeight
+    root.grip.set(ax * Math.cos(angle) - ay * Math.sin(angle) + grip.x, ax * Math.sin(angle) + ay * Math.cos(angle) + grip.centerY - grip.y, .86)
+  })
   for (const root of rig.roots) { shapeRoot(root, time, pose); skinRoot(root) }
   for (const { branch, mesh } of rig.knots) branch.parent!.curve.getPoint(branch.attach, mesh.position)
   rig.material.color.copy(rig.baseColor).multiplyScalar(.55 + pose.reach * .45)

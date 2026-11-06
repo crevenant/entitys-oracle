@@ -14,8 +14,11 @@ import { createEyePainter, EYE_PATCH, engravingTime, eyePose } from '../lib/card
 import { createMothPainter, MOTH_PATCH, mothPose } from '../lib/cardMoth'
 import { tendrilField, TENDRIL_AMOUNT } from '../lib/cardTendrils'
 import { tendrilGrowth } from '../lib/cardGrowth'
+import CardFragments, { FlatCardFragments } from './CardFragments'
+import type { CaptivityClock } from '../lib/captivity'
+import FallbackGrasp from './FallbackGrasp'
 
-type Props = { phase: RitualPhase; revealed: boolean; reduced: boolean; role: Role }
+type Props = { phase: RitualPhase; revealed: boolean; reduced: boolean; role: Role; instant: boolean; captivity: CaptivityClock }
 
 type DeckPointer = { over: boolean; x: number; y: number }
 type DeckMotion = { x: number; y: number; bob: number; elapsed: number }
@@ -120,7 +123,7 @@ function createTendrilMaterial(art: Texture, flow: Texture, reduced: boolean) {
   return material
 }
 
-function Tarot({ index, phase, revealed, reduced, flow, growth }: Props & { index: number; flow: Texture; growth: Texture }) {
+function Tarot({ index, phase, revealed, reduced, instant, captivity, flow, growth }: Props & { index: number; flow: Texture; growth: Texture }) {
   const group = useRef<Group>(null)
   const source = useLoader(TextureLoader, '/assets/tarot-back-worn.webp')
   const texture = useMemo(() => {
@@ -135,6 +138,7 @@ function Tarot({ index, phase, revealed, reduced, flow, growth }: Props & { inde
   const { height, width } = size
   const offset = index - 2
   const selected = index === 2
+  const destroyed = !selected && (phase === 'revealing' || phase === 'complete')
   useEffect(() => {
     if (!group.current) return
     const card = group.current
@@ -189,14 +193,17 @@ function Tarot({ index, phase, revealed, reduced, flow, growth }: Props & { inde
     return () => { timeline.kill() }
   }, [phase, reduced, index, offset, selected, height, width, camera, gl])
   return <group ref={group} visible={!(selected && revealed)}>
+    <group visible={!destroyed}>
     <mesh><boxGeometry args={[1.75, 2.72, 0.035]} /><meshStandardMaterial color="#51412e" roughness={0.94} metalness={0.18} /></mesh>
     <mesh position={[0, 0, 0.024]} material={material}><planeGeometry args={[1.73, 2.70]} /></mesh>
     <mesh position={[0, 0, -0.024]} rotation={[0, Math.PI, 0]} material={material}><planeGeometry args={[1.73, 2.70]} /></mesh>
-    {!reduced && !(selected && revealed) && <>
+    {!reduced && !destroyed && !(selected && revealed) && <>
       <mesh position={[0, 0, .0255]}><planeGeometry args={[1.73, 2.70]} /><meshBasicMaterial map={growth} transparent depthWrite={false} toneMapped={false} /></mesh>
       <mesh position={[0, 0, -.0255]} rotation={[0, Math.PI, 0]}><planeGeometry args={[1.73, 2.70]} /><meshBasicMaterial map={growth} transparent depthWrite={false} toneMapped={false} /></mesh>
     </>}
-    {!reduced && !(selected && revealed) && <><LivingEngraving image={source.image as HTMLImageElement} seed={index} kind="eye" /><LivingEngraving image={source.image as HTMLImageElement} seed={index} kind="moth" /></>}
+    {!reduced && !destroyed && !(selected && revealed) && <><LivingEngraving image={source.image as HTMLImageElement} seed={index} kind="eye" /><LivingEngraving image={source.image as HTMLImageElement} seed={index} kind="moth" /></>}
+    </group>
+    {destroyed && !reduced && !instant && <CardFragments texture={texture} index={index} clock={captivity} />}
   </group>
 }
 
@@ -249,7 +256,7 @@ function Deck(props: Props & { onReady: () => void }) {
   </group>
 }
 
-function FallbackCards({ phase, revealed, reduced }: Props) {
+function FallbackCards({ phase, revealed, reduced, instant, captivity }: Props) {
   const root = useRef<HTMLDivElement>(null)
   const pointer = useDeckPointer(root)
   const motion = useRef<DeckMotion>({ x: 0, y: 0, bob: 0, elapsed: 0 })
@@ -269,9 +276,10 @@ function FallbackCards({ phase, revealed, reduced }: Props) {
     gsap.ticker.add(update)
     return () => { gsap.ticker.remove(update) }
   }, [drawing, reduced, pointer])
-  return <div ref={root} className={`fallback-cards fallback-${phase} ${revealed ? 'has-result' : ''} ${reduced ? 'is-instant' : ''}`} aria-hidden="true">
-    {[-2, -1, 0, 1, 2].map((offset) => <div className="fallback-card-track" key={offset} style={{ '--offset': offset, '--order': offset + 2, '--distance': Math.abs(offset), '--depth': 5 - Math.abs(offset) } as CSSProperties}><CardBack reduced={reduced} seed={offset + 2} hidden={offset === 0 && revealed} /></div>)}
-  </div>
+  const destroyed = phase === 'revealing' || phase === 'complete'
+  return <><div ref={root} className={`fallback-cards fallback-${phase} ${revealed ? 'has-result' : ''} ${reduced ? 'is-instant' : ''}`} aria-hidden="true">
+    {[-2, -1, 0, 1, 2].map((offset) => <div className="fallback-card-track" key={offset} style={{ '--offset': offset, '--order': offset + 2, '--distance': Math.abs(offset), '--depth': 5 - Math.abs(offset) } as CSSProperties}><CardBack reduced={reduced} seed={offset + 2} hidden={(offset === 0 && revealed) || (offset !== 0 && destroyed)} />{offset !== 0 && destroyed && !instant && !reduced && <FlatCardFragments index={offset + 2} />}</div>)}
+  </div>{!reduced && !instant && <FallbackGrasp clock={captivity} />}</>
 }
 
 class SceneBoundary extends Component<{ children: ReactNode; fallback: ReactNode }, { failed: boolean }> {
@@ -287,7 +295,7 @@ export default function CardScene(props: Props) {
     {!ready && <FallbackCards {...props} />}
     <Canvas style={{ opacity: ready ? 1 : 0 }} data-ready={ready} frameloop={props.reduced ? 'demand' : 'always'} camera={{ position: [0, 0, 6.9], fov: 36 }} dpr={props.reduced ? 1 : [1, 1.7]} gl={{ alpha: true, antialias: true, powerPreference: 'default' }} fallback={null} aria-hidden="true">
       <ambientLight intensity={0.65} color={props.role === 'killer' ? '#dab2a0' : '#b8c6ba'} />
-      <Suspense fallback={null}><Deck {...props} onReady={onReady} /><EntityGrasp phase={props.phase} reduced={props.reduced} role={props.role} /></Suspense>
+      <Suspense fallback={null}><Deck {...props} onReady={onReady} /><EntityGrasp phase={props.phase} reduced={props.reduced} role={props.role} captivity={props.captivity} /></Suspense>
     </Canvas>
   </SceneBoundary>
 }

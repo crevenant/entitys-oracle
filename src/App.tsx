@@ -3,6 +3,7 @@ import { BookOpen, ChevronRight, Eye, History, LockKeyhole, Moon, Settings2, Shi
 import { catalog, drawFate, readSaved, save } from './lib/oracle'
 import type { Draw, Perk, Role } from './lib/oracle'
 import { useRitual } from './lib/useRitual'
+import { useCaptivity } from './lib/captivity'
 import { PHASE_COPY } from './lib/ritual'
 import type { MotionMode } from './lib/ritual'
 import RevealedCard from './components/RevealedCard'
@@ -62,6 +63,8 @@ function App() {
   const rememberDraw = useCallback((draw: Draw) => setHistory((previous) => [draw, ...previous].slice(0, 20)), [])
   const ritual = useRitual({ reduced, sound: preferences.sound && !preferences.muted, volume: soundVolume, haptics: preferences.haptics, onComplete: rememberDraw })
   const { phase, drawing, revealedPerks } = ritual
+  const cardStage = useRef<HTMLDivElement>(null)
+  const captivity = useCaptivity(phase, !reduced && !ritual.instant, cardStage)
   const musicEnabled = preferences.music ?? true
   const musicVolume = preferences.musicVolume ?? .4
   const { audioRef: themeAudioRef, state: themeState, startTheme } = useBackgroundTheme(musicEnabled && !preferences.muted, musicVolume, drawing && preferences.sound && !preferences.muted)
@@ -177,12 +180,12 @@ function App() {
           <button className="text-button edit-pool-link" onClick={() => openCollection('perks')}>{perkCount} eligible perks <ChevronRight size={13} /></button>
         </aside>
 
-        <div className={`card-stage phase-${phase} ${drawing ? 'is-drawing' : ''} ${result ? 'is-revealed' : ''}`} data-phase={phase} aria-busy={drawing}>
+        <div ref={cardStage} className={`card-stage phase-${phase} ${drawing ? 'is-drawing' : ''} ${result ? 'is-revealed' : ''}`} data-phase={phase} aria-busy={drawing}>
           <div className="ritual-ring ring-outer" aria-hidden="true" /><div className="ritual-ring ring-inner" aria-hidden="true" />
           <RitualEffects phase={phase} />
           <div className="stage-glow" aria-hidden="true" />
-          <div className="scene-container"><Suspense fallback={<div className="deck-loading"><img src="/assets/tarot-back-worn.webp" alt="" /></div>}><CardScene role={role} phase={phase} revealed={!!result} reduced={reduced} /></Suspense></div>
-          {result && <RevealedCard key={result.id} draw={result} phase={phase} revealedPerks={revealedPerks} instant={ritual.instant} reduced={reduced} onInspect={inspect} lockedCharacter={locks.character === result.character.id} lockedPerks={locks.perks} />}
+          <div className="scene-container"><Suspense fallback={<div className="deck-loading"><img src="/assets/tarot-back-worn.webp" alt="" /></div>}><CardScene role={role} phase={phase} revealed={!!result} reduced={reduced} instant={ritual.instant} captivity={captivity} /></Suspense></div>
+          {result && <RevealedCard key={result.id} draw={result} phase={phase} revealedPerks={revealedPerks} instant={ritual.instant} reduced={reduced} captivity={captivity} onInspect={inspect} lockedCharacter={locks.character === result.character.id} lockedPerks={locks.perks} />}
           <span className="stage-sigil" aria-hidden="true">✧</span>
           <span className="ritual-chapter" aria-hidden="true">{PHASE_COPY[phase].title}</span>
         </div>
