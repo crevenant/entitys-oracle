@@ -3,10 +3,12 @@ import type { CSSProperties, ReactNode } from 'react'
 import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber'
 import { Float, Sparkles } from '@react-three/drei'
 import { Group, SRGBColorSpace, TextureLoader } from 'three'
+import type { PerspectiveCamera } from 'three'
 import gsap from 'gsap'
-import { RITUAL } from '../lib/ritual'
+import { CARD_REVEAL, RITUAL } from '../lib/ritual'
 import type { RitualPhase } from '../lib/ritual'
 import type { Role } from '../lib/oracle'
+import EntityGrasp from './EntityGrasp'
 
 type Props = { phase: RitualPhase; revealed: boolean; reduced: boolean; role: Role }
 
@@ -19,7 +21,8 @@ function Tarot({ index, phase, revealed, reduced }: Props & { index: number }) {
     return copy
   }, [source])
   useEffect(() => () => texture.dispose(), [texture])
-  const height = useThree((state) => state.size.height)
+  const { size, camera, gl } = useThree()
+  const { height, width } = size
   const offset = index - 2
   const selected = index === 2
   useEffect(() => {
@@ -54,17 +57,27 @@ function Tarot({ index, phase, revealed, reduced }: Props & { index: number }) {
         },
       })
     } else if (phase === 'choosing' || phase === 'flipping' || phase === 'revealing' || phase === 'complete') {
+      // Project the chosen mesh onto the exact CSS card rectangle at handoff.
+      // The elevated HTML card and the Three.js card now share size and center.
+      const stage = gl.domElement.closest('.card-stage')
+      const css = stage ? getComputedStyle(stage) : null
+      const cardHeight = parseFloat(css?.getPropertyValue('--reveal-height') ?? '') || 328
+      const centerOffset = parseFloat(css?.getPropertyValue('--reveal-center-offset') ?? '') || 20
+      const pixelsPerUnit = height / (2 * Math.tan((camera as PerspectiveCamera).fov * Math.PI / 360) * (camera.position.z - .72))
+      const magnification = CARD_REVEAL.perspective / (CARD_REVEAL.perspective - CARD_REVEAL.depth)
+      const chosenY = (centerOffset + CARD_REVEAL.lift * magnification) / pixelsPerUnit - .15
+      const chosenScale = cardHeight * magnification / (2.72 * pixelsPerUnit)
       move(
-        selected ? { x: 0, y: 0.12, z: 0.72 } : { x: offset * 0.94, y: -Math.abs(offset) * 0.17, z: -Math.abs(offset) * 0.24 },
+        selected ? { x: 0, y: chosenY, z: 0.72 } : { x: offset * 0.94, y: -Math.abs(offset) * 0.17, z: -Math.abs(offset) * 0.24 },
         { x: 0, y: 0, z: selected ? 0 : -offset * 0.17 },
         phase === 'choosing' ? RITUAL.flipping - RITUAL.choosing - 0.025 : 0.35,
-        selected ? (height < 400 ? 1.22 : 1.16) : 1,
+        selected ? chosenScale : 1,
       )
     } else {
       move({ x: offset * 0.78, y: -Math.abs(offset) * 0.17, z: -Math.abs(offset) * 0.24 }, { x: 0, y: 0, z: -offset * 0.16 }, 0.7)
     }
     return () => { timeline.kill() }
-  }, [phase, reduced, index, offset, selected, height])
+  }, [phase, reduced, index, offset, selected, height, width, camera, gl])
   return <group ref={group} visible={!(selected && revealed)}>
     <mesh><boxGeometry args={[1.75, 2.72, 0.035]} /><meshStandardMaterial color="#51412e" roughness={0.94} metalness={0.18} /></mesh>
     <mesh position={[0, 0, 0.024]}><planeGeometry args={[1.73, 2.70]} /><meshBasicMaterial map={texture} toneMapped={false} /></mesh>
@@ -112,8 +125,8 @@ export default function CardScene(props: Props) {
   return <SceneBoundary fallback={<FallbackCards {...props} />}>
     {!ready && <FallbackCards {...props} />}
     <Canvas style={{ opacity: ready ? 1 : 0 }} data-ready={ready} frameloop={props.reduced ? 'demand' : 'always'} camera={{ position: [0, 0, 6.9], fov: 36 }} dpr={props.reduced ? 1 : [1, 1.7]} gl={{ alpha: true, antialias: true, powerPreference: 'default' }} fallback={null} aria-hidden="true">
-      <ambientLight intensity={1.5} color={props.role === 'killer' ? '#dab2a0' : '#b8c6ba'} />
-      <Suspense fallback={null}><Deck {...props} onReady={onReady} /></Suspense>
+      <ambientLight intensity={0.65} color={props.role === 'killer' ? '#dab2a0' : '#b8c6ba'} />
+      <Suspense fallback={null}><Deck {...props} onReady={onReady} /><EntityGrasp phase={props.phase} reduced={props.reduced} role={props.role} /></Suspense>
     </Canvas>
   </SceneBoundary>
 }

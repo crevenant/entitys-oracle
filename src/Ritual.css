@@ -1,5 +1,5 @@
 /* A shared phase clock drives the 3D scene; these layers decorate its cues. */
-.card-stage{perspective:1100px}
+.card-stage{perspective:1200px;--reveal-height:328px;--reveal-width:211px;--reveal-center-offset:20px}
 .ritual-chapter{position:absolute;top:11px;left:0;right:0;text-align:center;color:#b29a6890;font-size:6px;letter-spacing:2.5px;transition:color .4s;pointer-events:none}
 .ritual-in-progress .ritual-chapter{color:#d3b979}
 .ritual-effects{position:absolute;inset:0 -45px;pointer-events:none;z-index:1}
@@ -30,12 +30,24 @@
 .mini-perks .gift-lit{background:#8954a872;border-color:#cd99e7;box-shadow:0 0 15px #aa64d34f}
 
 /* A real two-sided flip continues the chosen 3D card into readable HTML. */
-.reveal-shell{position:absolute;z-index:4;width:211px;height:328px;margin-top:-40px;perspective:1100px;pointer-events:none}
-.reveal-turn{position:relative;width:100%;height:100%;transform-style:preserve-3d;transform:rotateY(180deg);animation:oracle-card-flip .76s cubic-bezier(.3,.05,.2,1) both}
+.reveal-shell{position:absolute;z-index:4;width:var(--reveal-width);height:var(--reveal-height);margin-top:calc(var(--reveal-center-offset)*-2);perspective:var(--card-perspective,1200px);pointer-events:none}
+.reveal-flight{position:relative;width:100%;height:100%;transform-style:preserve-3d;transform:translate3d(0,0,0);animation:oracle-card-flight var(--flight-duration,1.5s) linear both}
+.reveal-turn{position:relative;width:100%;height:100%;transform-style:preserve-3d;transform:rotateY(180deg);animation:oracle-card-flip var(--flip-duration,.9s) cubic-bezier(.4,0,.16,1) both}
+.reveal-shell:not(.is-instant) .reveal-flight,.reveal-shell:not(.is-instant) .reveal-turn{will-change:transform}
 .reveal-face{position:absolute;inset:0;width:100%;height:100%;backface-visibility:hidden;-webkit-backface-visibility:hidden}
-.reveal-back{background:#15150e;border:1px solid #b49b62;box-shadow:0 15px 45px #0009}
+.reveal-back{background:#15150e;border:1px solid #b49b62;box-shadow:0 15px 45px #0009;transform:translateZ(.7px)}
 .reveal-back img{display:block;width:100%;height:100%;object-fit:fill}
-.revealed-card.reveal-front{margin:0;animation:none;transform:rotateY(180deg);pointer-events:auto}
+.revealed-card.reveal-front{margin:0;animation:none;transform:rotateY(180deg) translateZ(.7px);pointer-events:auto}
+.reveal-shell:not(.is-lit) .reveal-front{pointer-events:none}
+.reveal-contact-shadow{position:absolute;left:7%;right:7%;bottom:-20px;height:18px;border-radius:50%;background:#010302;filter:blur(10px);opacity:.32;transform:scale(1);animation:oracle-contact-shadow var(--flight-duration,1.5s) linear both;pointer-events:none}
+.landing-impact{position:absolute;left:50%;top:calc(50% + var(--reveal-height)*.5 - var(--reveal-center-offset) - 5px);width:var(--reveal-width);height:24px;transform:translate(-50%,-50%);opacity:0;pointer-events:none}
+.effects-revealing .landing-impact{opacity:1}
+.landing-wave{position:absolute;inset:-6px -32px;border:1px solid #c9aa7580;border-radius:50%;opacity:0}
+.effects-revealing .landing-wave{animation:oracle-landing-wave .58s ease-out both}
+.landing-flare{position:absolute;inset:-25px -50px;background:radial-gradient(ellipse,#d3b17435,#a776b51a 35%,transparent 68%);opacity:0}
+.effects-revealing .landing-flare{animation:oracle-landing-flare .32s ease-out both}
+.landing-impact i{position:absolute;left:50%;top:50%;width:2px;height:2px;border-radius:50%;background:#b59a73;opacity:0;--dust-angle:calc(var(--dust)*30deg)}
+.effects-revealing .landing-impact i{animation:oracle-landing-dust .62s ease-out both}
 .reveal-aura{position:absolute;inset:-45px;background:radial-gradient(ellipse,#b18a3c26,transparent 68%);filter:blur(14px);opacity:.6;transition:background .9s,opacity .9s}
 .is-lit .reveal-aura{background:radial-gradient(ellipse,#ac69dd33,transparent 68%);opacity:1}
 .reveal-shell.is-lit .character-portrait{animation:oracle-portrait-awaken .65s ease both}
@@ -75,19 +87,28 @@
 .fallback-shuffling .fallback-card-track{animation:oracle-fallback-shuffle .34s ease-in-out 2;animation-delay:calc(var(--order)*-0.035s)}
 .fallback-orbiting .fallback-card-track{animation:oracle-fallback-orbit 1.3s ease-in-out both;--angle:calc(var(--order)*72deg)}
 .fallback-choosing .fallback-card-track{transform:translate(calc(var(--offset)*54px),calc(var(--distance)*8px)) rotate(calc(var(--offset)*10deg))}
-.fallback-choosing .fallback-card-track:nth-child(3){transform:translateY(-20px) scale(1.1);z-index:6}
+.fallback-choosing .fallback-card-track:nth-child(3){width:var(--reveal-width);height:var(--reveal-height);transform:translateY(calc(var(--reveal-center-offset)*-1 - 36.96px)) scale(1.08696);z-index:6;transition:transform .67s cubic-bezier(.65,0,.35,1),width .67s ease,height .67s ease}
 .fallback-flipping .fallback-card-track,.fallback-revealing .fallback-card-track,.fallback-complete .fallback-card-track{transform:translate(calc(var(--offset)*54px),calc(var(--distance)*8px)) rotate(calc(var(--offset)*10deg))}
 .fallback-cards.has-result{opacity:1}
-.is-instant .reveal-turn,.reveal-shell.is-instant .character-portrait,.is-instant .card-perk-slot button{animation:none}
+.is-instant .reveal-turn,.is-instant .reveal-flight,.is-instant .reveal-contact-shadow,.reveal-shell.is-instant .character-portrait,.is-instant .card-perk-slot button{animation:none;will-change:auto}
+.is-instant .reveal-flight{transform:none}
 .reveal-shell.is-instant .card-perk-slot.is-awakened button{transform:rotate(45deg) scale(.75)}
 .reduced-motion .ritual-effects,.reduced-motion .gift-ripple{display:none}
+.reduced-motion .reveal-flight{animation:none;transform:none;will-change:auto}
+.reduced-motion .reveal-contact-shadow{animation:none}
 .reduced-motion .reveal-turn{animation:none;transform:rotateY(180deg)}
 .reduced-motion .reveal-shell .character-portrait,.reduced-motion .gift-revealed,.reduced-motion .gift-revealed .perk-icon{animation:none}
 .reduced-motion .card-perk-slot.is-awakened button{animation:none;transform:rotate(45deg) scale(.75)}
 .reduced-motion .fallback-card-track{animation:none;transition:none}
 
 @keyframes oracle-runes-spin{to{rotate:360deg}}
-@keyframes oracle-card-flip{0%{transform:translateY(0) rotateY(0deg) rotateZ(-2deg)}45%{transform:translateY(-13px) rotateY(82deg) rotateZ(0)}100%{transform:translateY(0) rotateY(180deg)}}
+@keyframes oracle-card-flip{from{transform:rotateY(0deg)}to{transform:rotateY(180deg)}}
+/* Landing is 80% of the 1.5s flight: the shared reveal clock fires at 1.2s. */
+@keyframes oracle-card-flight{0%{transform:translate3d(0,calc(var(--lift-start)*-1),var(--depth-start));animation-timing-function:cubic-bezier(.2,.6,.35,1)}66.6667%{transform:translate3d(0,-56px,144px) rotateX(-3deg);animation-timing-function:cubic-bezier(.75,0,1,1)}80%{transform:translate3d(0,0,0);animation-timing-function:cubic-bezier(0,.7,.3,1)}83%{transform:translate3d(0,4px,0) scale3d(1.018,.98,1);animation-timing-function:cubic-bezier(.15,.65,.3,1)}89%{transform:translate3d(0,-3px,6px);animation-timing-function:cubic-bezier(.2,.65,.3,1)}100%{transform:translate3d(0,0,0)}}
+@keyframes oracle-contact-shadow{0%{opacity:.18;transform:scale(1.25)}66.6667%{opacity:.1;transform:scale(1.5)}80%{opacity:.58;transform:scale(.96)}83%{opacity:.65;transform:scale(1.08)}100%{opacity:.32;transform:scale(1)}}
+@keyframes oracle-landing-wave{from{opacity:.7;transform:scale(.5,.7)}to{opacity:0;transform:scale(1.9,2.4)}}
+@keyframes oracle-landing-flare{0%{opacity:0;transform:scale(.7)}12%{opacity:1}100%{opacity:0;transform:scale(1.25)}}
+@keyframes oracle-landing-dust{0%{opacity:0;transform:rotate(var(--dust-angle)) translateX(25px) scale(1)}10%{opacity:.6}100%{opacity:0;transform:rotate(var(--dust-angle)) translateX(110px) scale(.2)}}
 @keyframes oracle-portrait-awaken{from{filter:sepia(.7) saturate(0) brightness(.5);opacity:.4}to{filter:sepia(.22) saturate(.7) brightness(1);opacity:1}}
 @keyframes oracle-perk-awaken{0%{opacity:0;transform:rotate(45deg) scale(.2);filter:brightness(2)}65%{opacity:1;transform:rotate(45deg) scale(.87);filter:brightness(1.25)}100%{opacity:1;transform:rotate(45deg) scale(.75);filter:brightness(1)}}
 @keyframes oracle-gift-ripple{from{opacity:.7;transform:scale(.93);border-color:#c394e188}to{opacity:0;transform:scale(1.14);border-color:#c394e100}}
@@ -95,5 +116,5 @@
 @keyframes oracle-icon-glow{from{filter:brightness(1.8)}to{filter:brightness(1)}}
 @keyframes oracle-fallback-shuffle{0%,100%{transform:translate(calc(var(--offset)*2px),0) rotate(0deg)}50%{transform:translate(calc(var(--offset)*35px),-12px) rotate(calc(var(--offset)*5deg))}}
 @keyframes oracle-fallback-orbit{0%{transform:rotate(var(--angle)) translateX(0) rotate(calc(-1*var(--angle))) scale(.9)}25%{transform:rotate(calc(var(--angle) + 90deg)) translateX(100px) rotate(calc(-1*var(--angle) - 90deg)) scale(.82)}100%{transform:rotate(calc(var(--angle) + 360deg)) translateX(100px) rotate(calc(-1*var(--angle) - 360deg)) scale(.9)}}
-@media(max-width:800px){.reveal-shell{height:312px;width:201px;margin-top:-40px}.ritual-effects{inset:0 -25px}.ritual-chapter{top:6px;font-size:6px}.summoning-halo{width:280px;height:280px}.halo-second{width:310px;height:310px}.orbit-runes span{transform:rotate(calc(var(--rune)*60deg)) translateY(-157px) rotate(calc(var(--rune)*-60deg))}}
-@media(max-width:520px){.reveal-shell{height:292px;width:188px;margin-top:-37px}.reveal-shell .card-perks{bottom:27px;gap:3px}.card-perk-slot{height:32px;width:32px}.ritual-effects{inset:0 -22px}.entity-vines{opacity:0}.effects-orbiting .entity-vines,.effects-choosing .entity-vines{opacity:.4}.summoning-halo{width:250px;height:250px}.halo-second{width:285px;height:285px}.orbit-runes span{font-size:16px;transform:rotate(calc(var(--rune)*60deg)) translateY(-145px) rotate(calc(var(--rune)*-60deg))}.ritual-chapter{top:1px;font-size:5px;letter-spacing:2px}.draw-afterword{height:30px}.skip-ritual{font-size:9px;min-height:30px}.fallback-card-track{height:245px;width:163px}}
+@media(max-width:800px){.card-stage{--reveal-height:312px;--reveal-width:201px}.ritual-effects{inset:0 -25px}.ritual-chapter{top:6px;font-size:6px}.summoning-halo{width:280px;height:280px}.halo-second{width:310px;height:310px}.orbit-runes span{transform:rotate(calc(var(--rune)*60deg)) translateY(-157px) rotate(calc(var(--rune)*-60deg))}}
+@media(max-width:520px){.card-stage{--reveal-height:292px;--reveal-width:188px;--reveal-center-offset:18.5px}.reveal-shell .card-perks{bottom:27px;gap:3px}.card-perk-slot{height:32px;width:32px}.ritual-effects{inset:0 -22px}.entity-vines{opacity:0}.effects-orbiting .entity-vines,.effects-choosing .entity-vines{opacity:.4}.summoning-halo{width:250px;height:250px}.halo-second{width:285px;height:285px}.orbit-runes span{font-size:16px;transform:rotate(calc(var(--rune)*60deg)) translateY(-145px) rotate(calc(var(--rune)*-60deg))}.ritual-chapter{top:1px;font-size:5px;letter-spacing:2px}.draw-afterword{height:30px}.skip-ritual{font-size:9px;min-height:30px}.fallback-card-track{height:245px;width:163px}}

@@ -1,15 +1,52 @@
+import { useEffect, useLayoutEffect, useMemo, useRef } from 'react'
+import { useFrame, useThree } from '@react-three/fiber'
+import gsap from 'gsap'
+import { createEntityRig, updateEntityRig } from '../lib/entityRig'
+import type { EntityPose } from '../lib/entityRig'
 import type { RitualPhase } from '../lib/ritual'
+import type { Role } from '../lib/oracle'
 
-function Claw() {
-  return <svg viewBox="0 0 185 310" fill="none">
-    <path className="tendril-body" d="M0 300C39 266 22 230 72 225 104 222 96 177 129 162 147 154 153 140 151 116 150 95 167 79 183 74 161 97 167 116 165 135 163 164 145 179 133 188 114 204 126 232 92 246 52 262 58 287 13 310Z" />
-    <path className="tendril-body" d="M54 243 35 211 73 228ZM92 222 83 185 111 198ZM129 183 116 150 143 159ZM156 144C139 128 140 101 158 88L153 117 169 126ZM35 278 13 252 46 260Z" />
-    <path className="tendril-highlight" d="M12 299C52 268 34 242 81 236S105 185 139 174 143 112 169 90" />
-    <path className="tendril-vein" d="M22 295C61 261 44 247 86 230S111 181 143 168 148 123 167 105" />
-    <path className="tendril-hook" d="M133 188C164 179 175 158 171 140 169 129 176 119 185 116 173 137 184 151 177 165 168 183 150 191 133 197Z" />
-  </svg>
+const poses: Record<RitualPhase, EntityPose> = {
+  idle: { reach: .03, agitation: .1 },
+  gathering: { reach: .2, agitation: .35 },
+  shuffling: { reach: .36, agitation: .65 },
+  orbiting: { reach: .63, agitation: .9 },
+  choosing: { reach: 1, agitation: .25 },
+  flipping: { reach: .25, agitation: .75 },
+  revealing: { reach: .12, agitation: .2 },
+  complete: { reach: .03, agitation: .1 },
 }
 
-export default function EntityGrasp({ phase }: { phase: RitualPhase }) {
-  return <div className={`entity-grasp grasp-${phase}`} aria-hidden="true"><div className="grasp-arm grasp-left"><Claw /></div><div className="grasp-arm grasp-right"><Claw /></div></div>
+export default function EntityGrasp({ phase, reduced, role }: { phase: RitualPhase; reduced: boolean; role: Role }) {
+  const rig = useMemo(() => createEntityRig(), [])
+  const runtime = useRef(rig)
+  const pose = useRef<EntityPose>({ ...poses.idle })
+  const elapsed = useRef(0)
+  const width = useThree((state) => state.size.width)
+
+  useLayoutEffect(() => { runtime.current = rig; updateEntityRig(rig, 0, pose.current) }, [rig])
+  useEffect(() => () => rig.dispose(), [rig])
+  useEffect(() => {
+    const tween = gsap.to(pose.current, {
+      ...poses[phase], duration: reduced ? 0 : phase === 'flipping' ? .32 : phase === 'choosing' ? .58 : .7,
+      ease: phase === 'flipping' ? 'power2.out' : 'sine.inOut',
+    })
+    return () => { tween.kill() }
+  }, [phase, reduced])
+
+  useFrame(({ clock }, delta) => {
+    if (reduced) return
+    elapsed.current += delta
+    // Slower root motion still looks fluid at 30 updates per second on a phone.
+    if (width < 600 && elapsed.current < 1 / 30) return
+    elapsed.current = 0
+    updateEntityRig(runtime.current, clock.elapsedTime, pose.current)
+  })
+
+  return <group visible={!reduced}>
+    <directionalLight position={[-5, 3.5, 1.5]} color="#c1c9b1" intensity={3.1} />
+    <pointLight position={[2.8, .8, 2.5]} color={role === 'killer' ? '#bd654e' : '#bba678'} intensity={2.1} distance={7} decay={2} />
+    <pointLight position={[-2.2, -1.5, 1.8]} color="#66796b" intensity={1.1} distance={5} decay={2} />
+    <primitive object={rig.group} dispose={null} position={[0, .15, 0]} />
+  </group>
 }

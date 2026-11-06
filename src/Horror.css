@@ -60,29 +60,7 @@
 .app .entity-vines{opacity:.04}
 .app .effects-orbiting .entity-vines,.app .effects-choosing .entity-vines{opacity:.2}
 .app .effects-complete .entity-vines{opacity:.06}
-
-/* These silhouettes reach over the card edges, without intercepting controls. */
-.card-stage{--chosen-width:211px;--chosen-height:328px}
-.entity-grasp{position:absolute;width:var(--chosen-width);height:var(--chosen-height);margin-top:-40px;z-index:5;pointer-events:none}
-.grasp-arm{position:absolute;top:25px;width:185px;height:310px;opacity:.55;transition:transform .65s cubic-bezier(.2,.8,.3,1),opacity .65s;filter:drop-shadow(0 2px 2px #000b)}
-.grasp-arm svg{width:100%;height:100%;overflow:visible}
-.grasp-left{left:-162px;transform:translateX(-30px) rotate(-6deg);transform-origin:0 100%}
-.grasp-right{right:-162px;transform:scaleX(-1) translateX(-30px) rotate(-6deg);transform-origin:50% 100%}
-.tendril-body,.tendril-hook{fill:#070a08;stroke:#6e6553;stroke-width:.8;stroke-linejoin:round}
-.tendril-highlight{stroke:#8b7b5c;stroke-width:.8;opacity:.6}
-.tendril-vein{stroke:var(--entity-vein);stroke-width:1.5;opacity:.25;transition:opacity .6s;stroke-linecap:round}
-.grasp-gathering .grasp-arm,.grasp-shuffling .grasp-arm{opacity:.65}
-.grasp-orbiting .grasp-left{transform:translateX(-14px) rotate(-3deg)}
-.grasp-orbiting .grasp-right{transform:scaleX(-1) translateX(-14px) rotate(-3deg)}
-.grasp-choosing .grasp-arm{opacity:1}
-.grasp-choosing .grasp-left{transform:translateX(0) rotate(0)}
-.grasp-choosing .grasp-right{transform:scaleX(-1) translateX(0) rotate(0)}
-.grasp-choosing .tendril-vein{opacity:.8}
-.grasp-flipping .grasp-left{transform:translateX(-28px) rotate(-8deg)}
-.grasp-flipping .grasp-right{transform:scaleX(-1) translateX(-28px) rotate(-8deg)}
-.grasp-revealing .grasp-arm,.grasp-complete .grasp-arm{opacity:.4}
-.grasp-revealing .grasp-left,.grasp-complete .grasp-left{transform:translateX(-35px) rotate(-8deg)}
-.grasp-revealing .grasp-right,.grasp-complete .grasp-right{transform:scaleX(-1) translateX(-35px) rotate(-8deg)}
+.app .scene-container{mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent),linear-gradient(180deg,transparent,#000 6%,#000 90%,transparent);mask-composite:intersect;-webkit-mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent),linear-gradient(180deg,transparent,#000 6%,#000 90%,transparent);-webkit-mask-composite:source-in}
 
 .spectral-binding{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:4;opacity:.7}
 .binding-chain{position:absolute;width:100px;height:15px;transform:rotate(-45deg);filter:drop-shadow(0 0 3px #9d83bb44)}
@@ -94,7 +72,7 @@
 
 .reduced-motion .forest-mist,.reduced-motion .forest-embers,.reduced-motion .portrait-haunting{display:none}
 .reduced-motion .campfire-light{animation:none;opacity:.5}
-.reduced-motion .entity-grasp{opacity:.45}
+
 .reduced-motion .reveal-shell.is-lit .portrait-frame,.reveal-shell.is-instant .portrait-frame,.reveal-shell.is-instant .portrait-haunting{animation:none}
 @keyframes forest-mist-pass{from{transform:translateX(-2%) translateY(0)}to{transform:translateX(9%) translateY(-4%)}}
 @keyframes campfire-breathe{0%{opacity:.4;transform:scale(.92)}48%{opacity:.65;transform:scale(1.06)}100%{opacity:.45;transform:scale(.96)}}
@@ -102,5 +80,5 @@
 @keyframes portrait-ink-unveil{0%{clip-path:polygon(0 0,100% 0,100% 4%,82% 1%,67% 6%,48% 0,30% 4%,13% 0,0 7%)}46%{clip-path:polygon(0 0,100% 0,100% 53%,82% 67%,67% 52%,48% 73%,30% 58%,13% 68%,0 55%)}100%{clip-path:polygon(0 0,100% 0,100% 100%,82% 100%,67% 100%,48% 100%,30% 100%,13% 100%,0 100%)}}
 @keyframes portrait-shadow-cross{0%{opacity:0;transform:translateX(-80%)}25%{opacity:.35}100%{opacity:0;transform:translateX(80%)}}
 @media(max-width:1150px){.forest-distance img{object-position:53% 55%}.app .loadout{padding:18px 14px}}
-@media(max-width:800px){.card-stage{--chosen-width:201px;--chosen-height:312px}.grasp-arm{width:166px;height:285px;top:20px}.grasp-left{left:-145px}.grasp-right{right:-145px}.forest-branches{opacity:.35}.app .loadout{margin-top:35px}.forest-vignette{background:linear-gradient(180deg,#03080666,transparent 30%,#04090644 70%,#040906dc),linear-gradient(90deg,#02060566,transparent 30%,transparent 70%,#02060566)}}
-@media(max-width:520px){.card-stage{--chosen-width:188px;--chosen-height:292px}.entity-grasp{margin-top:-37px}.grasp-arm{width:145px;height:258px;top:18px}.grasp-left{left:-126px}.grasp-right{right:-126px}.forest-distance img{object-position:61% 50%;opacity:.8}.forest-branches{opacity:.24}.forest-mist{opacity:.35}.campfire-light{left:55%;top:55%;width:50%;height:22%}.app .loadout{padding:15px 10px}.app .intro-copy{color:#a7afa1}.app .motion-notice{font-size:7px;line-height:1.7}.app .draw-hint{font-size:8px}.binding-chain{opacity:.75}}
+@media(max-width:800px){.forest-branches{opacity:.35}.app .loadout{margin-top:35px}.forest-vignette{background:linear-gradient(180deg,#03080666,transparent 30%,#04090644 70%,#040906dc),linear-gradient(90deg,#02060566,transparent 30%,transparent 70%,#02060566)}}
+@media(max-width:520px){.forest-distance img{object-position:61% 50%;opacity:.8}.forest-branches{opacity:.24}.forest-mist{opacity:.35}.campfire-light{left:55%;top:55%;width:50%;height:22%}.app .loadout{padding:15px 10px}.app .intro-copy{color:#a7afa1}.app .motion-notice{font-size:7px;line-height:1.7}.app .draw-hint{font-size:8px}.binding-chain{opacity:.75}}

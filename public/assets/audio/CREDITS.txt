@@ -1,0 +1,29 @@
+Audio assets are locally bundled edits of CC0 1.0 sources.
+The background track remains MP3; effects use 44.1 kHz / 16-bit PCM WAV.
+CC0: https://creativecommons.org/publicdomain/zero/1.0/
+
+Post Apocalyptic Wastelands (Loop Ready) - Juhani Junkala / SubspaceAudio
+https://opengameart.org/content/horror-atmosphere
+Used as the full looping background theme; loudness adjusted and encoded as MP3.
+
+Playing Card Sounds - Brian MacIntosh / BMacZero
+https://opengameart.org/content/playing-card-sounds
+Shuffle, cut, and contact recordings; filtered and faded.
+
+35 Wooden Cracks/Hits/Destructions - Independent.nu, submitted by qubodup
+https://opengameart.org/content/35-wooden-crackshitsdestructions
+Selected cracks and impacts; noise reduced, trimmed, gently pitched, filtered, and faded.
+
+Heartbeat (single sound) - Independent.nu, submitted by qubodup
+https://opengameart.org/content/heartbeat-single-sound
+Noise-reduced, trimmed, and filtered heartbeat recording.
+
+Ghost Monster Voice Moaning & Growling - Iwan Gabovitch / qubodup
+https://opengameart.org/content/ghost-monster-voice-moaning-growling
+Moan 01; noise reduced, pitch lowered, trimmed, filtered, faded, and reversed for the veil rise.
+
+The effects engine adds quiet synthesized low resonances and a damped stereo delay room.
+The background theme and its playback processing are unchanged.
+
+Source URLs, SHA-256 hashes, and exact FFmpeg recipes: design/audio-sources.json.
+No official Dead by Daylight music or sound recordings are used.

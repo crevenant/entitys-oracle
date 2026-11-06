@@ -3,10 +3,10 @@ import gsap from 'gsap'
 import type { Draw } from './oracle'
 import { RITUAL } from './ritual'
 import type { RitualPhase } from './ritual'
-import { createRitualAudio } from './sound'
+import { createRitualAudio, loadRitualSamples } from './sound'
 
 type State = { draw: Draw | null; phase: RitualPhase; revealedPerks: number; instant: boolean }
-type Options = { reduced: boolean; sound: boolean; haptics: boolean; onComplete: (draw: Draw) => void }
+type Options = { reduced: boolean; sound: boolean; volume: number; haptics: boolean; onComplete: (draw: Draw) => void }
 type Playback = { draw: Draw; timeline: gsap.core.Timeline; audio: ReturnType<typeof createRitualAudio> }
 const initial: State = { draw: null, phase: 'idle', revealedPerks: 0, instant: true }
 
@@ -14,22 +14,26 @@ function vibrate(pattern: number | number[]) {
   try { navigator.vibrate?.(pattern) } catch { /* Optional device feedback. */ }
 }
 
-export function useRitual({ reduced, sound, haptics, onComplete }: Options) {
+export function useRitual({ reduced, sound, volume, haptics, onComplete }: Options) {
   const [state, setState] = useState<State>(initial)
   const active = useRef<Playback | null>(null)
+  const soundSession = useRef<ReturnType<typeof createRitualAudio>>(null)
   const feedback = useRef({ sound, haptics })
+  useEffect(() => { if (sound) void loadRitualSamples().catch(() => undefined) }, [sound])
   useEffect(() => {
     feedback.current = { sound, haptics }
-    if (!sound) active.current?.audio?.stop()
+    if (!sound) soundSession.current?.stop()
+    else soundSession.current?.setVolume(volume)
     if (!haptics) vibrate(0)
-  }, [sound, haptics])
+  }, [sound, volume, haptics])
 
   const finish = useCallback((instant = false) => {
     const playback = active.current
     if (!playback) return
     active.current = null
     playback.timeline.kill()
-    playback.audio?.stop()
+    if (instant) playback.audio?.stop()
+    else playback.audio?.release()
     vibrate(0)
     setState((previous) => ({ ...previous, draw: playback.draw, phase: 'complete', revealedPerks: 4, instant: instant || previous.instant }))
     onComplete(playback.draw)
@@ -40,6 +44,7 @@ export function useRitual({ reduced, sound, haptics, onComplete }: Options) {
     active.current = null
     playback?.timeline.kill()
     playback?.audio?.stop()
+    soundSession.current?.stop()
     vibrate(0)
   }, [])
 
@@ -49,13 +54,15 @@ export function useRitual({ reduced, sound, haptics, onComplete }: Options) {
   const start = useCallback((draw: Draw) => {
     if (active.current) return
     // Start decoding during the shuffle so the chosen portrait never reveals blank.
-    for (const entry of [draw.character, ...draw.perks]) {
+    for (const src of ['/assets/tarot-back-worn.webp', draw.character.image, ...draw.perks.map((perk) => perk.image)]) {
       const image = new Image()
-      image.src = entry.image
+      image.src = src
       void image.decode().catch(() => undefined)
     }
     const timeline = gsap.timeline({ paused: true })
-    const audio = sound && !reduced ? createRitualAudio() : null
+    soundSession.current?.stop()
+    const audio = sound && !reduced ? createRitualAudio({ volume, role: draw.character.role === 'killer' ? 'killer' : 'survivor' }) : null
+    soundSession.current = audio
     active.current = { draw, timeline, audio }
     setState({ draw, phase: 'gathering', revealedPerks: 0, instant: reduced })
     if (reduced) { finish(true); return }
@@ -76,7 +83,7 @@ export function useRitual({ reduced, sound, haptics, onComplete }: Options) {
     }, [], time))
     timeline.call(() => finish(), [], RITUAL.complete)
     timeline.play(0)
-  }, [finish, reduced, sound])
+  }, [finish, reduced, sound, volume])
 
   const reset = useCallback(() => { cancel(); setState(initial) }, [cancel])
   const restore = useCallback((draw: Draw) => {

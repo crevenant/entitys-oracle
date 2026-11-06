@@ -9,7 +9,8 @@
     "lint": "oxlint",
     "preview": "vite preview",
     "test": "playwright test",
-    "catalog:refresh": "node scripts/import-catalog.mjs --refresh"
+    "catalog:refresh": "node scripts/import-catalog.mjs --refresh",
+    "sound:preview": "node scripts/render-sound-preview.mjs"
   },
   "dependencies": {
     "@fontsource/cormorant-garamond": "^5.3.0",

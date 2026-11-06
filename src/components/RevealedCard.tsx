@@ -1,15 +1,38 @@
 import { Eye, LockKeyhole } from 'lucide-react'
 import type { Draw, Perk } from '../lib/oracle'
+import { CARD_REVEAL } from '../lib/ritual'
+import { useLayoutEffect, useRef } from 'react'
+import type { CSSProperties } from 'react'
+import gsap from 'gsap'
 import type { RitualPhase } from '../lib/ritual'
 import SpectralBinding from './SpectralBinding'
 
 type Props = { draw: Draw; phase: RitualPhase; revealedPerks: number; instant: boolean; onInspect: (perk: Perk) => void; lockedCharacter: boolean; lockedPerks: (string | null)[] }
 
 export default function RevealedCard({ draw, phase, revealedPerks, instant, onInspect, lockedCharacter, lockedPerks }: Props) {
-  const lit = phase !== 'flipping'
-  return <div className={`reveal-shell ${instant ? 'is-instant' : ''} ${lit ? 'is-lit' : ''}`}>
+  const shell = useRef<HTMLDivElement>(null)
+  useLayoutEffect(() => {
+    if (instant || !shell.current) return
+    const animations = ['.reveal-flight', '.reveal-turn', '.reveal-contact-shadow'].flatMap((selector) => shell.current!.querySelector(selector)?.getAnimations() ?? [])
+    if (!animations.length) return
+    for (const animation of animations) { animation.pause(); animation.currentTime = 0 }
+    const clock = { elapsed: 0 }
+    // Use the same ticker as the ritual and 3D deck. A slow frame must never
+    // leave a finished CSS flip waiting for the character reveal to catch up.
+    const motion = gsap.to(clock, {
+      elapsed: CARD_REVEAL.impact + CARD_REVEAL.settle,
+      duration: CARD_REVEAL.impact + CARD_REVEAL.settle,
+      ease: 'none',
+      onUpdate: () => { for (const animation of animations) animation.currentTime = clock.elapsed * 1000 },
+    })
+    return () => { motion.kill() }
+  }, [instant])
+  const lit = phase === 'revealing' || phase === 'complete'
+  const style = { '--flip-duration': `${CARD_REVEAL.turn}s`, '--flight-duration': `${CARD_REVEAL.impact + CARD_REVEAL.settle}s`, '--lift-start': `${CARD_REVEAL.lift}px`, '--depth-start': `${CARD_REVEAL.depth}px`, '--card-perspective': `${CARD_REVEAL.perspective}px` } as CSSProperties
+  return <div ref={shell} className={`reveal-shell ${instant ? 'is-instant' : ''} ${lit ? 'is-lit' : ''}`} style={style}>
     <div className="reveal-aura" aria-hidden="true" />
-    <div className="reveal-turn">
+    <div className="reveal-contact-shadow" aria-hidden="true" />
+    <div className="reveal-flight"><div className="reveal-turn">
       <div className="reveal-back reveal-face" aria-hidden="true"><img src="/assets/tarot-back-worn.webp" alt="" /></div>
       <article className="revealed-card reveal-face reveal-front" aria-label={lit ? `Your fate: ${draw.character.name}` : 'Your chosen card'} aria-hidden={!lit}>
         <span className="card-roman">{draw.character.role === 'survivor' ? 'XVII' : 'XIII'} {lockedCharacter ? <LockKeyhole size={15} /> : <Eye size={15} />} {draw.character.role.toUpperCase()}</span>
@@ -23,7 +46,7 @@ export default function RevealedCard({ draw, phase, revealedPerks, instant, onIn
         <span className="card-bottom">◇ &nbsp; {revealedPerks === 4 ? 'YOUR FATE IS SEALED' : 'THE FOG HOLDS ITS SECRETS'} &nbsp; ◇</span>
         {lockedCharacter && <SpectralBinding />}
       </article>
-    </div>
+    </div></div>
     {revealedPerks > 0 && !instant && <div key={revealedPerks} className="gift-ripple" aria-hidden="true" />}
   </div>
 }

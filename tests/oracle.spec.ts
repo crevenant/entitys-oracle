@@ -1,4 +1,29 @@
 import { test, expect } from '@playwright/test'
+import type { Page } from '@playwright/test'
+
+async function observeAudio(page: Page) {
+  await page.addInitScript(() => {
+    const stats = { started: 0, active: 0 }
+    Object.assign(window, { oracleAudioStats: stats })
+    for (const method of ['createOscillator', 'createBufferSource'] as const) {
+      const original = AudioContext.prototype[method]
+      Object.defineProperty(AudioContext.prototype, method, {
+        value: function (...args: unknown[]) {
+          const source = Reflect.apply(original, this, args) as AudioScheduledSourceNode
+          const start = source.start
+          source.start = function (...values: number[]) {
+            stats.started++
+            stats.active++
+            source.addEventListener('ended', () => stats.active--, { once: true })
+            return Reflect.apply(start, this, values)
+          }
+          return source
+        },
+      })
+    }
+  })
+  return () => page.evaluate(() => (window as unknown as { oracleAudioStats: { started: number; active: number } }).oracleAudioStats)
+}
 
 test('draw, inspect perks, and revisit saved history', async ({ page }, testInfo) => {
   const errors: string[] = []
@@ -28,6 +53,10 @@ test('draw, inspect perks, and revisit saved history', async ({ page }, testInfo
   await expect(page.getByRole('button', { name: 'Killer', exact: true })).toBeDisabled()
   await expect(page.locator('.card-stage')).toHaveAttribute('data-phase', 'orbiting', { timeout: 4000 })
   await page.screenshot({ path: `output/screenshots/${testInfo.project.name}-orbit.png`, fullPage: true })
+  // A phone screenshot can outlast the short choosing phase. Verify the recorded
+  // transition so a slow capture cannot mistake a completed phase for a missing one.
+  await expect.poll(() => page.evaluate(() => (window as unknown as { observedRitualPhases: string[] }).observedRitualPhases.includes('choosing'))).toBe(true)
+  await page.screenshot({ path: `output/screenshots/${testInfo.project.name}-entity-reach.png`, fullPage: true })
   await expect(page.getByRole('button', { name: 'Tempt fate again' })).toBeEnabled({ timeout: 8000 })
   await expect(page.locator('.revealed-card')).toBeVisible()
   await expect(page.locator('.perk-tile')).toHaveCount(4)
@@ -149,32 +178,12 @@ test('production app installs its cache and draws offline', async ({ page, conte
   await expect.poll(() => page.locator('.forest-distance img').evaluate((image) => (image as HTMLImageElement).complete && (image as HTMLImageElement).naturalWidth > 0)).toBe(true)
 })
 test('muting sound during a ritual stops its audio and suppresses later cues', async ({ page }) => {
-  await page.addInitScript(() => {
-    const stats = { started: 0, active: 0 }
-    Object.assign(window, { oracleAudioStats: stats })
-    for (const method of ['createOscillator', 'createBufferSource'] as const) {
-      const original = AudioContext.prototype[method]
-      Object.defineProperty(AudioContext.prototype, method, {
-        value: function (...args: unknown[]) {
-          const source = Reflect.apply(original, this, args) as AudioScheduledSourceNode
-          const start = source.start
-          source.start = function (...values: number[]) {
-            stats.started++
-            stats.active++
-            source.addEventListener('ended', () => stats.active--, { once: true })
-            return Reflect.apply(start, this, values)
-          }
-          return source
-        },
-      })
-    }
-  })
+  const stats = await observeAudio(page)
   await page.goto('/')
   await page.getByRole('button', { name: 'Open settings' }).click()
   await page.getByRole('checkbox', { name: /Ritual sound/ }).check()
   await page.getByRole('button', { name: 'Close dialog' }).click()
   await page.getByRole('button', { name: 'Draw your fate' }).click()
-  const stats = () => page.evaluate(() => (window as unknown as { oracleAudioStats: { started: number; active: number } }).oracleAudioStats)
   await expect.poll(async () => (await stats()).active).toBeGreaterThan(0)
   await page.getByRole('button', { name: 'Open settings' }).click()
   await page.getByRole('checkbox', { name: /Ritual sound/ }).uncheck()
@@ -183,6 +192,49 @@ test('muting sound during a ritual stops its audio and suppresses later cues', a
   await page.getByRole('button', { name: 'Close dialog' }).click()
   await expect(page.locator('.card-stage')).toHaveAttribute('data-phase', 'complete', { timeout: 8000 })
   expect((await stats()).started).toBe(started)
+})
+
+test('saved sound volume migrates older settings and survives mute and reload', async ({ page }) => {
+  await page.addInitScript(() => {
+    if (!localStorage.getItem('oracle:preferences')) localStorage.setItem('oracle:preferences', JSON.stringify({ sound: true, motion: 'full' }))
+  })
+  await page.goto('/')
+  await page.getByRole('button', { name: 'Open settings' }).click()
+  const volume = page.getByRole('slider', { name: 'Ritual volume' })
+  await expect(volume).toHaveValue('75')
+  await volume.press('Home')
+  for (let step = 0; step < 9; step++) await volume.press('ArrowRight')
+  await expect(volume).toHaveValue('45')
+  await page.reload()
+  await page.getByRole('button', { name: 'Open settings' }).click()
+  await expect(volume).toHaveValue('45')
+  await expect(page.locator('.sound-volume:has(input[aria-label="Ritual volume"]) output')).toHaveText('45%')
+  await page.getByRole('checkbox', { name: /Ritual sound/ }).uncheck()
+  await expect(volume).toBeDisabled()
+  await page.getByRole('checkbox', { name: /Ritual sound/ }).check()
+  await expect(volume).toBeEnabled()
+  await expect(volume).toHaveValue('45')
+})
+
+test('skip stops sound and a subsequent draw retains a mutable release tail', async ({ page }) => {
+  const stats = await observeAudio(page)
+  await page.goto('/')
+  await page.getByRole('button', { name: 'Open settings' }).click()
+  await page.getByRole('checkbox', { name: /Ritual sound/ }).check()
+  await page.getByRole('button', { name: 'Close dialog' }).click()
+  await page.getByRole('button', { name: 'Draw your fate' }).click()
+  await expect.poll(async () => (await stats()).active).toBeGreaterThan(0)
+  await page.getByRole('button', { name: 'Skip the ritual' }).click()
+  await expect.poll(async () => (await stats()).active).toBe(0)
+  const started = (await stats()).started
+  await page.getByRole('button', { name: 'Tempt fate again' }).click()
+  await expect.poll(async () => (await stats()).started).toBeGreaterThan(started)
+  await page.getByRole('button', { name: 'Open settings' }).click()
+  await expect(page.locator('.card-stage')).toHaveAttribute('data-phase', 'complete', { timeout: 8000 })
+  await expect.poll(async () => (await stats()).active, { intervals: [20] }).toBeGreaterThan(0)
+  await page.getByRole('checkbox', { name: /Ritual sound/ }).uncheck()
+  await expect.poll(async () => (await stats()).active).toBe(0)
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem('oracle:history')!).length)).toBe(2)
 })
 test('full ritual explicitly overrides a reduced-motion device preference and survives reload', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })

@@ -1,13 +1,17 @@
-/** Seconds from the start of a draw; all scenes and sound cues share this clock. */
+export const CARD_REVEAL = { turn: .9, impact: 1.2, settle: .3, lift: 34, depth: 96, perspective: 1200 } as const
+const flipAt = 3.18
+const revealAt = flipAt + CARD_REVEAL.impact
+
+/** Seconds from the start of a draw; all scenes, landing effects, and sound share this clock. */
 export const RITUAL = {
   gathering: 0,
   shuffling: 0.46,
   orbiting: 1.18,
   choosing: 2.48,
-  flipping: 3.18,
-  revealing: 3.94,
-  perks: [4.12, 4.46, 4.8, 5.14],
-  complete: 5.62,
+  flipping: flipAt,
+  revealing: revealAt,
+  perks: [revealAt + .18, revealAt + .52, revealAt + .86, revealAt + 1.2],
+  complete: revealAt + 1.68,
 } as const
 
 export type RitualPhase = 'idle' | 'gathering' | 'shuffling' | 'orbiting' | 'choosing' | 'flipping' | 'revealing' | 'complete'

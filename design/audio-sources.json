@@ -1,0 +1,123 @@
+{
+  "imported": "2026-11-06T12:48:04.869Z",
+  "sources": [
+    {
+      "file": "theme.ogg",
+      "page": "https://opengameart.org/content/horror-atmosphere",
+      "author": "Juhani Junkala (SubspaceAudio)",
+      "url": "https://opengameart.org/sites/default/files/Juhani%20Junkala%20-%20Post%20Apocalyptic%20Wastelands%20%5BLoop%20Ready%5D.ogg",
+      "sha256": "4145080f1a0ba45c3d1b6988c1d26ec3529ee8d8196eb3fa0045b49c86dd20ad",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "shuffle.wav",
+      "page": "https://opengameart.org/content/playing-card-sounds",
+      "author": "Brian MacIntosh (BMacZero)",
+      "url": "https://opengameart.org/sites/default/files/shuffle.wav",
+      "sha256": "eedc3d3112c593f0a9bc3697dcb496e1b03ac5423b0f45f89e412f7b62818729",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "cut.wav",
+      "page": "https://opengameart.org/content/playing-card-sounds",
+      "author": "Brian MacIntosh (BMacZero)",
+      "url": "https://opengameart.org/sites/default/files/cut.wav",
+      "sha256": "e34049add637cd31efe11aedfd93d5834f9e469ffb083b444c15aa709f1ac1d1",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "contact.wav",
+      "page": "https://opengameart.org/content/playing-card-sounds",
+      "author": "Brian MacIntosh (BMacZero)",
+      "url": "https://opengameart.org/sites/default/files/contact2.wav",
+      "sha256": "7a30a388cab6ce4b9da74fbc13f3a376ec4e588a024d1e26d59545d0153e5433",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "wood.7z",
+      "page": "https://opengameart.org/content/35-wooden-crackshitsdestructions",
+      "author": "Independent.nu (submitted by qubodup)",
+      "url": "https://opengameart.org/sites/default/files/independent_nu_ljudbank-wood_crack_hit_destruction.7z",
+      "sha256": "2f9723be0147c32ea07db8ef7406229fb8f1a6ce8feabdf0dbf2dc5ee2aacd1a",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "heartbeat.flac",
+      "page": "https://opengameart.org/content/heartbeat-single-sound",
+      "author": "Independent.nu (submitted by qubodup)",
+      "url": "https://opengameart.org/sites/default/files/heartbeat.mp3_.flac",
+      "sha256": "7fe0850daa5c92c6a204fbb0a719ee8f8d2979e3416033d796abd6e30f3c118a",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "ghost.zip",
+      "page": "https://opengameart.org/content/ghost-monster-voice-moaning-growling",
+      "author": "Iwan Gabovitch (qubodup)",
+      "url": "https://opengameart.org/sites/default/files/qubodup-GhostMoans.zip",
+      "sha256": "25962d146f4634a93efa7fbfe9cde63f4182189ced6105b4f92f23c65d8c2a43",
+      "license": "CC0-1.0"
+    }
+  ],
+  "recipes": [
+    {
+      "file": "wastelands-theme.mp3",
+      "source": "output/audio-sources/theme.ogg",
+      "filter": "loudnorm=I=-21:TP=-3:LRA=10",
+      "bitrate": 112
+    },
+    {
+      "file": "cards-shuffle.wav",
+      "source": "output/audio-sources/shuffle.wav",
+      "filter": "afftdn=nr=8:nf=-48,highpass=f=120,lowpass=f=5800,equalizer=f=3400:t=q:w=0.8:g=-2,afade=t=in:d=0.008,afade=t=out:st=0.65:d=0.12",
+      "encoding": "PCM 16-bit mono, 44100 Hz"
+    },
+    {
+      "file": "card-turn.wav",
+      "source": "output/audio-sources/cut.wav",
+      "filter": "afftdn=nr=8:nf=-48,highpass=f=100,lowpass=f=5500,afade=t=in:d=0.008,areverse,afade=t=in:d=0.025,areverse",
+      "encoding": "PCM 16-bit mono, 44100 Hz"
+    },
+    {
+      "file": "card-place.wav",
+      "source": "output/audio-sources/contact.wav",
+      "filter": "afftdn=nr=8:nf=-48,highpass=f=90,lowpass=f=4500,afade=t=in:d=0.008,areverse,afade=t=in:d=0.035,areverse",
+      "encoding": "PCM 16-bit mono, 44100 Hz"
+    },
+    {
+      "file": "root-crack.wav",
+      "source": "output/audio-sources/wood/wood_impact\\crack03.mp3.flac",
+      "filter": "afftdn=nr=12:nf=-43,atrim=start=0.1:duration=0.95,asetpts=PTS-STARTPTS,asetrate=44100*0.86,aresample=44100,highpass=f=70,lowpass=f=2100,afade=t=in:d=0.012,afade=t=out:st=0.8:d=0.3",
+      "encoding": "PCM 16-bit mono, 44100 Hz"
+    },
+    {
+      "file": "entity-breath.wav",
+      "source": "output/audio-sources/ghost/qubodup-GhostMoans/wav/qubodup-GhostMoan01.wav",
+      "filter": "afftdn=nr=14:nf=-42,asetrate=44100*0.76,aresample=44100,atrim=0:3,highpass=f=80,lowpass=f=1350,afade=t=in:d=0.22,afade=t=out:st=2.2:d=0.8,volume=0.8",
+      "encoding": "PCM 16-bit mono, 44100 Hz"
+    },
+    {
+      "file": "veil-rise.wav",
+      "source": "output/audio-sources/ghost/qubodup-GhostMoans/wav/qubodup-GhostMoan01.wav",
+      "filter": "afftdn=nr=14:nf=-42,atrim=0.3:1.5,areverse,asetrate=44100*0.92,aresample=44100,highpass=f=180,lowpass=f=1800,afade=t=in:d=0.8,afade=t=out:st=1.05:d=0.25,volume=0.7",
+      "encoding": "PCM 16-bit mono, 44100 Hz"
+    },
+    {
+      "file": "reveal-impact.wav",
+      "source": "output/audio-sources/wood/wood_impact\\impactwood06.mp3.flac",
+      "filter": "afftdn=nr=12:nf=-43,atrim=start=0.1:duration=1.3,asetpts=PTS-STARTPTS,asetrate=44100*0.78,aresample=44100,highpass=f=38,lowpass=f=1600,bass=g=3:f=140,afade=t=in:d=0.012,afade=t=out:st=0.85:d=0.8,alimiter=limit=0.8:level=false",
+      "encoding": "PCM 16-bit mono, 44100 Hz"
+    },
+    {
+      "file": "heartbeat.wav",
+      "source": "output/audio-sources/heartbeat.flac",
+      "filter": "afftdn=nr=10:nf=-46,atrim=start=0.12:duration=0.9,asetpts=PTS-STARTPTS,highpass=f=38,lowpass=f=500,afade=t=in:d=0.012,afade=t=out:st=0.55:d=0.35,alimiter=limit=0.8:level=false",
+      "encoding": "PCM 16-bit mono, 44100 Hz"
+    },
+    {
+      "file": "perk-seal.wav",
+      "source": "output/audio-sources/wood/wood_impact\\impactwood03.mp3.flac",
+      "filter": "afftdn=nr=12:nf=-43,atrim=start=0.1:duration=0.9,asetpts=PTS-STARTPTS,asetrate=44100*0.93,aresample=44100,highpass=f=110,lowpass=f=1900,afade=t=in:d=0.012,afade=t=out:st=0.4:d=0.55,alimiter=limit=0.75:level=false",
+      "encoding": "PCM 16-bit mono, 44100 Hz"
+    }
+  ]
+}

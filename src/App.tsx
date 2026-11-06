@@ -11,15 +11,18 @@ import CollectionPanel from './components/CollectionPanel'
 import type { CollectionTab } from './components/CollectionPanel'
 import LoadoutControls from './components/LoadoutControls'
 import ForestBackdrop from './components/ForestBackdrop'
-import EntityGrasp from './components/EntityGrasp'
+import SoundControls from './components/SoundControls'
+import { useBackgroundTheme } from './lib/useBackgroundTheme'
+import { THEME_FILE } from './lib/sound'
 import './App.css'
 import './Ritual.css'
 import './Loadout.css'
 import './Horror.css'
+import './Sound.css'
 
 const CardScene = lazy(() => import('./components/CardScene'))
 type Panel = 'collection' | 'history' | 'settings' | 'perk' | null
-type Preferences = { sound: boolean; motion: MotionMode; haptics: boolean }
+type Preferences = { sound: boolean; volume: number; music: boolean; musicVolume: number; muted: boolean; motion: MotionMode; haptics: boolean }
 type Locks = { character: string | null; perks: (string | null)[] }
 const emptyLocks = (): Locks => ({ character: null, perks: [null, null, null, null] })
 
@@ -42,7 +45,9 @@ function App() {
     const saved = readSaved<Partial<Preferences> & { reduced?: boolean }>('oracle:preferences', {})
     const motion: MotionMode = saved?.motion === 'full' || saved?.motion === 'reduced' || saved?.motion === 'system'
       ? saved.motion : saved?.reduced === true ? 'reduced' : 'system'
-    return { sound: saved?.sound === true, motion, haptics: saved?.haptics === true }
+    const volume = typeof saved?.volume === 'number' && Number.isFinite(saved.volume) ? Math.max(0, Math.min(1, saved.volume)) : .75
+    const musicVolume = typeof saved?.musicVolume === 'number' && Number.isFinite(saved.musicVolume) ? Math.max(0, Math.min(1, saved.musicVolume)) : .4
+    return { sound: saved?.sound === true, volume, music: saved?.music !== false, musicVolume, muted: saved?.muted === true, motion, haptics: saved?.haptics === true }
   })
   const [systemReduced, setSystemReduced] = useState(() => matchMedia('(prefers-reduced-motion: reduce)').matches)
   const [panel, setPanel] = useState<Panel>(null)
@@ -52,9 +57,13 @@ function App() {
   const dialog = useRef<HTMLDialogElement>(null)
   const motion = preferences.motion ?? 'system'
   const reduced = motion === 'reduced' || (motion === 'system' && systemReduced)
+  const soundVolume = preferences.volume ?? .75
   const rememberDraw = useCallback((draw: Draw) => setHistory((previous) => [draw, ...previous].slice(0, 20)), [])
-  const ritual = useRitual({ reduced, sound: preferences.sound, haptics: preferences.haptics, onComplete: rememberDraw })
+  const ritual = useRitual({ reduced, sound: preferences.sound && !preferences.muted, volume: soundVolume, haptics: preferences.haptics, onComplete: rememberDraw })
   const { phase, drawing, revealedPerks } = ritual
+  const musicEnabled = preferences.music ?? true
+  const musicVolume = preferences.musicVolume ?? .4
+  const { audioRef: themeAudioRef, state: themeState, startTheme } = useBackgroundTheme(musicEnabled && !preferences.muted, musicVolume, drawing && preferences.sound && !preferences.muted)
   const result = ritual.hasCard ? ritual.draw : null
   const characterVisible = phase === 'revealing' || phase === 'complete'
   const characters = catalog.characters.filter((character) => character.role === role)
@@ -131,6 +140,7 @@ function App() {
   }
 
   return <div className={`app ${reduced ? 'reduced-motion' : ''} ${drawing ? 'ritual-in-progress' : ''}`} data-phase={phase} data-role={role}>
+    <audio ref={themeAudioRef} src={THEME_FILE} autoPlay={musicEnabled && !preferences.muted} loop preload={musicEnabled && !preferences.muted ? 'auto' : 'none'} aria-hidden="true" data-background-theme data-state={themeState} data-ducked={drawing && preferences.sound && !preferences.muted} />
     <ForestBackdrop />
     <div className="atmosphere" aria-hidden="true"><div className="fog fog-one" /><div className="fog fog-two" /><div className="grain" /></div>
     <header className="header">
@@ -140,7 +150,7 @@ function App() {
         <button className={`nav-link ${panel === 'collection' ? 'active' : ''}`} onClick={() => openCollection('characters')}><BookOpen size={14} />Collection</button>
         <button className={`nav-link ${panel === 'history' ? 'active' : ''}`} onClick={() => setPanel('history')}><History size={14} />Past fates</button>
       </nav>
-      <div className="header-actions"><button className="icon-button sound-button" aria-label={preferences.sound ? 'Mute ritual sound' : 'Enable ritual sound'} aria-pressed={preferences.sound} onClick={() => setPreferences({ ...preferences, sound: !preferences.sound })}>{preferences.sound ? <Volume2 size={18} /> : <VolumeX size={18} />}</button><button className="icon-button" aria-label="Open settings" onClick={() => setPanel('settings')}><Settings2 size={18} /></button></div>
+      <div className="header-actions"><button className="icon-button sound-button" aria-label={preferences.muted ? 'Unmute all sound' : 'Mute all sound'} aria-pressed={!preferences.muted} onClick={() => setPreferences((previous) => ({ ...previous, muted: !previous.muted }))}>{preferences.muted ? <VolumeX size={18} /> : <Volume2 size={18} />}</button><button className="icon-button" aria-label="Open settings" onClick={() => setPanel('settings')}><Settings2 size={18} /></button></div>
     </header>
 
     <main id="oracle">
@@ -169,7 +179,6 @@ function App() {
         <div className={`card-stage phase-${phase} ${drawing ? 'is-drawing' : ''} ${result ? 'is-revealed' : ''}`} data-phase={phase} aria-busy={drawing}>
           <div className="ritual-ring ring-outer" aria-hidden="true" /><div className="ritual-ring ring-inner" aria-hidden="true" />
           <RitualEffects phase={phase} />
-          <EntityGrasp phase={phase} />
           <div className="stage-glow" aria-hidden="true" />
           <div className="scene-container"><Suspense fallback={<div className="deck-loading"><img src="/assets/tarot-back-worn.webp" alt="" /></div>}><CardScene role={role} phase={phase} revealed={!!result} reduced={reduced} /></Suspense></div>
           {result && <RevealedCard key={result.id} draw={result} phase={phase} revealedPerks={revealedPerks} instant={ritual.instant} onInspect={inspect} lockedCharacter={locks.character === result.character.id} lockedPerks={locks.perks} />}
@@ -194,6 +203,7 @@ function App() {
         {allLocked && <p className="error">Every entry is locked. <button onClick={() => setLocks(emptyLocks())}>Release all locks</button> to draw again.</p>}
         {lockCount > 0 && !allLocked && <p className="held-summary"><LockKeyhole size={10} />{lockCount} of 5 entries held for the next draw</p>}
         {error && <p className="error" role="alert">{error}</p>}
+        {musicEnabled && !preferences.muted && themeState === 'waiting' && <button className="theme-start" onClick={startTheme}><Volume2 size={12} />Start background theme</button>}
         <div className="draw-afterword">{drawing ? <button className="skip-ritual" onClick={ritual.skip}>Skip the ritual <ChevronRight size={12} /></button> : <p className="draw-hint">{result ? 'Inspect a perk to reveal its details.' : 'A little chance. A little chaos. Entirely your next trial.'}</p>}</div>
         <div className="motion-notice">{reduced ? <><Moon size={11} /><span>{motion === 'system' ? 'Device motion preference: instant reveal.' : 'Reduced effects: instant reveal.'}</span><button onClick={() => setMotion('full')}>Enable full ritual</button></> : <><Sparkles size={11} /><span>{motion === 'full' ? 'Full ritual enabled' : 'Cinematic ritual · Following device'}</span><button onClick={() => setPanel('settings')}>Adjust</button></>}</div>
       </section>
@@ -211,7 +221,7 @@ function App() {
         {panel === 'history' && <><p className="eyebrow">ECHOES IN THE FOG</p><h2>Past fates</h2><p className="modal-copy">Your last 20 draws, saved on this device. Choose one to revisit its hand.</p>
           {history.length ? <><div className="history-list">{history.map((entry) => <button key={entry.id} onClick={() => restoreDraw(entry)} disabled={drawing}><img src={entry.character.image} alt="" /><span><strong>{entry.character.name}</strong><small>{entry.perks.map((p) => p.name).join(' · ')}</small></span><ChevronRight size={16} /></button>)}</div><button className="text-button clear-history" onClick={() => setHistory([])}>Clear saved history</button></> : <div className="empty-state"><History size={30} /><p>No fate has been written yet.</p><button className="text-button" onClick={() => setPanel(null)}>Return to the ritual <ChevronRight size={14} /></button></div>}
         </>}
-        {panel === 'settings' && <><p className="eyebrow">SET THE ATMOSPHERE</p><h2>Ritual settings</h2><p className="modal-copy">Make the fog feel like home.</p><label className="setting"><span><strong><Volume2 size={18} /> Ritual sound</strong><small>Card whispers, a dark crescendo, and four chiming gifts.</small></span><input type="checkbox" checked={preferences.sound} onChange={(event) => setPreferences({ ...preferences, sound: event.target.checked })} /></label><label className="setting"><span><strong><Sparkles size={18} /> Haptic feedback</strong><small>{'vibrate' in navigator ? 'A gentle pulse with each revelation on supported devices.' : 'Vibration is unavailable in this browser.'}</small></span><input type="checkbox" disabled={!('vibrate' in navigator)} checked={preferences.haptics} onChange={(event) => setPreferences({ ...preferences, haptics: event.target.checked })} /></label><fieldset className="motion-setting"><legend><Moon size={18} /> Motion effects</legend><div className="motion-options"><button aria-pressed={motion === 'system'} onClick={() => setMotion('system')}>Follow device</button><button aria-pressed={motion === 'full'} onClick={() => setMotion('full')}>Full ritual</button><button aria-pressed={motion === 'reduced'} onClick={() => setMotion('reduced')}>Reduced effects</button></div><p className="motion-explanation">{motion === 'full' ? 'Cinematic shuffling, a card flip, and four staged perk reveals. This choice is saved for this app.' : motion === 'reduced' ? 'Reveal instantly, with no shuffling or moving particles.' : systemReduced ? 'Your device prefers reduced motion, so draws reveal instantly. Choose Full ritual to play the animation in this app.' : 'Your device allows animation, so the full cinematic ritual plays.'}</p></fieldset><p className="catalog-note">Character and perk artwork © Behaviour Interactive and their respective owners. This is an unofficial fan project, unaffiliated with Dead by Daylight.</p></>}
+        {panel === 'settings' && <><p className="eyebrow">SET THE ATMOSPHERE</p><h2>Ritual settings</h2><p className="modal-copy">Make the fog feel like home.</p><SoundControls music={musicEnabled} musicVolume={musicVolume} muted={preferences.muted} themeState={themeState} onMusic={(music) => setPreferences((previous) => ({ ...previous, music }))} onMusicVolume={(musicVolume) => setPreferences((previous) => ({ ...previous, musicVolume }))} onUnmute={() => setPreferences((previous) => ({ ...previous, muted: false }))} enabled={preferences.sound} volume={soundVolume} onEnabled={(sound) => setPreferences((previous) => ({ ...previous, sound }))} onVolume={(volume) => setPreferences((previous) => ({ ...previous, volume }))} /><label className="setting"><span><strong><Sparkles size={18} /> Haptic feedback</strong><small>{'vibrate' in navigator ? 'A gentle pulse with each revelation on supported devices.' : 'Vibration is unavailable in this browser.'}</small></span><input type="checkbox" disabled={!('vibrate' in navigator)} checked={preferences.haptics} onChange={(event) => setPreferences({ ...preferences, haptics: event.target.checked })} /></label><fieldset className="motion-setting"><legend><Moon size={18} /> Motion effects</legend><div className="motion-options"><button aria-pressed={motion === 'system'} onClick={() => setMotion('system')}>Follow device</button><button aria-pressed={motion === 'full'} onClick={() => setMotion('full')}>Full ritual</button><button aria-pressed={motion === 'reduced'} onClick={() => setMotion('reduced')}>Reduced effects</button></div><p className="motion-explanation">{motion === 'full' ? 'Cinematic shuffling, a card flip, and four staged perk reveals. This choice is saved for this app.' : motion === 'reduced' ? 'Reveal instantly, with no shuffling or moving particles.' : systemReduced ? 'Your device prefers reduced motion, so draws reveal instantly. Choose Full ritual to play the animation in this app.' : 'Your device allows animation, so the full cinematic ritual plays.'}</p></fieldset><p className="catalog-note">Character and perk artwork © Behaviour Interactive and their respective owners. This is an unofficial fan project, unaffiliated with Dead by Daylight.</p></>}
         {panel === 'perk' && perk && <><p className="eyebrow purple-text">VERY RARE · TIER III</p><div className="perk-detail-icon"><img src={perk.image} alt="" /></div><h2>{perk.name}</h2><p className="perk-description">{perk.description}</p><p className="catalog-note">{perk.role === 'killer' ? 'Killer' : 'Survivor'} perk · Local community-data snapshot; descriptions may differ from the live game.</p></>}
       </div>
     </dialog>
