@@ -1,0 +1,99 @@
+/* A shared phase clock drives the 3D scene; these layers decorate its cues. */
+.card-stage{perspective:1100px}
+.ritual-chapter{position:absolute;top:11px;left:0;right:0;text-align:center;color:#b29a6890;font-size:6px;letter-spacing:2.5px;transition:color .4s;pointer-events:none}
+.ritual-in-progress .ritual-chapter{color:#d3b979}
+.ritual-effects{position:absolute;inset:0 -45px;pointer-events:none;z-index:1}
+.entity-vines{width:100%;height:100%;overflow:visible;opacity:.1;transition:opacity .7s}
+.entity-vines path{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.7s ease}
+.arcane-orbit{transform-origin:320px 210px;opacity:.3;animation:oracle-runes-spin 80s linear infinite}
+.effects-shuffling .entity-vines,.effects-orbiting .entity-vines,.effects-choosing .entity-vines,.effects-flipping .entity-vines{opacity:.7}
+.effects-orbiting path,.effects-choosing path,.effects-flipping path,.effects-revealing path,.effects-complete path{stroke-dashoffset:0}
+.effects-revealing .entity-vines{opacity:.5}
+.effects-complete .entity-vines{opacity:.2}
+.vine-right{opacity:.7}
+.summoning-halo{position:absolute;left:50%;top:50%;width:310px;height:310px;border-radius:50%;border:1px solid #b4955633;box-shadow:0 0 35px #a7863510,inset 0 0 35px #a7863510;transform:translate(-50%,-50%) scale(.65);opacity:0;transition:transform .75s,opacity .65s,border-color .75s}
+.halo-second{width:350px;height:350px;border-style:dotted;transform:translate(-50%,-50%) scale(.75)}
+.effects-gathering .summoning-halo,.effects-shuffling .summoning-halo{opacity:.6;transform:translate(-50%,-50%) scale(.85)}
+.effects-orbiting .summoning-halo{opacity:1;transform:translate(-50%,-50%) scale(1.08)}
+.effects-choosing .summoning-halo,.effects-flipping .summoning-halo{opacity:.9;transform:translate(-50%,-50%) scale(1);border-color:#c6a35c88}
+.effects-revealing .summoning-halo{opacity:.7;transform:translate(-50%,-50%) scale(1.12);border-color:#b484dc77;box-shadow:0 0 45px #9057be18,inset 0 0 40px #9057be18}
+.orbit-runes{position:absolute;inset:0;display:grid;place-items:center;opacity:0;transition:opacity .6s;animation:oracle-runes-spin 65s linear infinite}
+.orbit-runes span{position:absolute;color:#b7955866;font:20px var(--serif);transform:rotate(calc(var(--rune)*60deg)) translateY(-180px) rotate(calc(var(--rune)*-60deg))}
+.effects-orbiting .orbit-runes,.effects-choosing .orbit-runes,.effects-flipping .orbit-runes{opacity:1}
+.effects-revealing .orbit-runes{opacity:.4}
+.is-drawing .stage-glow{animation:none;background:radial-gradient(ellipse,#af85473c,transparent 64%);transition:background .6s}
+.phase-revealing .stage-glow{background:radial-gradient(ellipse,#8b51b13b,transparent 66%)}
+.phase-orbiting .ring-inner{animation-duration:9s;border-color:#bca46b50}
+.phase-choosing .ring-inner,.phase-flipping .ring-inner{border-color:#c8a15880}
+.phase-revealing .ring-inner{border-color:#aa78c850}
+.mini-perks>span{transition:box-shadow .4s,background .4s,border-color .4s}
+.mini-perks .gift-lit{background:#8954a872;border-color:#cd99e7;box-shadow:0 0 15px #aa64d34f}
+
+/* A real two-sided flip continues the chosen 3D card into readable HTML. */
+.reveal-shell{position:absolute;z-index:4;width:211px;height:328px;margin-top:-40px;perspective:1100px;pointer-events:none}
+.reveal-turn{position:relative;width:100%;height:100%;transform-style:preserve-3d;transform:rotateY(180deg);animation:oracle-card-flip .76s cubic-bezier(.3,.05,.2,1) both}
+.reveal-face{position:absolute;inset:0;width:100%;height:100%;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.reveal-back{background:#15150e;border:1px solid #b49b62;box-shadow:0 15px 45px #0009}
+.reveal-back img{display:block;width:100%;height:100%;object-fit:fill}
+.revealed-card.reveal-front{margin:0;animation:none;transform:rotateY(180deg);pointer-events:auto}
+.reveal-aura{position:absolute;inset:-45px;background:radial-gradient(ellipse,#b18a3c26,transparent 68%);filter:blur(14px);opacity:.6;transition:background .9s,opacity .9s}
+.is-lit .reveal-aura{background:radial-gradient(ellipse,#ac69dd33,transparent 68%);opacity:1}
+.reveal-shell.is-lit .character-portrait{animation:oracle-portrait-awaken .65s ease both}
+.reveal-shell .card-identity{transition:opacity .4s,filter .4s}
+.reveal-shell:not(.is-lit) .card-identity{opacity:.35;filter:blur(3px)}
+.reveal-shell .card-perks{gap:5px;bottom:30px;align-items:center}
+.card-perk-slot{position:relative;width:35px;height:35px;display:grid;place-items:center}
+.perk-seal{position:absolute;inset:5px;display:grid;place-items:center;border:1px solid #86704e44;color:#96826470;transform:rotate(45deg);font:11px var(--serif);transition:opacity .3s}
+.card-perk-slot button{opacity:0;visibility:hidden;transform:rotate(45deg) scale(.35)}
+.card-perk-slot.is-awakened .perk-seal{opacity:0}
+.card-perk-slot.is-awakened button{opacity:1;visibility:visible;animation:oracle-perk-awaken .44s cubic-bezier(.15,.8,.3,1.3) both;box-shadow:0 0 16px #b379df55}
+.gift-ripple{position:absolute;inset:-15px;border:1px solid #bc89de66;pointer-events:none;animation:oracle-gift-ripple .65s ease-out both}
+.draw-afterword{height:28px;display:flex;justify-content:center;align-items:flex-end}
+.draw-afterword .draw-hint{margin-top:0}
+.motion-notice{margin:15px auto 0;display:flex;justify-content:center;align-items:center;gap:7px;flex-wrap:wrap;font-size:8px;color:#a1957b;letter-spacing:.15px}
+.motion-notice>svg{color:#af9564}
+.motion-notice button{padding:2px 3px;background:none;color:#d4bc87;font-size:8px;text-decoration:underline;text-underline-offset:3px}
+.motion-setting{border:0;border-bottom:1px solid var(--line);padding:23px 0;margin:0;min-width:0}
+.motion-setting legend{float:left;width:100%;display:flex;align-items:center;gap:9px;color:#d5c8a8;font-size:12px;font-weight:500;padding:0;margin-bottom:16px}
+.motion-options{display:flex;clear:both;gap:7px}
+.motion-options button{flex:1;min-height:40px;padding:8px 6px;background:#0d110e;border:1px solid #8c795338;color:#9e9e8e;font-size:10px}
+.motion-options button[aria-pressed=true]{border-color:#b99a6199;background:#b99a611c;color:#e0c78f}
+.motion-explanation{color:#939b89;font-size:10px;line-height:1.8;margin-top:12px}
+.skip-ritual{display:inline-flex;align-items:center;justify-content:center;gap:7px;background:none;padding:5px 12px;font-size:9px;color:#b9ac91;letter-spacing:.5px}
+.skip-ritual:hover{color:#edcf96}
+.perk-tile.gift-concealed{opacity:.55;background:#151815;cursor:default}
+.gift-concealed .perk-icon{background:#2d2431}
+.gift-concealed strong{color:#828577;font-weight:400;font-size:9px}
+.unknown-gift{display:grid;place-items:center;width:100%;height:100%;color:#a58dba}
+.gift-revealed{animation:oracle-perk-tile .55s ease-out both}
+.gift-revealed .perk-icon{animation:oracle-icon-glow .7s ease-out both}
+
+/* CSS choreography also carries the complete ritual on devices without WebGL. */
+.fallback-card-track{position:absolute;height:295px;width:196px;transform:translate(calc(var(--offset)*48px),calc(var(--distance)*8px)) rotate(calc(var(--offset)*9deg));z-index:var(--depth);transition:transform .45s cubic-bezier(.3,.1,.2,1)}
+.fallback-card-track img{position:static;width:100%;height:100%;box-shadow:0 8px 25px #0009}
+.fallback-gathering .fallback-card-track{transform:translate(calc(var(--offset)*2px),calc(var(--offset)*2px)) rotate(0deg)}
+.fallback-shuffling .fallback-card-track{animation:oracle-fallback-shuffle .34s ease-in-out 2;animation-delay:calc(var(--order)*-0.035s)}
+.fallback-orbiting .fallback-card-track{animation:oracle-fallback-orbit 1.3s ease-in-out both;--angle:calc(var(--order)*72deg)}
+.fallback-choosing .fallback-card-track{transform:translate(calc(var(--offset)*54px),calc(var(--distance)*8px)) rotate(calc(var(--offset)*10deg))}
+.fallback-choosing .fallback-card-track:nth-child(3){transform:translateY(-20px) scale(1.1);z-index:6}
+.fallback-flipping .fallback-card-track,.fallback-revealing .fallback-card-track,.fallback-complete .fallback-card-track{transform:translate(calc(var(--offset)*54px),calc(var(--distance)*8px)) rotate(calc(var(--offset)*10deg))}
+.fallback-cards.has-result{opacity:1}
+.is-instant .reveal-turn,.reveal-shell.is-instant .character-portrait,.is-instant .card-perk-slot button{animation:none}
+.reveal-shell.is-instant .card-perk-slot.is-awakened button{transform:rotate(45deg) scale(.75)}
+.reduced-motion .ritual-effects,.reduced-motion .gift-ripple{display:none}
+.reduced-motion .reveal-turn{animation:none;transform:rotateY(180deg)}
+.reduced-motion .reveal-shell .character-portrait,.reduced-motion .gift-revealed,.reduced-motion .gift-revealed .perk-icon{animation:none}
+.reduced-motion .card-perk-slot.is-awakened button{animation:none;transform:rotate(45deg) scale(.75)}
+.reduced-motion .fallback-card-track{animation:none;transition:none}
+
+@keyframes oracle-runes-spin{to{rotate:360deg}}
+@keyframes oracle-card-flip{0%{transform:translateY(0) rotateY(0deg) rotateZ(-2deg)}45%{transform:translateY(-13px) rotateY(82deg) rotateZ(0)}100%{transform:translateY(0) rotateY(180deg)}}
+@keyframes oracle-portrait-awaken{from{filter:sepia(.7) saturate(0) brightness(.5);opacity:.4}to{filter:sepia(.22) saturate(.7) brightness(1);opacity:1}}
+@keyframes oracle-perk-awaken{0%{opacity:0;transform:rotate(45deg) scale(.2);filter:brightness(2)}65%{opacity:1;transform:rotate(45deg) scale(.87);filter:brightness(1.25)}100%{opacity:1;transform:rotate(45deg) scale(.75);filter:brightness(1)}}
+@keyframes oracle-gift-ripple{from{opacity:.7;transform:scale(.93);border-color:#c394e188}to{opacity:0;transform:scale(1.14);border-color:#c394e100}}
+@keyframes oracle-perk-tile{from{opacity:.4;transform:translateY(8px);border-color:#c194e2aa}to{opacity:1;transform:translateY(0);border-color:#9d7baf26}}
+@keyframes oracle-icon-glow{from{filter:brightness(1.8)}to{filter:brightness(1)}}
+@keyframes oracle-fallback-shuffle{0%,100%{transform:translate(calc(var(--offset)*2px),0) rotate(0deg)}50%{transform:translate(calc(var(--offset)*35px),-12px) rotate(calc(var(--offset)*5deg))}}
+@keyframes oracle-fallback-orbit{0%{transform:rotate(var(--angle)) translateX(0) rotate(calc(-1*var(--angle))) scale(.9)}25%{transform:rotate(calc(var(--angle) + 90deg)) translateX(100px) rotate(calc(-1*var(--angle) - 90deg)) scale(.82)}100%{transform:rotate(calc(var(--angle) + 360deg)) translateX(100px) rotate(calc(-1*var(--angle) - 360deg)) scale(.9)}}
+@media(max-width:800px){.reveal-shell{height:312px;width:201px;margin-top:-40px}.ritual-effects{inset:0 -25px}.ritual-chapter{top:6px;font-size:6px}.summoning-halo{width:280px;height:280px}.halo-second{width:310px;height:310px}.orbit-runes span{transform:rotate(calc(var(--rune)*60deg)) translateY(-157px) rotate(calc(var(--rune)*-60deg))}}
+@media(max-width:520px){.reveal-shell{height:292px;width:188px;margin-top:-37px}.reveal-shell .card-perks{bottom:27px;gap:3px}.card-perk-slot{height:32px;width:32px}.ritual-effects{inset:0 -22px}.entity-vines{opacity:0}.effects-orbiting .entity-vines,.effects-choosing .entity-vines{opacity:.4}.summoning-halo{width:250px;height:250px}.halo-second{width:285px;height:285px}.orbit-runes span{font-size:16px;transform:rotate(calc(var(--rune)*60deg)) translateY(-145px) rotate(calc(var(--rune)*-60deg))}.ritual-chapter{top:1px;font-size:5px;letter-spacing:2px}.draw-afterword{height:30px}.skip-ritual{font-size:9px;min-height:30px}.fallback-card-track{height:245px;width:163px}}

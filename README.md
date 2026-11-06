@@ -18,12 +18,17 @@ For a phone on the same trusted Wi-Fi, run `npm.cmd run dev -- --host 0.0.0.0` a
 ## Included
 
 - React + TypeScript + Vite, Three.js / React Three Fiber / Drei, GSAP, Lucide icons.
-- Original generated tarot back, gold engraved styling, moving fog, floating particles, pointer tilt, and animated shuffle / reveal.
+- Original generated tarot back, gold engraved styling, moving fog, floating particles, pointer tilt, and a cinematic tarot ritual.
+- Cards gather, cut and shuffle, circle the ritual, then fan out. The chosen card rises and flips before its four purple perks awaken individually.
+- A roughly 5.6-second shared timeline coordinates movement, Entity vines, runes, purple ripples, and optional sound. Skip the ritual at any time to reveal the same draw immediately.
 - Survivor and killer decks, searchable character exclusions, and four distinct random perks from the selected role.
 - Purple tier III styling on every perk, with selectable perk descriptions.
-- Optional synthesized ritual sound; no sound plays until enabled.
+- Optional synthesized card whispers, a dark crescendo, and perk chimes; no sound plays until enabled. Muting or skipping stops active sound cues.
+- Optional haptic pulses on devices that support browser vibration; availability varies by browser and hardware.
 - Saved character exclusions, settings, and the last 20 draws on the current device.
-- Reduced-motion support and a flat-card fallback when WebGL is unavailable.
+- Motion settings offer Follow device (the default), Full ritual, and Reduced effects. Follow device honors the device’s reduced-motion preference. Full ritual explicitly enables the animation in this app, even on a reduced-motion device; Reduced effects always reveals instantly. The active mode is shown below the draw controls and saved on the current device.
+- Reduced effects stops continuous 3D rendering and hides moving effects. An inline Enable full ritual control makes it possible to opt in without changing any device settings.
+- An animated flat-card fallback carries the ritual when WebGL is unavailable.
 - Self-hosted fonts, portraits, and icons; no external runtime requests.
 - Production web manifest, app icons, and versioned offline cache.
 - Git initialized on main. No remote or commit is created automatically.
@@ -40,7 +45,7 @@ npm.cmd test
 
 The build creates `dist/`, ready for a static HTTPS host at the domain root. The preview is normally at http://localhost:4173. Offline support is enabled in production builds only; leave the first online load open until the service worker finishes caching all assets (about 13 MB). Subsequent reloads and random draws work offline. Updated builds become active after existing tabs close.
 
-Automated checks cover desktop and phone-sized Chromium layouts, draw/reveal interactions, perk inspection, history persistence, character exclusions, empty-deck recovery, role and tier rules, unique perks, local artwork integrity, and production offline use. Screenshots are written to `output/screenshots/`. Phone-sized browser checks are not a substitute for testing on physical iPhones and Android devices.
+Automated checks cover desktop and phone-sized Chromium layouts, all ritual phases in order, individual perk reveals, skipping during the flip, repeat draws without stale results, reduced motion enabled mid-draw, the no-WebGL fallback, sound cleanup when muted, perk inspection, history persistence, character exclusions, empty-deck recovery, role and tier rules, unique perks, local artwork integrity, and production offline use. Screenshots of the idle, orbit, and revealed states are written to `output/screenshots/`. Phone-sized browser checks are not a substitute for testing on physical iPhones and Android devices.
 
 ## Catalog and artwork
 
@@ -54,6 +59,10 @@ See [ASSETS.md](ASSETS.md) for provenance and [design/tarot-back-prompt.txt](des
 
 - `src/App.tsx`: ritual interface, dialogs, preferences, and draw flow.
 - `src/components/CardScene.tsx`: 3D cards, floating particles, GSAP choreography, and fallback.
+- `src/components/RevealedCard.tsx`: two-sided card flip and sequential perk seals.
+- `src/components/RitualEffects.tsx` and `src/Ritual.css`: procedural Entity vines, ritual rings, runes, and reveal effects.
+- `src/lib/ritual.ts` and `src/lib/useRitual.ts`: shared phase timing, cancellation, skipping, and history completion.
+- `src/lib/sound.ts`: optional synthesized cues with per-draw cleanup.
 - `src/lib/oracle.ts`: unbiased random selection and local storage helpers.
 - `src/catalog.json`: bundled character and perk snapshot.
 - `public/assets/`: local optimized artwork.

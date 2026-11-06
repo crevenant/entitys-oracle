@@ -1,13 +1,15 @@
 import { Component, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import type { ReactNode } from 'react'
-import { Canvas, useFrame, useLoader } from '@react-three/fiber'
+import type { CSSProperties, ReactNode } from 'react'
+import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber'
 import { Float, Sparkles } from '@react-three/drei'
-import { DoubleSide, Group, SRGBColorSpace, TextureLoader } from 'three'
+import { Group, SRGBColorSpace, TextureLoader } from 'three'
 import gsap from 'gsap'
+import { RITUAL } from '../lib/ritual'
+import type { RitualPhase } from '../lib/ritual'
 
-type Props = { drawing: boolean; revealed: boolean; reduced: boolean }
+type Props = { phase: RitualPhase; revealed: boolean; reduced: boolean }
 
-function Tarot({ index, drawing, revealed, reduced }: Props & { index: number }) {
+function Tarot({ index, phase, revealed, reduced }: Props & { index: number }) {
   const group = useRef<Group>(null)
   const source = useLoader(TextureLoader, '/assets/tarot-back.webp')
   const texture = useMemo(() => {
@@ -16,50 +18,84 @@ function Tarot({ index, drawing, revealed, reduced }: Props & { index: number })
     return copy
   }, [source])
   useEffect(() => () => texture.dispose(), [texture])
+  const height = useThree((state) => state.size.height)
   const offset = index - 2
+  const selected = index === 2
   useEffect(() => {
     if (!group.current) return
-    const target = group.current
+    const card = group.current
     const timeline = gsap.timeline()
-    if (drawing && !reduced) {
-      timeline.to(target.position, { x: -offset * 0.24, y: index * 0.018, z: index * 0.06, duration: 0.3 })
-        .to(target.rotation, { z: offset * -0.1, y: Math.PI * 2, duration: 0.55 }, '<')
-        .to(target.position, { x: offset * 0.85, y: Math.abs(offset) * -0.14, z: -Math.abs(offset) * 0.22, duration: 0.6, ease: 'power3.out' })
-        .to(target.rotation, { z: -offset * 0.15, y: Math.PI * 4, duration: 0.6 }, '<')
+    const move = (position: { x: number; y: number; z: number }, rotation: { x: number; y: number; z: number }, duration: number, scale = 1) => {
+      timeline.to(card.position, { ...position, duration, ease: 'power3.inOut' })
+        .to(card.rotation, { ...rotation, duration, ease: 'power3.inOut' }, '<')
+        .to(card.scale, { x: scale, y: scale, z: scale, duration }, '<')
+    }
+    if (reduced) {
+      move({ x: offset * 0.91, y: -Math.abs(offset) * 0.17, z: -Math.abs(offset) * 0.24 }, { x: 0, y: 0, z: -offset * 0.16 }, 0)
+    } else if (phase === 'gathering') {
+      move({ x: offset * 0.025, y: offset * 0.016, z: index * 0.055 }, { x: -0.04, y: 0, z: offset * 0.025 }, RITUAL.shuffling - 0.03)
+    } else if (phase === 'shuffling') {
+      const direction = index % 2 === 0 ? 1 : -1
+      for (let cut = 0; cut < 2; cut++) {
+        move({ x: direction * (0.85 + index * 0.04), y: 0.1 + index * 0.025, z: (4 - index) * 0.07 }, { x: -0.08, y: direction * 0.16, z: direction * 0.1 }, 0.17)
+        move({ x: offset * 0.025, y: offset * 0.016, z: index * 0.055 }, { x: 0, y: 0, z: offset * 0.025 }, 0.17)
+      }
+    } else if (phase === 'orbiting') {
+      const orbit = { progress: 0 }
+      timeline.to(orbit, {
+        progress: 1, duration: RITUAL.choosing - RITUAL.orbiting - 0.025, ease: 'power1.inOut',
+        onUpdate: () => {
+          const angle = (index / 5) * Math.PI * 2 + orbit.progress * Math.PI * 2
+          const spread = Math.min(orbit.progress * 4, 1)
+          card.position.set(Math.sin(angle) * 1.83 * spread, Math.cos(angle) * 0.54 * spread, Math.cos(angle) * 0.58 - 0.15)
+          card.rotation.set(-0.08, Math.sin(angle) * 0.3, -Math.sin(angle) * 0.24)
+          card.scale.setScalar(1 - spread * 0.14)
+        },
+      })
+    } else if (phase === 'choosing' || phase === 'flipping' || phase === 'revealing' || phase === 'complete') {
+      move(
+        selected ? { x: 0, y: 0.12, z: 0.72 } : { x: offset * 0.94, y: -Math.abs(offset) * 0.17, z: -Math.abs(offset) * 0.24 },
+        { x: 0, y: 0, z: selected ? 0 : -offset * 0.17 },
+        phase === 'choosing' ? RITUAL.flipping - RITUAL.choosing - 0.025 : 0.35,
+        selected ? (height < 400 ? 1.22 : 1.16) : 1,
+      )
     } else {
-      timeline.to(target.position, { x: offset * (revealed ? 0.91 : 0.78), y: -Math.abs(offset) * 0.17, z: -Math.abs(offset) * 0.24, duration: reduced ? 0 : 0.7 })
-        .to(target.rotation, { z: -offset * 0.16, y: 0, duration: reduced ? 0 : 0.7 }, '<')
+      move({ x: offset * 0.78, y: -Math.abs(offset) * 0.17, z: -Math.abs(offset) * 0.24 }, { x: 0, y: 0, z: -offset * 0.16 }, 0.7)
     }
     return () => { timeline.kill() }
-  }, [drawing, revealed, reduced, index, offset])
-  return <group ref={group}>
-    <mesh><boxGeometry args={[1.75, 2.72, 0.035]} /><meshStandardMaterial color="#342b1d" roughness={0.75} /></mesh>
-    <mesh position={[0, 0, 0.024]}><planeGeometry args={[1.73, 2.70]} /><meshBasicMaterial map={texture} side={DoubleSide} toneMapped={false} /></mesh>
+  }, [phase, reduced, index, offset, selected, height])
+  return <group ref={group} visible={!(selected && revealed)}>
+    <mesh><boxGeometry args={[1.75, 2.72, 0.035]} /><meshStandardMaterial color="#75613d" roughness={0.7} metalness={0.5} /></mesh>
+    <mesh position={[0, 0, 0.024]}><planeGeometry args={[1.73, 2.70]} /><meshBasicMaterial map={texture} toneMapped={false} /></mesh>
+    <mesh position={[0, 0, -0.024]} rotation={[0, Math.PI, 0]}><planeGeometry args={[1.73, 2.70]} /><meshBasicMaterial map={texture} toneMapped={false} /></mesh>
   </group>
 }
 
 function Deck(props: Props & { onReady: () => void }) {
   const group = useRef<Group>(null)
   const rotation = useRef({ x: 0, y: 0 })
-  const { onReady } = props
+  const { onReady, phase, reduced } = props
   useEffect(() => { onReady() }, [onReady])
+  const drawing = phase !== 'idle' && phase !== 'complete'
   useFrame(({ pointer }, delta) => {
-    if (!group.current || props.reduced) return
-    rotation.current.x += (-pointer.y * 0.055 - rotation.current.x) * Math.min(delta * 3, 1)
-    rotation.current.y += (pointer.x * 0.09 - rotation.current.y) * Math.min(delta * 3, 1)
+    if (!group.current) return
+    if (reduced) { group.current.rotation.set(0, 0, 0); return }
+    const enabled = !reduced && !drawing
+    rotation.current.x += ((enabled ? -pointer.y * 0.055 : 0) - rotation.current.x) * Math.min(delta * 5, 1)
+    rotation.current.y += ((enabled ? pointer.x * 0.09 : 0) - rotation.current.y) * Math.min(delta * 5, 1)
     group.current.rotation.set(rotation.current.x, rotation.current.y, 0)
   })
   return <group ref={group} position={[0, 0.15, 0]}>
-    <Float speed={props.reduced ? 0 : 1.2} rotationIntensity={0.035} floatIntensity={0.16}>
+    <Float speed={reduced || drawing ? 0 : 1.2} rotationIntensity={drawing ? 0 : 0.035} floatIntensity={drawing ? 0 : 0.16}>
       {[0, 1, 3, 4, 2].map((index) => <Tarot key={index} index={index} {...props} />)}
     </Float>
-    {!props.reduced && <Sparkles count={55} scale={[9, 5, 3]} size={1.7} speed={0.24} opacity={0.6} color="#caa56c" />}
+    {!reduced && <Sparkles count={drawing ? 95 : 55} scale={[8, 4.5, 3]} size={drawing ? 2.2 : 1.7} speed={drawing ? 0.65 : 0.24} opacity={drawing ? 0.85 : 0.6} color={phase === 'revealing' ? '#bd84f2' : '#caa56c'} />}
   </group>
 }
 
-function FallbackCards({ drawing, revealed }: Props) {
-  return <div className={`fallback-cards ${drawing ? 'shuffling' : ''} ${revealed ? 'has-result' : ''}`}>
-    {[-2, -1, 0, 1, 2].map((offset) => <img key={offset} alt="" src="/assets/tarot-back.webp" style={{ transform: `translateX(${offset * 48}px) rotate(${offset * 9}deg)`, zIndex: 3 - Math.abs(offset) }} />)}
+function FallbackCards({ phase, revealed, reduced }: Props) {
+  return <div className={`fallback-cards fallback-${phase} ${revealed ? 'has-result' : ''} ${reduced ? 'is-instant' : ''}`} aria-hidden="true">
+    {[-2, -1, 0, 1, 2].map((offset) => <div className="fallback-card-track" key={offset} style={{ '--offset': offset, '--order': offset + 2, '--distance': Math.abs(offset), '--depth': 5 - Math.abs(offset) } as CSSProperties}><img alt="" src="/assets/tarot-back.webp" style={{ visibility: offset === 0 && revealed ? 'hidden' : undefined }} /></div>)}
   </div>
 }
 
@@ -74,7 +110,7 @@ export default function CardScene(props: Props) {
   const onReady = useCallback(() => setReady(true), [])
   return <SceneBoundary fallback={<FallbackCards {...props} />}>
     {!ready && <FallbackCards {...props} />}
-    <Canvas style={{ opacity: ready ? 1 : 0 }} data-ready={ready} camera={{ position: [0, 0, 6.9], fov: 36 }} dpr={props.reduced ? 1 : [1, 1.7]} gl={{ alpha: true, antialias: true, powerPreference: 'default' }} fallback={null} aria-hidden="true">
+    <Canvas style={{ opacity: ready ? 1 : 0 }} data-ready={ready} frameloop={props.reduced ? 'demand' : 'always'} camera={{ position: [0, 0, 6.9], fov: 36 }} dpr={props.reduced ? 1 : [1, 1.7]} gl={{ alpha: true, antialias: true, powerPreference: 'default' }} fallback={null} aria-hidden="true">
       <ambientLight intensity={1.5} />
       <Suspense fallback={null}><Deck {...props} onReady={onReady} /></Suspense>
     </Canvas>
