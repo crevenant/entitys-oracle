@@ -5,7 +5,7 @@ import { createEntityRig, updateEntityRig } from '../lib/entityRig'
 import type { EntityPose } from '../lib/entityRig'
 import type { RitualPhase } from '../lib/ritual'
 import type { Role } from '../lib/oracle'
-import { captureReach, captiveMotion, captivityTime } from '../lib/captivity'
+import { captureReach, captivityMotion, captivityTime, entityReaction } from '../lib/captivity'
 import type { CaptivityClock } from '../lib/captivity'
 import type { PerspectiveCamera } from 'three'
 import { CARD_REVEAL } from '../lib/ritual'
@@ -55,8 +55,10 @@ export default function EntityGrasp({ phase, reduced, role, captivity }: { phase
     elapsed.current = 0
     const after = captivityTime(captivity)
     if (after >= 0) {
-      const reach = captureReach(after), motion = captiveMotion(after), fit = frame.current
-      updateEntityRig(runtime.current, clock.elapsedTime, { reach, agitation: after < .4 ? 1 : .4 }, { ...fit, motion })
+      const reaction = entityReaction(captivity), reach = captureReach(after) * (1 - reaction.release * .94)
+      const motion = captivityMotion(captivity), fit = frame.current
+      const agitation = reaction.time < 0 ? after < .4 ? 1 : .4 : reaction.forcing ? 2.6 : reaction.surging ? .9 : .4 + reaction.level * reaction.pulse
+      updateEntityRig(runtime.current, clock.elapsedTime, { reach, agitation }, { ...fit, motion })
     } else updateEntityRig(runtime.current, clock.elapsedTime, pose.current)
   })
 

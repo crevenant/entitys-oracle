@@ -125,7 +125,7 @@
 @keyframes oracle-landing-wave{from{opacity:.7;transform:scale(.5,.7)}to{opacity:0;transform:scale(1.9,2.4)}}
 @keyframes oracle-landing-flare{0%{opacity:0;transform:scale(.7)}12%{opacity:1}100%{opacity:0;transform:scale(1.25)}}
 @keyframes oracle-landing-dust{0%{opacity:0;transform:rotate(var(--dust-angle)) translateX(25px) scale(1)}10%{opacity:.6}100%{opacity:0;transform:rotate(var(--dust-angle)) translateX(110px) scale(.2)}}
-@keyframes oracle-portrait-awaken{from{filter:sepia(.7) saturate(0) brightness(.5);opacity:.4}to{filter:sepia(.22) saturate(.7) brightness(1);opacity:1}}
+@keyframes oracle-portrait-awaken{from{filter:sepia(.7) saturate(0) brightness(.5);opacity:.4}to{filter:var(--portrait-tone,sepia(.22) saturate(.7) brightness(1));opacity:1}}
 @keyframes oracle-perk-awaken{0%{opacity:0;transform:rotate(45deg) scale(.2);filter:brightness(2)}65%{opacity:1;transform:rotate(45deg) scale(.87);filter:brightness(1.25)}100%{opacity:1;transform:rotate(45deg) scale(.75);filter:brightness(1)}}
 @keyframes oracle-gift-ripple{from{opacity:.7;transform:scale(.93);border-color:#c394e188}to{opacity:0;transform:scale(1.14);border-color:#c394e100}}
 @keyframes oracle-perk-tile{from{opacity:.4;transform:translateY(8px);border-color:#c194e2aa}to{opacity:1;transform:translateY(0);border-color:#9d7baf26}}

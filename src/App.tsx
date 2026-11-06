@@ -21,6 +21,7 @@ import './Loadout.css'
 import './Horror.css'
 import './Sound.css'
 import './CardEye.css'
+import './CardInspection.css'
 
 const CardScene = lazy(() => import('./components/CardScene'))
 type Panel = 'collection' | 'history' | 'settings' | 'perk' | null
@@ -208,7 +209,7 @@ function App() {
         {lockCount > 0 && !allLocked && <p className="held-summary"><LockKeyhole size={10} />{lockCount} of 5 entries held for the next draw</p>}
         {error && <p className="error" role="alert">{error}</p>}
         {musicEnabled && !preferences.muted && themeState === 'waiting' && <button className="theme-start" onClick={startTheme}><Volume2 size={12} />Start background theme</button>}
-        <div className="draw-afterword">{drawing ? <button className="skip-ritual" onClick={ritual.skip}>Skip the ritual <ChevronRight size={12} /></button> : <p className="draw-hint">{result ? 'Inspect a perk to reveal its details.' : 'A little chance. A little chaos. Entirely your next trial.'}</p>}</div>
+        <div className="draw-afterword">{drawing ? <button className="skip-ritual" onClick={ritual.skip}>Skip the ritual <ChevronRight size={12} /></button> : <p className="draw-hint">{result ? reduced || ritual.instant ? 'Click the card for a closer look, or inspect a perk.' : 'Click the card to challenge the Entity, or inspect a perk.' : 'A little chance. A little chaos. Entirely your next trial.'}</p>}</div>
         <div className="motion-notice">{reduced ? <><Moon size={11} /><span>{motion === 'system' ? 'Device motion preference: instant reveal.' : 'Reduced effects: instant reveal.'}</span><button onClick={() => setMotion('full')}>Enable full ritual</button></> : <><Sparkles size={11} /><span>{motion === 'full' ? 'Full ritual enabled' : 'Cinematic ritual · Following device'}</span><button onClick={() => setPanel('settings')}>Adjust</button></>}</div>
       </section>
 

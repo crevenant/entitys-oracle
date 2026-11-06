@@ -42,17 +42,31 @@
 .app .modal{background:linear-gradient(145deg,#151b15f5,#0c120ff5);box-shadow:0 30px 120px #000d}
 
 /* Worn varnish, tarnished borders, and an ink-like portrait reveal. */
-.app .revealed-card{background:radial-gradient(ellipse at 40% 18%,#484734,#141810 67%);border-color:#9e8557;box-shadow:0 18px 48px #000c,0 0 35px #ad8c4812,inset 0 0 0 5px #141810,inset 0 0 0 6px #9b80536b;clip-path:polygon(1% 0,98% .2%,100% 1%,99.7% 24%,100% 48%,99.5% 74%,100% 99%,97% 100%,72% 99.7%,43% 100%,1% 99.6%,0 97%,.4% 68%,0 43%,.3% 14%)}
-.app .revealed-card::before{content:'';position:absolute;inset:0;background:url('/assets/tarot-back-worn.webp') center/100% 100%;opacity:.115;mix-blend-mode:luminosity;pointer-events:none}
-.app .revealed-card::after{content:'';position:absolute;inset:5px;border:1px solid #a58c5b33;box-shadow:inset 4px 0 9px #0008,inset -3px 0 8px #0008;pointer-events:none}
-.app[data-role=killer] .revealed-card{background:radial-gradient(ellipse at 40% 18%,#4a352c,#171410 67%);border-color:#ad8061}
-.app .card-roman{color:#bfa976}
+.app .revealed-card{
+  --face-ink:#080b09;--face-haze:#22231c;
+  --portrait-tone:sepia(.16) saturate(.62) brightness(.86) contrast(1.12);
+  background:radial-gradient(ellipse at 47% 27%,var(--face-haze),var(--face-ink) 65%,#030604);
+  border-color:#393022;
+  box-shadow:0 22px 48px #000e,0 0 28px #b2934e0b,inset 0 0 0 10px #030604,inset 0 0 28px 13px #000c;
+  clip-path:polygon(1% 0,98% .2%,100% 1%,99.7% 24%,100% 48%,99.5% 74%,100% 99%,97% 100%,72% 99.7%,43% 100%,1% 99.6%,0 97%,.4% 68%,0 43%,.3% 14%);
+}
+.app .revealed-card::before{content:'';position:absolute;inset:0;background:url('/assets/tarot-back-worn.webp') center/100% 100%;opacity:.065;mix-blend-mode:luminosity;pointer-events:none}
+/* Reuse the back's actual scorched paper and broken brass edging as a nine-slice frame. */
+.app .revealed-card::after{content:'';position:absolute;inset:-1px;border:11px solid transparent;border-image:url('/assets/tarot-back-worn.webp') 40 stretch;box-shadow:none;z-index:4;pointer-events:none}
+.app[data-role=killer] .revealed-card{--face-haze:#211713;--face-ink:#0a0908;border-color:#3d2c23}
+.app .card-roman{color:#b5a17a;text-shadow:0 1px 4px #000}
+.app .portrait-frame{background:radial-gradient(ellipse at 50% 37%,#55574c12,transparent 66%)}
+.app .character-portrait{filter:var(--portrait-tone)}
+.app .portrait-shade{background:radial-gradient(ellipse at 50% 45%,transparent 33%,#05080677 88%),linear-gradient(0deg,var(--face-ink),#080b09d9 12%,transparent 47%)}
+.app .portrait-frame::after{content:'';position:absolute;inset:3px 5px 5px;border:1px solid #aa8a4c30;border-radius:48% 48% 2px 2px;box-shadow:inset 0 0 16px #0005;mask-image:linear-gradient(#000 12%,#0008 56%,transparent 92%);pointer-events:none}
+.app .card-identity>span{color:#958266}
+.app .card-perks::before{content:'';position:absolute;inset:-10px 20px -9px;background:linear-gradient(90deg,transparent,#030604aa 25% 75%,transparent);border-block:1px solid #86683c24;pointer-events:none}
 .app .reveal-back{border-color:#8e754e;box-shadow:0 15px 45px #000b}
 .app .reveal-shell.is-lit .portrait-frame{animation:portrait-ink-unveil 1.05s cubic-bezier(.2,.6,.3,1) both}
 .portrait-haunting{position:absolute;inset:0;background:linear-gradient(115deg,transparent 20%,#03060499 43%,transparent 65%);mix-blend-mode:multiply;opacity:0;pointer-events:none}
 .is-lit .portrait-haunting{animation:portrait-shadow-cross 3.4s ease-out both}
-.app .card-identity h2{text-shadow:0 2px 6px #000}
-.app .card-bottom{color:#b6a06b}
+.app .card-identity h2{color:#e0d6c1;text-shadow:0 2px 6px #000}
+.app .card-bottom{color:#9c8b66}
 .app .stage-glow{background:radial-gradient(ellipse,#98834f20,transparent 65%)}
 .app[data-role=killer] .stage-glow{background:radial-gradient(ellipse,#8e3a2c2e,transparent 65%)}
 .app[data-role=killer] .phase-choosing .stage-glow,.app[data-role=killer] .phase-flipping .stage-glow{background:radial-gradient(ellipse,#b445343f,transparent 65%)}

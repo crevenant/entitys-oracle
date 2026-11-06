@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
-import { captureReach, captiveAnchor, captiveMotion, captivePerspective, captivityTime } from '../lib/captivity'
+import { captureReach, captiveAnchor, captivityMotion, captivePerspective, captivityTime, entityReaction } from '../lib/captivity'
 import type { CaptivityClock } from '../lib/captivity'
 
 /** The same capture remains visible when the device cannot render the 3D roots. */
@@ -22,11 +22,11 @@ export default function FallbackGrasp({ clock }: { clock: CaptivityClock }) {
     resize()
     const observer = new ResizeObserver(resize); observer.observe(element)
     const update = () => {
-      const time = captivityTime(clock), reach = captureReach(time)
+      const time = captivityTime(clock), reaction = entityReaction(clock), reach = captureReach(time) * (1 - reaction.release * .94)
       element.style.opacity = time < 0 ? '0' : `${Math.min(1, reach * 2)}`
       if (time < 0) return
       const { width, height, halfWidth, halfHeight, cy } = layout
-      const motion = captiveMotion(time)
+      const motion = captivityMotion(clock)
       paths.forEach((path) => {
         const index = Number(path.getAttribute('data-root'))
         const side = index % 2 ? 1 : -1, upper = index < 2
@@ -35,7 +35,8 @@ export default function FallbackGrasp({ clock }: { clock: CaptivityClock }) {
         const x = width / 2 + point.x * depth
         const y = cy + point.y * depth
         const startX = side < 0 ? -90 : width + 90, startY = upper ? -30 : height + 65
-        path.setAttribute('d', `M ${startX} ${startY} C ${width / 2 + side * (halfWidth + 150)} ${startY}, ${x + side * 90} ${y + (upper ? -50 : 55)}, ${x + side * 25} ${y + 16} C ${x + side * 9} ${y + 12}, ${x - side * 7} ${y + 7}, ${x - side * 3} ${y - 7}`)
+        const strain = reaction.pulse * reaction.level * Math.sin(Math.max(0, reaction.time) * 24 + index) * 9
+        path.setAttribute('d', `M ${startX} ${startY} C ${width / 2 + side * (halfWidth + 150)} ${startY + strain}, ${x + side * 90} ${y + (upper ? -50 : 55) + strain}, ${x + side * 25} ${y + 16} C ${x + side * 9} ${y + 12}, ${x - side * 7} ${y + 7}, ${x - side * 3} ${y - 7}`)
       })
     }
     gsap.ticker.add(update)
