@@ -60,9 +60,9 @@ function App() {
   const [preferences, setPreferences] = useState<Preferences>(() => {
     const saved = readSaved<Partial<Preferences> & { reduced?: boolean }>('oracle:preferences', {})
     const motion: MotionMode = saved?.motion === 'full' || saved?.motion === 'reduced' || saved?.motion === 'system'
-      ? saved.motion : saved?.reduced === true ? 'reduced' : 'system'
+      ? saved.motion : saved?.reduced === true ? 'reduced' : saved?.reduced === false ? 'system' : 'full'
     const volume = typeof saved?.volume === 'number' && Number.isFinite(saved.volume) ? Math.max(0, Math.min(1, saved.volume)) : .75
-    const musicVolume = typeof saved?.musicVolume === 'number' && Number.isFinite(saved.musicVolume) ? Math.max(0, Math.min(1, saved.musicVolume)) : .4
+    const musicVolume = typeof saved?.musicVolume === 'number' && Number.isFinite(saved.musicVolume) ? Math.max(0, Math.min(1, saved.musicVolume)) : .25
     return { sound: saved?.sound === true, volume, music: saved?.music !== false, musicVolume, muted: saved?.muted === true, motion, haptics: saved?.haptics === true }
   })
   const [systemReduced, setSystemReduced] = useState(() => matchMedia('(prefers-reduced-motion: reduce)').matches)
@@ -72,7 +72,7 @@ function App() {
   const [error, setError] = useState('')
   const dialog = useRef<HTMLDialogElement>(null)
   const options = useRef<HTMLDivElement>(null)
-  const motion = preferences.motion ?? 'system'
+  const { motion, music: musicEnabled, musicVolume } = preferences
   const reduced = motion === 'reduced' || (motion === 'system' && systemReduced)
   const soundVolume = preferences.volume ?? .75
   const rememberDraw = useCallback((draw: Draw) => setHistory((previous) => [draw, ...previous].slice(0, 20)), [])
@@ -85,8 +85,6 @@ function App() {
   const eyeAnchor = useRef<CardEyeAnchor | null>(null)
   const publishEyeAnchor = useCallback((anchor: CardEyeAnchor) => { eyeAnchor.current = anchor }, [])
   const captivity = useCaptivity(scenePhase, !reduced && !ritual.instant, cardStage)
-  const musicEnabled = preferences.music ?? true
-  const musicVolume = preferences.musicVolume ?? .4
   const { audioRef: themeAudioRef, state: themeState, startTheme } = useBackgroundTheme(musicEnabled && !preferences.muted, musicVolume, drawing && preferences.sound && !preferences.muted)
   const characterVisible = phase === 'revealing' || phase === 'complete'
   const characters = catalog.characters.filter((character) => character.role === role)

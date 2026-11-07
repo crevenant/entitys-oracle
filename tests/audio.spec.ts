@@ -8,6 +8,8 @@ test('background theme has independent saved controls and master mute pauses it'
   const music = page.getByRole('checkbox', { name: /Background theme/ })
   const volume = page.getByRole('slider', { name: 'Music volume' })
   await expect(music).toBeChecked()
+  await expect(volume).toHaveValue('25')
+  await expect(page.getByRole('button', { name: 'Full ritual', exact: true })).toHaveAttribute('aria-pressed', 'true')
   await expect(theme).toHaveAttribute('data-state', 'playing')
   expect(await theme.evaluate((audio: HTMLAudioElement) => audio.loop)).toBe(true)
   await volume.press('Home')

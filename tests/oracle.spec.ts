@@ -136,7 +136,7 @@ test('the flat-card fallback can perform and skip the ritual without WebGL', asy
 })
 
 test('character exclusions persist, empty deck is recoverable, and roles are separate', async ({ page }, testInfo) => {
-  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.addInitScript(() => localStorage.setItem('oracle:preferences', JSON.stringify({ motion: 'reduced' })))
   await page.goto('/')
   await page.getByRole('button', { name: 'Options', exact: true }).click()
   await page.getByRole('button', { name: 'Collection', exact: true }).click()
@@ -165,7 +165,7 @@ test('character exclusions persist, empty deck is recoverable, and roles are sep
 })
 
 test('production app installs its cache and draws offline', async ({ page, context }) => {
-  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.addInitScript(() => localStorage.setItem('oracle:preferences', JSON.stringify({ motion: 'reduced' })))
   await page.goto('/')
   await page.evaluate(async () => {
     await navigator.serviceWorker.ready
@@ -248,6 +248,9 @@ test('skip stops sound and a subsequent draw retains a mutable release tail', as
 })
 test('full ritual explicitly overrides a reduced-motion device preference and survives reload', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.addInitScript(() => {
+    if (!localStorage.getItem('oracle:preferences')) localStorage.setItem('oracle:preferences', JSON.stringify({ motion: 'system' }))
+  })
   await page.goto('/')
   await expect(page.getByText('Device motion preference: instant reveal.')).toBeVisible()
   await expect(page.locator('.app')).toHaveClass(/reduced-motion/)

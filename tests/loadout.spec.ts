@@ -3,7 +3,7 @@ import { catalog } from '../src/lib/oracle'
 import type { Draw } from '../src/lib/oracle'
 
 test('perk selection persists, blocks undersized pools, and stays separate by role', async ({ page }, testInfo) => {
-  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.addInitScript(() => localStorage.setItem('oracle:preferences', JSON.stringify({ motion: 'reduced' })))
   await page.goto('/')
   const pool = catalog.perks.filter((entry) => entry.role === 'survivor').slice(0, 4)
   await page.getByRole('button', { name: 'Options', exact: true }).click()
@@ -41,7 +41,7 @@ test('perk selection persists, blocks undersized pools, and stays separate by ro
 })
 
 test('locks survive rerolls in their slots and exclusion releases a locked perk', async ({ page }, testInfo) => {
-  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.addInitScript(() => localStorage.setItem('oracle:preferences', JSON.stringify({ motion: 'reduced' })))
   await page.goto('/')
   await page.getByRole('button', { name: 'Seal your fate' }).click()
   const latest = () => page.evaluate<Draw>(() => JSON.parse(localStorage.getItem('oracle:history')!)[0])
@@ -79,7 +79,7 @@ test('locks survive rerolls in their slots and exclusion releases a locked perk'
 })
 
 test('all-lock recovery and role changes release locks without losing pool selections', async ({ page }) => {
-  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.addInitScript(() => localStorage.setItem('oracle:preferences', JSON.stringify({ motion: 'reduced' })))
   await page.goto('/')
   await page.getByRole('button', { name: 'Seal your fate' }).click()
   await page.getByRole('button', { name: 'Lock character', exact: true }).click()
