@@ -30,6 +30,7 @@ export default function ForestBackdrop({ reduced }: { reduced: boolean }) {
   const fireBed = useRef<HTMLCanvasElement>(null)
   const trees = useRef<HTMLCanvasElement>(null)
   const survivors = useRef<HTMLImageElement>(null)
+  const survivorTurns = useRef<HTMLImageElement>(null)
   const conversation = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
@@ -44,14 +45,16 @@ export default function ForestBackdrop({ reduced }: { reduced: boolean }) {
   useEffect(() => {
     const source = image.current
     const group = survivors.current
+    const turns = survivorTurns.current
     const groupCanvas = conversation.current
     const groupStage = groupCanvas?.parentElement
-    if (reduced || !source || !group || !groupCanvas || !groupStage || !chain.current || !clouds.current || !fire.current || !trees.current) return
+    if (reduced || !source || !group || !turns || !groupCanvas || !groupStage || !chain.current || !clouds.current || !fire.current || !trees.current) return
     const loop = {
       disposed: false, frame: 0, previous: 0, elapsed: 0,
       chatTime: 0,
       paint: undefined as ReturnType<typeof createForestPainters> | undefined,
       paintConversation: undefined as ReturnType<typeof createCampfireConversation> | undefined,
+      paintListeners: undefined as ReturnType<typeof createCampfireConversation> | undefined,
     }
     const tick = (now: number) => {
       if (loop.disposed || document.hidden) return
@@ -61,12 +64,13 @@ export default function ForestBackdrop({ reduced }: { reduced: boolean }) {
         loop.elapsed += delta
         loop.previous = now
         loop.paint?.(loop.elapsed)
-        if (loop.paintConversation && Number(getComputedStyle(groupStage).getPropertyValue('--campfire-frame')) === 0) {
+        const facing = Number(getComputedStyle(groupStage).getPropertyValue('--campfire-frame'))
+        if (loop.paintConversation && facing === 0) {
           loop.chatTime += delta
-          loop.paintConversation(loop.chatTime)
-        } else if (loop.chatTime) {
+          loop.paintConversation(loop.elapsed, loop.chatTime)
+        } else {
           loop.chatTime = 0
-          loop.paintConversation?.(0)
+          if (facing === 14) loop.paintListeners?.(loop.elapsed)
         }
       }
       loop.frame = requestAnimationFrame(tick)
@@ -84,21 +88,30 @@ export default function ForestBackdrop({ reduced }: { reduced: boolean }) {
       if (!document.hidden && loop.paint) loop.frame = requestAnimationFrame(tick)
     }
     const prepareConversation = () => {
-      if (loop.disposed || !group.naturalWidth) return
+      if (loop.disposed || !group.naturalWidth || !turns.naturalWidth) return
       loop.paintConversation = createCampfireConversation(group, groupCanvas)
-      loop.paintConversation(0)
+      const facingPose = document.createElement('canvas')
+      facingPose.width = CAMPFIRE_FRAME.width
+      facingPose.height = CAMPFIRE_FRAME.height
+      facingPose.getContext('2d')!.drawImage(turns, 14 * 256, 0, 256, 171, 0, 0, facingPose.width, facingPose.height)
+      loop.paintListeners = createCampfireConversation(facingPose, groupCanvas, false)
+      const facing = Number(getComputedStyle(groupStage).getPropertyValue('--campfire-frame'))
+      if (facing === 0) loop.paintConversation(loop.elapsed, 0)
+      else loop.paintListeners(loop.elapsed)
       groupCanvas.dataset.ready = ''
     }
     source.addEventListener('load', start)
     group.addEventListener('load', prepareConversation)
+    turns.addEventListener('load', prepareConversation)
     document.addEventListener('visibilitychange', visibility)
-    if (group.complete) prepareConversation()
+    if (group.complete && turns.complete) prepareConversation()
     if (source.complete) start()
     return () => {
       loop.disposed = true
       cancelAnimationFrame(loop.frame)
       source.removeEventListener('load', start)
       group.removeEventListener('load', prepareConversation)
+      turns.removeEventListener('load', prepareConversation)
       document.removeEventListener('visibilitychange', visibility)
       delete groupCanvas.dataset.ready
     }
@@ -118,6 +131,7 @@ export default function ForestBackdrop({ reduced }: { reduced: boolean }) {
       <canvas ref={fireBed} className="forest-fire-bed" width={FIRE_BED.width} height={FIRE_BED.height} style={patchStyle(FIRE_BED)} />
       <div className="campfire-survivors" style={patchStyle(CAMPFIRE_GROUP)}>
         <img ref={survivors} src="/assets/campfire-survivors.webp" alt="" hidden />
+        <img ref={survivorTurns} src="/assets/campfire-turn.webp" alt="" hidden />
         <canvas ref={conversation} className="campfire-conversation forest-animation" width={CAMPFIRE_FRAME.width} height={CAMPFIRE_FRAME.height} />
         <div className="campfire-turn" />
       </div>

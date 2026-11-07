@@ -6,6 +6,7 @@ test('perk selection persists, blocks undersized pools, and stays separate by ro
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.goto('/')
   const pool = catalog.perks.filter((entry) => entry.role === 'survivor').slice(0, 4)
+  await page.getByRole('button', { name: 'Options', exact: true }).click()
   await page.getByRole('button', { name: 'Collection', exact: true }).click()
   await page.getByRole('tab', { name: /Perks/ }).click()
   await page.getByRole('button', { name: 'Clear', exact: true }).click()
@@ -30,6 +31,7 @@ test('perk selection persists, blocks undersized pools, and stays separate by ro
   expect((await page.locator('.perk-tile strong').allTextContents()).sort()).toEqual(names)
   await page.getByRole('button', { name: 'Killer', exact: true }).click()
   await expect(page.getByRole('button', { name: 'Seal your fate' })).toBeEnabled()
+  await page.getByRole('button', { name: 'Options', exact: true }).click()
   await page.getByRole('button', { name: 'Collection', exact: true }).click()
   await page.getByRole('tab', { name: /Perks/ }).click()
   const killerCount = catalog.perks.filter((entry) => entry.role === 'killer').length
@@ -66,6 +68,7 @@ test('locks survive rerolls in their slots and exclusion releases a locked perk'
   const third = await latest()
   expect(third.perks.some((entry) => entry.id === first.perks[0].id)).toBe(false)
   expect(third.perks[2].id).toBe(first.perks[2].id)
+  await page.getByRole('button', { name: 'Options', exact: true }).click()
   await page.getByRole('button', { name: 'Past fates' }).click()
   await page.locator('.history-list button').last().click()
   await expect(page.getByRole('button', { name: 'Lock character', exact: true })).toHaveAttribute('aria-pressed', 'false')
@@ -97,6 +100,7 @@ test('all-lock recovery and role changes release locks without losing pool selec
 test('collection tabs support the keyboard and pools cannot change during a ritual', async ({ page }) => {
   await page.goto('/')
   await page.getByRole('button', { name: 'Seal your fate' }).click()
+  await page.getByRole('button', { name: 'Options', exact: true }).click()
   await page.getByRole('button', { name: 'Collection', exact: true }).click()
   await expect(page.getByText('Finish or skip the ritual before changing your pool.')).toBeVisible()
   await expect(page.getByRole('button', { name: 'Clear', exact: true })).toBeDisabled()

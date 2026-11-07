@@ -3,7 +3,7 @@ import type { Page } from '@playwright/test'
 
 test.use({ serviceWorkers: 'block' })
 
-const frames = (page: Page) => page.locator('.forest-animation').evaluateAll((nodes) => nodes.map((node) => (node as HTMLCanvasElement).toDataURL()))
+const frames = (page: Page) => page.locator('.forest-animation, .headline-canvas').evaluateAll((nodes) => nodes.map((node) => (node as HTMLCanvasElement).toDataURL()))
 
 test('the living forest animates aligned patches and pauses while hidden', async ({ page }) => {
   const errors: string[] = []
@@ -44,9 +44,13 @@ test('the living forest animates aligned patches and pauses while hidden', async
   })
   await expect.poll(async () => (await frames(page)).every((frame, index) => frame !== paused[index])).toBe(true)
 
+  await page.getByRole('button', { name: 'Options', exact: true }).click()
+
   await page.getByRole('button', { name: 'Open settings' }).click()
   await page.getByRole('button', { name: 'Reduced effects', exact: true }).click()
   await expect(page.locator('.forest-animation').first()).toBeHidden()
+  await expect(page.locator('.headline-canvas')).toBeHidden()
+  await expect(page.locator('.headline-art')).toBeVisible()
   const still = await frames(page)
   await page.waitForTimeout(180)
   expect(await frames(page)).toEqual(still)
@@ -56,7 +60,7 @@ test('the living forest animates aligned patches and pauses while hidden', async
   await page.getByRole('button', { name: 'Close dialog' }).click()
   await page.locator('.survivor-choice').click()
   await expect(group).toHaveCSS('--campfire-frame', '14')
-  await expect(page.locator('.campfire-conversation')).toHaveCSS('opacity', '0')
+  await expect(page.locator('.campfire-conversation')).toHaveCSS('opacity', '1')
   expect(errors).toEqual([])
 })
 

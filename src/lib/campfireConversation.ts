@@ -29,7 +29,7 @@ function influence(x: number, y: number, [cx, cy, rx, ry]: Zone) {
   return t * t * (3 - 2 * t)
 }
 
-export function createCampfireConversation(image: HTMLImageElement, canvas: HTMLCanvasElement) {
+export function createCampfireConversation(image: CanvasImageSource, canvas: HTMLCanvasElement, gestures = true) {
   const { width, height } = CAMPFIRE_FRAME
   const context = canvas.getContext('2d')!
   context.drawImage(image, 0, 0, width, height)
@@ -56,15 +56,18 @@ export function createCampfireConversation(image: HTMLImageElement, canvas: HTML
   const vertical = new Float32Array(width * height)
   const active = [...new Set(moving.flatMap(points => points.map(({ x, y }) => y * width + x)))].sort((a, b) => a - b)
 
-  return (time: number) => {
-    const phase = time % 16
+  return (time: number, gestureTime = time) => {
+    const phase = gestureTime % 16
     horizontal.fill(0)
     vertical.fill(0)
     figures.forEach(({ beats }, index) => {
-      let lean = Math.sin(time * 1.4 + index * 1.8) * .55
+      // Different periods keep the seated figures from swaying in unison.
+      // The influence fades at the hips, leaving their seats and feet planted.
+      const rock = Math.sin(time * (.73 + index * .07) + index * 1.8) * 3.6
+      let lean = rock
       let nod = Math.sin(time * 1.23 + index * 2.1) * .22
       let handShift = 0
-      for (const [start, duration, sideways, down, hand = 0] of beats) {
+      for (const [start, duration, sideways, down, hand = 0] of gestures ? beats : []) {
         const t = (phase - start) / duration
         if (t <= 0 || t >= 1) continue
         const ease = Math.sin(t * Math.PI) ** 2
@@ -75,7 +78,8 @@ export function createCampfireConversation(image: HTMLImageElement, canvas: HTML
       for (const point of moving[index]) {
         const pixel = point.y * width + point.x
         horizontal[pixel] += (lean * point.lean + handShift * point.hand) * width / 640
-        vertical[pixel] += (nod * point.nod - Math.abs(handShift) * point.hand * .7) * height / 427
+        vertical[pixel] += (nod * point.nod + Math.abs(rock) * point.lean * .12
+          - Math.abs(handShift) * point.hand * .7) * height / 427
       }
     })
 

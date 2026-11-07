@@ -1,6 +1,6 @@
 import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import type { CSSProperties } from 'react'
-import { BookOpen, ChevronRight, Eye, HeartPulse, History, LockKeyhole, Moon, Settings2, Sparkles, Volume2, VolumeX, X } from 'lucide-react'
+import { BookOpen, ChevronRight, HeartPulse, History, LockKeyhole, Moon, Settings2, Sparkles, Volume2, VolumeX, X } from 'lucide-react'
 import { catalog, drawFate, readSaved, save } from './lib/oracle'
 import type { Draw, Perk, Role } from './lib/oracle'
 import { useRitual } from './lib/useRitual'
@@ -13,6 +13,7 @@ import CollectionPanel from './components/CollectionPanel'
 import type { CollectionTab } from './components/CollectionPanel'
 import LoadoutControls from './components/LoadoutControls'
 import ForestBackdrop from './components/ForestBackdrop'
+import LivingHeadline from './components/LivingHeadline'
 import SoundControls from './components/SoundControls'
 import DeckLoading from './components/DeckLoading'
 import SummoningSeal from './components/SummoningSeal'
@@ -65,6 +66,7 @@ function App() {
   const [collectionTab, setCollectionTab] = useState<CollectionTab>('characters')
   const [error, setError] = useState('')
   const dialog = useRef<HTMLDialogElement>(null)
+  const options = useRef<HTMLDivElement>(null)
   const motion = preferences.motion ?? 'system'
   const reduced = motion === 'reduced' || (motion === 'system' && systemReduced)
   const soundVolume = preferences.volume ?? .75
@@ -118,7 +120,8 @@ function App() {
 
   function inspect(entry: Perk) { setPerk(entry); setPanel('perk') }
   function setMotion(motion: MotionMode) { setPreferences((previous) => ({ ...previous, motion })) }
-  function openCollection(tab: CollectionTab) { setCollectionTab(tab); setPanel('collection') }
+  function openPanel(panel: Panel) { options.current?.hidePopover(); setPanel(panel) }
+  function openCollection(tab: CollectionTab) { setCollectionTab(tab); openPanel('collection') }
   function changeCharacterPool(next: string[]) {
     if (drawing) return
     setExcluded(next)
@@ -155,20 +158,14 @@ function App() {
     <audio ref={themeAudioRef} src={THEME_FILE} autoPlay={musicEnabled && !preferences.muted} loop preload={musicEnabled && !preferences.muted ? 'auto' : 'none'} aria-hidden="true" data-background-theme data-state={themeState} data-ducked={drawing && preferences.sound && !preferences.muted} />
     <ForestBackdrop reduced={reduced} />
     <div className="atmosphere" aria-hidden="true"><div className="fog fog-one" /><div className="fog fog-two" /><div className="grain" /></div>
-    <header className="header">
-      <a className="brand" href="#oracle" onClick={() => setPanel(null)} aria-label="The Entity's Oracle home"><span className="brand-icon"><Eye size={25} strokeWidth={1.25} /></span><span>THE ENTITY’S<span className="brand-sub">O R A C L E</span></span></a>
-      <nav aria-label="Main navigation">
-        <button className={!panel ? 'nav-link active' : 'nav-link'} onClick={() => setPanel(null)}><Sparkles size={14} />The ritual</button>
-        <button className={`nav-link ${panel === 'collection' ? 'active' : ''}`} onClick={() => openCollection('characters')}><BookOpen size={14} />Collection</button>
-        <button className={`nav-link ${panel === 'history' ? 'active' : ''}`} onClick={() => setPanel('history')}><History size={14} />Past fates</button>
-      </nav>
-      <div className="header-actions"><button className="icon-button sound-button" aria-label={preferences.muted ? 'Unmute all sound' : 'Mute all sound'} aria-pressed={!preferences.muted} onClick={() => setPreferences((previous) => ({ ...previous, muted: !previous.muted }))}>{preferences.muted ? <VolumeX size={18} /> : <Volume2 size={18} />}</button><button className="icon-button" aria-label="Open settings" onClick={() => setPanel('settings')}><Settings2 size={18} /></button></div>
-    </header>
 
     <main id="oracle">
       <section className="intro">
         <p className="eyebrow"><span /> A DEAD BY DAYLIGHT RANDOMIZER <span /></p>
-        <h1 className="summons-title">The Entity <em><span className="title-haunting" aria-hidden="true">hungers.</span>hungers.</em></h1>
+        <h1 className="summons-title">
+          <span className="headline-copy">Draw a fate you can’t escape.</span>
+          <LivingHeadline reduced={reduced} />
+        </h1>
         <p className="intro-copy">One character. Four perks. Feed it your suffering.</p>
       </section>
 
@@ -220,7 +217,19 @@ function App() {
         {error && <p className="error" role="alert">{error}</p>}
         {musicEnabled && !preferences.muted && themeState === 'waiting' && <button className="theme-start" onClick={startTheme}><Volume2 size={12} />Start background theme</button>}
         <div className="draw-afterword">{drawing ? <button className="skip-ritual" onClick={ritual.skip}>Skip the ritual <ChevronRight size={12} /></button> : <p className="draw-hint">{result ? reduced || ritual.instant ? 'Click the card for a closer look, or inspect a perk.' : 'Click the card to challenge the Entity, or inspect a perk.' : 'Beg if you must. It likes that.'}</p>}</div>
-        <div className="motion-notice">{reduced ? <><Moon size={11} /><span>{motion === 'system' ? 'Device motion preference: instant reveal.' : 'Reduced effects: instant reveal.'}</span><button onClick={() => setMotion('full')}>Enable full ritual</button></> : <><Sparkles size={11} /><span>{motion === 'full' ? 'Full ritual enabled' : 'Cinematic ritual · Following device'}</span><button onClick={() => setPanel('settings')}>Adjust</button></>}</div>
+        <div className="motion-notice">
+          {reduced ? <><Moon size={11} /><span>{motion === 'system' ? 'Device motion preference: instant reveal.' : 'Reduced effects: instant reveal.'}</span><button onClick={() => setMotion('full')}>Enable full ritual</button></> : <><Sparkles size={11} /><span>{motion === 'full' ? 'Full ritual enabled' : 'Cinematic ritual · Following device'}</span></>}
+          <button className="options-trigger" popoverTarget="ritual-options"><Settings2 size={12} />Options</button>
+        </div>
+        <div ref={options} id="ritual-options" className="ritual-options" popover="auto" role="group" aria-label="Ritual options">
+          <button onClick={() => openCollection('characters')}><BookOpen size={15} />Collection</button>
+          <button onClick={() => openPanel('history')}><History size={15} />Past fates</button>
+          <button aria-label={preferences.muted ? 'Unmute all sound' : 'Mute all sound'} aria-pressed={!preferences.muted} onClick={() => {
+            options.current?.hidePopover()
+            setPreferences((previous) => ({ ...previous, muted: !previous.muted }))
+          }}>{preferences.muted ? <VolumeX size={15} /> : <Volume2 size={15} />}{preferences.muted ? 'Unmute sound' : 'Mute sound'}</button>
+          <button aria-label="Open settings" onClick={() => openPanel('settings')}><Settings2 size={15} />Settings</button>
+        </div>
       </section>
 
       {result && characterVisible && <LoadoutControls draw={result} revealedPerks={revealedPerks} drawing={drawing} lockedCharacter={locks.character === result.character.id} lockedPerks={locks.perks} onCharacterLock={toggleCharacterLock} onPerkLock={togglePerkLock} onUnlock={() => setLocks(emptyLocks())} onInspect={inspect} onPool={() => openCollection('perks')} />}
