@@ -1,11 +1,14 @@
 import { useEffect, useId, useRef } from 'react'
+import type { RefObject } from 'react'
 import gsap from 'gsap'
-import { createEyePainter, EYE_ART, engravingTime, eyePose, loadEyeArtwork } from '../lib/cardEye'
+import { createEyePainter, EYE_ART, engravingTime, eyePose, loadEyeArtwork, summoningEyePose } from '../lib/cardEye'
+import { summoningTremor } from '../lib/ritual'
 import { createMothPainter, mothPose } from '../lib/cardMoth'
 import { NEUTRAL_TENDRILS, tendrilField, TENDRIL_AMOUNT } from '../lib/cardTendrils'
 import { tendrilGrowth } from '../lib/cardGrowth'
 
-export default function CardBack({ reduced, seed = 2, hidden = false }: { reduced: boolean; seed?: number; hidden?: boolean }) {
+export default function CardBack({ reduced, seed = 2, hidden = false, ritualClock }: { reduced: boolean; seed?: number; hidden?: boolean; ritualClock?: RefObject<{ time: number }> }) {
+  const art = useRef<HTMLDivElement>(null)
   const canvas = useRef<HTMLCanvasElement>(null)
   const mothCanvas = useRef<HTMLCanvasElement>(null)
   const displacement = useRef<SVGFEImageElement>(null)
@@ -13,6 +16,7 @@ export default function CardBack({ reduced, seed = 2, hidden = false }: { reduce
   const filterId = useId()
   useEffect(() => {
     if (reduced || hidden) return
+    const surface = art.current
     const lifetime = { active: true }
     let remove: (() => void) | undefined
     void loadEyeArtwork().then((image) => {
@@ -38,27 +42,31 @@ export default function CardBack({ reduced, seed = 2, hidden = false }: { reduce
           growthVersion = growth.version
         }
       }
-      painter.paint(eyePose(engravingTime(), seed))
+      painter.paint(ritualClock ? summoningEyePose(ritualClock.current.time) : eyePose(engravingTime(), seed))
       moth.paint(mothPose(engravingTime(), seed))
       updateTendrils(engravingTime())
       const update = (_time: number, deltaMs: number) => {
         if (document.hidden) return
+        if (ritualClock && surface) {
+          const tremor = summoningTremor(ritualClock.current.time)
+          surface.style.transform = tremor ? `translate(${tremor.x * 6}px,${tremor.y * 2.3}px) rotate(${tremor.roll * 1.95}deg)` : ''
+        }
         const dt = Math.min(deltaMs / 1000, .1)
         accumulated += dt
         if (accumulated < 1 / 30) return
         accumulated = 0
         const time = engravingTime()
-        painter.paint(eyePose(time, seed))
+        painter.paint(ritualClock ? summoningEyePose(ritualClock.current.time) : eyePose(time, seed))
         moth.paint(mothPose(time, seed))
         updateTendrils(time)
       }
       gsap.ticker.add(update)
       remove = () => gsap.ticker.remove(update)
     }).catch(() => undefined)
-    return () => { lifetime.active = false; remove?.() }
-  }, [reduced, seed, hidden])
+    return () => { lifetime.active = false; remove?.(); if (surface && ritualClock) surface.style.transform = '' }
+  }, [reduced, seed, hidden, ritualClock])
   const alive = !reduced && !hidden
-  return <div className="tarot-art" style={{ visibility: hidden ? 'hidden' : undefined }} aria-hidden="true">
+  return <div ref={art} className="tarot-art" style={{ visibility: hidden ? 'hidden' : undefined }} aria-hidden="true">
     {alive && <svg className="tendril-filter" width="0" height="0"><defs><filter id={filterId} filterUnits="objectBoundingBox" primitiveUnits="objectBoundingBox" x="0" y="0" width="1" height="1" colorInterpolationFilters="sRGB"><feImage ref={displacement} href={NEUTRAL_TENDRILS} x="0" y="0" width="1" height="1" preserveAspectRatio="none" result="tendril-flow" /><feDisplacementMap in="SourceGraphic" in2="tendril-flow" scale={TENDRIL_AMOUNT} xChannelSelector="R" yChannelSelector="G" /></filter></defs></svg>}
     <img src={EYE_ART} alt="" style={{ filter: alive ? `url(#${filterId})` : undefined }} />
     {alive && <canvas ref={growthCanvas} className="tarot-root-growth" />}

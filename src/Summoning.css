@@ -1,0 +1,24 @@
+.summoned-entity{position:absolute;left:-32%;top:-24%;width:164%;height:148%;pointer-events:none;z-index:1}
+.control-shadow-burst{position:fixed;inset:0;width:100vw;height:100vh;z-index:20;pointer-events:none}
+.app:not(.reduced-motion)[data-phase=gathering] :is(.role-switch,.draw-button){animation:offering-shiver .95s linear both}
+.app:not(.reduced-motion)[data-phase=gathering] .motion-notice{animation:offering-options 2.56s linear both}
+.app:not(.reduced-motion):is([data-phase=shuffling],[data-phase=orbiting],[data-phase=choosing],[data-phase=flipping]) :is(.role-switch,.draw-button){opacity:0;filter:blur(9px)}
+.app:not(.reduced-motion):is([data-phase=shuffling],[data-phase=orbiting],[data-phase=choosing],[data-phase=flipping]) .motion-notice{opacity:.35}
+.app:not(.reduced-motion)[data-phase=revealing] :is(.role-switch,.draw-button,.motion-notice){animation:offering-return 1.35s ease-out .15s both}
+.motion-notice{--shadow-start-opacity:.35}
+@keyframes offering-shiver{
+  0%,8%{transform:translate(0);opacity:1;filter:blur(0)}
+  13%,27%,41%,53%{transform:translate(-2px,1px) rotate(-.7deg)}
+  20%,34%,48%{transform:translate(3px,-1px) rotate(.8deg)}
+  58%{transform:translate(-3px,1px) skewX(3deg);opacity:1;filter:blur(0)}
+  74%{transform:translate(2px,-3px) scale(1.04,.95);opacity:.45;filter:blur(3px)}
+  100%{transform:translateY(-9px) scale(1.12,.7);opacity:0;filter:blur(10px)}
+}
+@keyframes offering-options{0%,12%{transform:translate(0);opacity:1}17%,23%{transform:translateX(-2px)}20%,26%{transform:translateX(2px)}38%,63%{transform:translateY(-3px);opacity:.18}100%{transform:translate(0);opacity:.35}}
+@keyframes offering-return{
+  0%{opacity:var(--shadow-start-opacity,0);filter:blur(14px) brightness(.15);transform:translateY(6px) scale(1.06,.82)}
+  38%{opacity:.48;filter:blur(5px) brightness(.4);transform:translateY(2px) scale(1.025,.96)}
+  70%{opacity:.82;filter:blur(1.4px) brightness(.78);transform:translateY(0) scale(1)}
+  100%{opacity:1;filter:none;transform:none}
+}
+@media(max-width:600px){.summoned-entity{left:-24%;width:148%}}

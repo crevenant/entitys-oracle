@@ -1,6 +1,8 @@
 import { useEffect, useLayoutEffect, useMemo, useRef } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import gsap from 'gsap'
+import { Color } from 'three'
+import type { RefObject } from 'react'
 import { createEntityRig, updateEntityRig } from '../lib/entityRig'
 import type { EntityPose } from '../lib/entityRig'
 import type { RitualPhase } from '../lib/ritual'
@@ -8,7 +10,7 @@ import type { Role } from '../lib/oracle'
 import { captureReach, captivityMotion, captivityTime, entityReaction } from '../lib/captivity'
 import type { CaptivityClock } from '../lib/captivity'
 import type { PerspectiveCamera } from 'three'
-import { CARD_REVEAL } from '../lib/ritual'
+import { CARD_REVEAL, RITUAL, SUMMONING } from '../lib/ritual'
 
 const poses: Record<RitualPhase, EntityPose> = {
   idle: { reach: .03, agitation: .1 },
@@ -20,8 +22,10 @@ const poses: Record<RitualPhase, EntityPose> = {
   revealing: { reach: .12, agitation: .2 },
   complete: { reach: .03, agitation: .1 },
 }
+const shadowColor = new Color('#070d0a')
+const smooth = (value: number) => { const t = Math.max(0, Math.min(1, value)); return t * t * (3 - 2 * t) }
 
-export default function EntityGrasp({ phase, reduced, role, captivity }: { phase: RitualPhase; reduced: boolean; role: Role; captivity: CaptivityClock }) {
+export default function EntityGrasp({ phase, reduced, role, captivity, ritualClock }: { phase: RitualPhase; reduced: boolean; role: Role; captivity: CaptivityClock; ritualClock: RefObject<{ time: number }> }) {
   const rig = useMemo(() => createEntityRig(), [])
   const runtime = useRef(rig)
   const pose = useRef<EntityPose>({ ...poses.idle })
@@ -60,8 +64,17 @@ export default function EntityGrasp({ phase, reduced, role, captivity }: { phase
       const agitation = reaction.time < 0 ? after < .4 ? 1 : .4 : reaction.forcing ? 2.6 : reaction.surging ? .9 : .4 + reaction.level * reaction.pulse
       updateEntityRig(runtime.current, clock.elapsedTime, { reach, agitation }, { ...fit, motion })
     } else updateEntityRig(runtime.current, clock.elapsedTime, pose.current)
+    // The existing roots become the summoned arms. Keeping the same rig avoids
+    // a jump in their origins, bends, and gripping tips at either handoff.
+    if (!['idle', 'complete'].includes(phase)) {
+      const time = ritualClock.current.time
+      const emergence = smooth((time - SUMMONING.shiver) / (SUMMONING.takeHold - SUMMONING.shiver))
+      const release = 1 - smooth((time - RITUAL.flipping) / .65)
+      runtime.current.material.color.lerp(shadowColor, emergence * release * .92)
+    }
   })
 
+  // Preserve the roots' positions throughout the summoning and chosen-card grip.
   return <group visible={!reduced}>
     <directionalLight position={[-5, 3.5, 1.5]} color="#c1c9b1" intensity={3.1} />
     <pointLight position={[2.8, .8, 2.5]} color={role === 'killer' ? '#bd654e' : '#bba678'} intensity={2.1} distance={7} decay={2} />

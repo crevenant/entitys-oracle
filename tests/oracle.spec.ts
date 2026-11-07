@@ -51,7 +51,7 @@ test('draw, inspect perks, and revisit saved history', async ({ page }, testInfo
   await page.getByRole('button', { name: 'Seal your fate' }).click()
   await expect(page.getByRole('button', { name: 'The Entity is feeding' })).toBeDisabled()
   await expect(page.getByRole('button', { name: 'Killer', exact: true })).toBeDisabled()
-  await expect(page.locator('.card-stage')).toHaveAttribute('data-phase', 'orbiting', { timeout: 4000 })
+  await expect(page.locator('.card-stage')).toHaveAttribute('data-phase', 'orbiting', { timeout: 5500 })
   await page.screenshot({ path: `output/screenshots/${testInfo.project.name}-orbit.png`, fullPage: true })
   // A phone screenshot can outlast the short choosing phase. Verify the recorded
   // transition so a slow capture cannot mistake a completed phase for a missing one.
@@ -85,7 +85,7 @@ test('draw, inspect perks, and revisit saved history', async ({ page }, testInfo
 test('skipping and repeating a ritual never leaves stale reveals or duplicate history', async ({ page }) => {
   await page.goto('/')
   await page.getByRole('button', { name: 'Seal your fate' }).click()
-  await expect(page.locator('.card-stage')).toHaveAttribute('data-phase', 'flipping', { timeout: 5000 })
+  await expect(page.locator('.card-stage')).toHaveAttribute('data-phase', 'flipping', { timeout: 7000 })
   await page.getByRole('button', { name: 'Skip the ritual' }).click()
   await expect(page.locator('.card-stage')).toHaveAttribute('data-phase', 'complete')
   await expect(page.locator('.perk-tile:enabled')).toHaveCount(4)
@@ -94,7 +94,7 @@ test('skipping and repeating a ritual never leaves stale reveals or duplicate hi
   await expect(page.locator('.perk-tile:enabled')).toHaveCount(4)
   await page.getByRole('button', { name: 'Killer', exact: true }).click()
   // Wait past both canceled timelines: neither may restore its survivor result.
-  await page.waitForTimeout(5900)
+  await page.waitForTimeout(9000)
   await expect(page.locator('.card-stage')).toHaveAttribute('data-phase', 'idle')
   await expect(page.locator('.revealed-card')).toHaveCount(0)
   expect(await page.evaluate(() => JSON.parse(localStorage.getItem('oracle:history')!).length)).toBe(2)
@@ -129,7 +129,7 @@ test('the flat-card fallback can perform and skip the ritual without WebGL', asy
   await page.goto('/')
   await expect(page.locator('.fallback-cards')).toBeVisible()
   await page.getByRole('button', { name: 'Seal your fate' }).click()
-  await expect(page.locator('.fallback-orbiting')).toBeVisible({ timeout: 4000 })
+  await expect(page.locator('.fallback-orbiting')).toBeVisible({ timeout: 5500 })
   await page.getByRole('button', { name: 'Skip the ritual' }).click()
   await expect(page.locator('.revealed-card')).toBeVisible()
   await expect(page.locator('.perk-tile:enabled')).toHaveCount(4)
@@ -257,7 +257,7 @@ test('full ritual explicitly overrides a reduced-motion device preference and su
   expect(await page.locator('.fog-one').evaluate((element) => getComputedStyle(element).animationName)).toBe('fog-drift')
   expect(await page.evaluate(() => matchMedia('(prefers-reduced-motion: reduce)').matches)).toBe(true)
   await page.getByRole('button', { name: 'Seal your fate' }).click()
-  await expect(page.locator('.card-stage')).toHaveAttribute('data-phase', 'orbiting', { timeout: 4000 })
+  await expect(page.locator('.card-stage')).toHaveAttribute('data-phase', 'orbiting', { timeout: 5500 })
   await expect(page.locator('.card-stage')).toHaveAttribute('data-phase', 'flipping', { timeout: 4000 })
   expect(await page.locator('.reveal-turn').evaluate((element) => getComputedStyle(element).animationName)).toBe('oracle-card-flip')
   await expect(page.getByRole('button', { name: 'Tempt fate again' })).toBeEnabled({ timeout: 5000 })

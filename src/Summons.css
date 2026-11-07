@@ -1,7 +1,7 @@
 /* A quiet summons: worn brass, bone lettering, and movement at the edges. */
 .app .summons-title{position:relative;width:min(530px,100%);margin:20px auto 17px;font-size:0;line-height:0}
 .headline-art{display:block;width:100%;height:auto;filter:drop-shadow(0 3px 12px #0009)}
-.headline-scene{position:relative;display:block}
+.headline-scene{position:relative;display:block;opacity:.84}
 .headline-canvas{position:absolute;left:-6.25%;top:-12.5%;width:112.5%;height:125%;pointer-events:none;filter:drop-shadow(0 3px 12px #0009)}
 .app:not(.reduced-motion) .headline-canvas[data-ready]+.headline-art{visibility:hidden}
 .reduced-motion .headline-canvas{display:none}

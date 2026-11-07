@@ -17,6 +17,7 @@ function vibrate(pattern: number | number[]) {
 export function useRitual({ reduced, sound, volume, haptics, onComplete }: Options) {
   const [state, setState] = useState<State>(initial)
   const active = useRef<Playback | null>(null)
+  const clock = useRef({ time: 0 })
   const soundSession = useRef<ReturnType<typeof createRitualAudio>>(null)
   const feedback = useRef({ sound, haptics })
   useEffect(() => { if (sound) void loadRitualSamples().catch(() => undefined) }, [sound])
@@ -60,6 +61,8 @@ export function useRitual({ reduced, sound, volume, haptics, onComplete }: Optio
       void image.decode().catch(() => undefined)
     }
     const timeline = gsap.timeline({ paused: true })
+    clock.current.time = 0
+    timeline.to(clock.current, { time: RITUAL.complete, duration: RITUAL.complete, ease: 'none' }, 0)
     soundSession.current?.stop()
     const audio = sound && !reduced ? createRitualAudio({ volume, role: draw.character.role === 'killer' ? 'killer' : 'survivor' }) : null
     soundSession.current = audio
@@ -93,6 +96,7 @@ export function useRitual({ reduced, sound, volume, haptics, onComplete }: Optio
 
   return {
     ...state,
+    clock,
     drawing: state.phase !== 'idle' && state.phase !== 'complete',
     hasCard: ['flipping', 'revealing', 'complete'].includes(state.phase),
     start, reset, restore,

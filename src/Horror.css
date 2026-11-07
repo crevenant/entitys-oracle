@@ -63,6 +63,13 @@
 }
 .app[data-role=killer] .trapper-peek { animation-play-state: paused; }
 .app[data-role=killer] .trapper-turn { --trapper-frame: 16; }
+/* The fire holds their attention until the ritual singles out a card. */
+.app.ritual-in-progress .campfire-survivors { --campfire-frame: 0; }
+.app.ritual-in-progress .trapper-turn { --trapper-frame: 0; }
+.app.ritual-in-progress .trapper-peek { animation-play-state: running; }
+.app.ritual-in-progress:is([data-phase=choosing], [data-phase=flipping], [data-phase=revealing]) .campfire-survivors { --campfire-frame: 14; }
+.app.ritual-in-progress:is([data-phase=choosing], [data-phase=flipping], [data-phase=revealing]) .trapper-turn { --trapper-frame: 16; }
+.app.ritual-in-progress:is([data-phase=choosing], [data-phase=flipping], [data-phase=revealing]) .trapper-peek { animation-play-state: paused; }
 @keyframes trapper-peek {
   0%, 100% { transform: translateX(-1%) rotate(-.7deg); }
   32%, 54% { transform: translateX(1.4%) rotate(1deg); }
