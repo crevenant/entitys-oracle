@@ -1,3 +1,5 @@
+export const FIRE_FORWARD = 24
+
 /** Small, advected flame field in the forest plate's original pixel coordinates. */
 export function createFirePainter(canvas: HTMLCanvasElement) {
   const ctx = canvas.getContext('2d')!
@@ -36,7 +38,7 @@ export function createFirePainter(canvas: HTMLCanvasElement) {
 
   return (time: number) => {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
-    const baseX = 121, baseY = 130
+    const baseX = 121, baseY = 130 + FIRE_FORWARD
     const gust = (noise(time * .38, 9) - .5) * 9
     const surge = noise(time * 1.7, 15)
     const height = 23 + surge * 14 + noise(time * 4.1, 21) * 5

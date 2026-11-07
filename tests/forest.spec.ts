@@ -10,6 +10,10 @@ test('the living forest animates aligned patches and pauses while hidden', async
   page.on('pageerror', (error) => errors.push(error.message))
   await page.addInitScript(() => localStorage.setItem('oracle:preferences', JSON.stringify({ motion: 'full', music: false })))
   await page.goto('/')
+  const group = page.locator('.campfire-survivors')
+  await expect(group).toHaveCSS('--campfire-frame', '14')
+  await page.locator('.killer-choice').click()
+  await expect(group).toHaveCSS('--campfire-frame', '0')
   const initial = await frames(page)
   await expect.poll(async () => (await frames(page)).every((frame, index) => frame !== initial[index])).toBe(true)
 
@@ -49,6 +53,10 @@ test('the living forest animates aligned patches and pauses while hidden', async
   await page.getByRole('button', { name: 'Full ritual', exact: true }).click()
   await expect(page.locator('.forest-animation').first()).toBeVisible()
   await expect.poll(async () => (await frames(page)).every((frame, index) => frame !== still[index])).toBe(true)
+  await page.getByRole('button', { name: 'Close dialog' }).click()
+  await page.locator('.survivor-choice').click()
+  await expect(group).toHaveCSS('--campfire-frame', '14')
+  await expect(page.locator('.campfire-conversation')).toHaveCSS('opacity', '0')
   expect(errors).toEqual([])
 })
 

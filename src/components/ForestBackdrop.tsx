@@ -1,10 +1,11 @@
 import { useEffect, useRef } from 'react'
 import type { CSSProperties } from 'react'
-import { createForestPainters, forestPatches } from '../lib/forestAnimation'
+import { createForestPainters, forestPatches, paintFireBed } from '../lib/forestAnimation'
 import { CAMPFIRE_FRAME, createCampfireConversation } from '../lib/campfireConversation'
+import { FIRE_FORWARD } from '../lib/forestFire'
 
-const { CHAIN, SKY, TREES, FIRE, PLATE } = forestPatches
-// Place the opening between the four seats over the existing fire at (1211, 540).
+const { CHAIN, SKY, TREES, FIRE, FIRE_BED, PLATE } = forestPatches
+// The fire sits forward of the back pair and behind the near pair's feet.
 const CAMPFIRE_GROUP = { x: 1087, y: 443, width: 248, height: 248 * 2 / 3 }
 const TRAPPER = { x: 493, y: 345, width: 132, height: 198 }
 const MIST_VENTS = [
@@ -26,17 +27,29 @@ export default function ForestBackdrop({ reduced }: { reduced: boolean }) {
   const chain = useRef<HTMLCanvasElement>(null)
   const clouds = useRef<HTMLCanvasElement>(null)
   const fire = useRef<HTMLCanvasElement>(null)
+  const fireBed = useRef<HTMLCanvasElement>(null)
   const trees = useRef<HTMLCanvasElement>(null)
   const survivors = useRef<HTMLImageElement>(null)
   const conversation = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
+    const source = image.current, bed = fireBed.current
+    if (!source || !bed) return
+    const paint = () => { if (source.naturalWidth) paintFireBed(source, bed) }
+    source.addEventListener('load', paint)
+    if (source.complete) paint()
+    return () => source.removeEventListener('load', paint)
+  }, [])
+
+  useEffect(() => {
     const source = image.current
     const group = survivors.current
     const groupCanvas = conversation.current
-    if (reduced || !source || !group || !groupCanvas || !chain.current || !clouds.current || !fire.current || !trees.current) return
+    const groupStage = groupCanvas?.parentElement
+    if (reduced || !source || !group || !groupCanvas || !groupStage || !chain.current || !clouds.current || !fire.current || !trees.current) return
     const loop = {
       disposed: false, frame: 0, previous: 0, elapsed: 0,
+      chatTime: 0,
       paint: undefined as ReturnType<typeof createForestPainters> | undefined,
       paintConversation: undefined as ReturnType<typeof createCampfireConversation> | undefined,
     }
@@ -44,10 +57,17 @@ export default function ForestBackdrop({ reduced }: { reduced: boolean }) {
       if (loop.disposed || document.hidden) return
       if (now - loop.previous >= 1000 / 30) {
         // Keep the scene's phase when returning to the tab, rather than jumping ahead.
-        loop.elapsed += loop.previous ? Math.min((now - loop.previous) / 1000, .1) : 0
+        const delta = loop.previous ? Math.min((now - loop.previous) / 1000, .1) : 0
+        loop.elapsed += delta
         loop.previous = now
         loop.paint?.(loop.elapsed)
-        loop.paintConversation?.(loop.elapsed)
+        if (loop.paintConversation && Number(getComputedStyle(groupStage).getPropertyValue('--campfire-frame')) === 0) {
+          loop.chatTime += delta
+          loop.paintConversation(loop.chatTime)
+        } else if (loop.chatTime) {
+          loop.chatTime = 0
+          loop.paintConversation?.(0)
+        }
       }
       loop.frame = requestAnimationFrame(tick)
     }
@@ -66,7 +86,7 @@ export default function ForestBackdrop({ reduced }: { reduced: boolean }) {
     const prepareConversation = () => {
       if (loop.disposed || !group.naturalWidth) return
       loop.paintConversation = createCampfireConversation(group, groupCanvas)
-      loop.paintConversation(loop.elapsed)
+      loop.paintConversation(0)
       groupCanvas.dataset.ready = ''
     }
     source.addEventListener('load', start)
@@ -95,12 +115,14 @@ export default function ForestBackdrop({ reduced }: { reduced: boolean }) {
           <div className="trapper-turn" />
         </div>
       </div>
+      <canvas ref={fireBed} className="forest-fire-bed" width={FIRE_BED.width} height={FIRE_BED.height} style={patchStyle(FIRE_BED)} />
       <div className="campfire-survivors" style={patchStyle(CAMPFIRE_GROUP)}>
+        <img ref={survivors} src="/assets/campfire-survivors.webp" alt="" hidden />
         <canvas ref={conversation} className="campfire-conversation forest-animation" width={CAMPFIRE_FRAME.width} height={CAMPFIRE_FRAME.height} />
-        <img ref={survivors} src="/assets/campfire-survivors.webp" alt="" />
+        <div className="campfire-turn" />
       </div>
       <canvas ref={fire} className="forest-fire forest-animation" width={FIRE.width} height={FIRE.height} style={patchStyle(FIRE)} />
-      <div className="campfire-light" />
+      <div className="campfire-light" style={{ top: `${(506 + FIRE_FORWARD) / PLATE.height * 100}%` }} />
       <div className="forest-ground-mist">
         {MIST_VENTS.map(({ duration, delay, drift, ...patch }) => <div key={patch.x} style={{
           ...patchStyle(patch),

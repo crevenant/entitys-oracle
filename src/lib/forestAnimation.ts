@@ -1,4 +1,4 @@
-import { createFirePainter } from './forestFire'
+import { createFirePainter, FIRE_FORWARD } from './forestFire'
 
 // Coordinates refer to the original 1672 × 941 forest plate. The shared CSS
 // stage applies the same cover crop to both the photograph and these patches.
@@ -7,6 +7,7 @@ const CHAIN = { x: 240, y: 120, width: 110, height: 250 }
 const SKY = { x: 960, y: 0, width: 460, height: 200 }
 const TREES = { x: 1030, y: 125, width: 320, height: 370 }
 const FIRE = { x: 1090, y: 410, width: 240, height: 220 }
+const FIRE_BED = { x: 1110, y: 455, width: 210, height: 175 }
 const clamp = (n: number) => Math.max(0, Math.min(1, n))
 const smooth = (n: number) => { const t = clamp(n); return t * t * (3 - 2 * t) }
 
@@ -22,6 +23,27 @@ function crop(image: HTMLImageElement, rect: { x: number; y: number; width: numb
     rect.width / PLATE.width * image.naturalWidth, rect.height / PLATE.height * image.naturalHeight,
     0, 0, rect.width, rect.height)
   return target
+}
+
+export function paintFireBed(image: HTMLImageElement, canvas: HTMLCanvasElement) {
+  const { width, height } = FIRE_BED
+  const pixels = crop(image, FIRE_BED).ctx.getImageData(0, 0, width, height).data
+  const context = canvas.getContext('2d')!
+  const output = context.createImageData(width, height)
+  for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) {
+    // Move the fire and the photographed logs as one patch. Taper the warp
+    // into the surrounding clearing so the original flames aren't duplicated.
+    const across = 1 - smooth((Math.abs(x - 101) - 45) / 45)
+    const depth = smooth((y - 7) / 60) * (1 - smooth((y - 122) / 44))
+    const sourceY = y - FIRE_FORWARD * across * depth
+    const top = Math.floor(sourceY), fraction = sourceY - top
+    const a = (top * width + x) * 4
+    const b = (Math.min(height - 1, top + 1) * width + x) * 4
+    const index = (y * width + x) * 4
+    for (let c = 0; c < 3; c++) output.data[index + c] = pixels[a + c] + (pixels[b + c] - pixels[a + c]) * fraction
+    output.data[index + 3] = 255 * smooth(Math.min(x, width - 1 - x, y, height - 1 - y) / 14)
+  }
+  context.putImageData(output, 0, 0)
 }
 
 function noise(x: number, y: number) {
@@ -165,4 +187,4 @@ export function createForestPainters(image: HTMLImageElement, chain: HTMLCanvasE
   return (time: number) => painters.forEach((paint) => paint(time))
 }
 
-export const forestPatches = { CHAIN, SKY, TREES, FIRE, PLATE }
+export const forestPatches = { CHAIN, SKY, TREES, FIRE, FIRE_BED, PLATE }
