@@ -10,7 +10,7 @@ import type { RitualPhase } from '../lib/ritual'
 import type { Role } from '../lib/oracle'
 import EntityGrasp from './EntityGrasp'
 import CardBack from './CardBack'
-import { createEyePainter, EYE_CENTER, EYE_PATCH, engravingTime, eyePose, summoningEyePose } from '../lib/cardEye'
+import { createEyePainter, EYE_ART, EYE_CENTER, EYE_PATCH, engravingTime, eyePose, summoningEyePose } from '../lib/cardEye'
 import type { CardEyeAnchor } from '../lib/cardEye'
 import { createMothPainter, MOTH_PATCH, mothPose } from '../lib/cardMoth'
 import { tendrilField, TENDRIL_AMOUNT } from '../lib/cardTendrils'
@@ -127,7 +127,7 @@ function createTendrilMaterial(art: Texture, flow: Texture, reduced: boolean) {
 function Tarot({ index, phase, revealed, reduced, instant, captivity, onEyeAnchor, ritualClock, flow, growth }: Props & { index: number; flow: Texture; growth: Texture }) {
   const group = useRef<Group>(null)
   const surface = useRef<Group>(null)
-  const source = useLoader(TextureLoader, '/assets/tarot-back-worn.webp')
+  const source = useLoader(TextureLoader, EYE_ART)
   const texture = useMemo(() => {
     const copy = source.clone()
     copy.colorSpace = SRGBColorSpace

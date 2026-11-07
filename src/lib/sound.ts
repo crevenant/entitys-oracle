@@ -1,5 +1,6 @@
 import type { SoundCue } from './ritual'
 import type { Role } from './oracle'
+import { publicUrl } from './publicUrl.ts'
 
 export const AUDIO_FILES = {
   shuffle: '/assets/audio/cards-shuffle.wav', turn: '/assets/audio/card-turn.wav', place: '/assets/audio/card-place.wav',
@@ -41,7 +42,7 @@ export function loadRitualSamples(audio: BaseAudioContext = getAudioContext()) {
   let pending = banks.get(audio)
   if (!pending) {
     pending = Promise.all(Object.entries(AUDIO_FILES).map(async ([key, url]) => {
-      const response = await fetch(url)
+      const response = await fetch(publicUrl(url))
       if (!response.ok) throw Error(`Audio unavailable: ${url}`)
       return [key, await audio.decodeAudioData(await response.arrayBuffer())] as const
     })).then((entries) => Object.fromEntries(entries) as SampleBank)

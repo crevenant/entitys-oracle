@@ -3,6 +3,7 @@ import type { CSSProperties } from 'react'
 import { createForestPainters, createForestTurn, forestPatches, paintFireBed } from '../lib/forestAnimation'
 import { CAMPFIRE_FRAME, createCampfireConversation } from '../lib/campfireConversation'
 import { FIRE_FORWARD } from '../lib/forestFire'
+import { publicUrl } from '../lib/publicUrl'
 
 const { CHAIN, BRANCH, BRUSH, SKY, TREES, FIRE, FIRE_BED, PLATE } = forestPatches
 // The fire sits forward of the back pair and behind the near pair's feet.
@@ -150,7 +151,7 @@ export default function ForestBackdrop({ reduced }: { reduced: boolean }) {
 
   return <div className="forest-backdrop" aria-hidden="true">
     <div className="forest-plate">
-      <picture className="forest-distance"><source media="(max-width: 640px)" srcSet="/assets/forest-mobile.webp" /><img ref={image} src="/assets/forest-night.webp" alt="" fetchPriority="high" /></picture>
+      <picture className="forest-distance"><source media="(max-width: 640px)" srcSet={publicUrl('/assets/forest-mobile.webp')} /><img ref={image} src={publicUrl('/assets/forest-night.webp')} alt="" fetchPriority="high" /></picture>
       <canvas ref={chain} className="forest-chain forest-animation" width={CHAIN.width} height={CHAIN.height} style={patchStyle(CHAIN)} />
       <canvas ref={branch} className="forest-branch forest-animation" width={BRANCH.width} height={BRANCH.height} style={patchStyle(BRANCH)} />
       <canvas ref={brush} className="forest-brush forest-animation" width={BRUSH.width} height={BRUSH.height} style={patchStyle(BRUSH)} />
@@ -159,7 +160,7 @@ export default function ForestBackdrop({ reduced }: { reduced: boolean }) {
       <div className="forest-trapper" style={patchStyle(TRAPPER)}>
         <div className="trapper-peek">
           <div className="trapper-turn">
-            <img ref={trapperTurns} src="/assets/trapper-turn.webp" alt="" hidden />
+            <img ref={trapperTurns} src={publicUrl('/assets/trapper-turn.webp')} alt="" hidden />
             <canvas ref={trapper} className="forest-turn-canvas" width="144" height="216" />
             <div className="trapper-pose" />
           </div>
@@ -167,7 +168,7 @@ export default function ForestBackdrop({ reduced }: { reduced: boolean }) {
       </div>
       <canvas ref={fireBed} className="forest-fire-bed" width={FIRE_BED.width} height={FIRE_BED.height} style={patchStyle(FIRE_BED)} />
       <div className="campfire-survivors" style={patchStyle(CAMPFIRE_GROUP)}>
-        <img ref={survivorTurns} src="/assets/campfire-turn.webp" alt="" hidden />
+        <img ref={survivorTurns} src={publicUrl('/assets/campfire-turn.webp')} alt="" hidden />
         <canvas ref={conversation} className="campfire-conversation forest-animation forest-turn-canvas" width={CAMPFIRE_FRAME.width} height={CAMPFIRE_FRAME.height} />
         <div className="campfire-turn" />
       </div>

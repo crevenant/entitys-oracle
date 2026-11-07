@@ -3,6 +3,7 @@ import type { Draw, Perk } from '../lib/oracle'
 import SpectralBinding from './SpectralBinding'
 import CharacterPortrait from './CharacterPortrait'
 import { portraitClips } from '../lib/portraitClips'
+import { publicUrl } from '../lib/publicUrl'
 
 export type CardFaceProps = { draw: Draw; revealedPerks: number; lit: boolean; motionReduced: boolean; onInspect: (perk: Perk) => void; lockedCharacter: boolean; lockedPerks: (string | null)[] }
 type Challenge = { ready: boolean; busy: boolean; direct: boolean; onClick: () => void }
@@ -15,7 +16,7 @@ export default function CardFace({ draw, revealedPerks, lit, motionReduced, onIn
     <div className={`card-identity ${draw.character.name.length > 14 ? 'is-long-name' : ''}`}><span>THE ENTITY HAS CHOSEN</span><h2>{draw.character.name}</h2></div>
     <div className="card-perks">{draw.perks.map((perk, index) => {
       const shown = index < revealedPerks, held = lockedPerks[index] === perk.id
-      return <div className={`card-perk-slot ${shown ? 'is-awakened' : ''} ${held ? 'is-held' : ''}`} key={perk.id}><span className="perk-seal" aria-hidden="true">{['I', 'II', 'III', 'IV'][index]}</span><button disabled={!shown} aria-hidden={!shown} aria-label={`View ${perk.name}, tier III`} onClick={() => onInspect(perk)}><img src={perk.image} alt="" /></button>{held && shown && <LockKeyhole className="card-lock-token" size={9} aria-hidden="true" />}</div>
+      return <div className={`card-perk-slot ${shown ? 'is-awakened' : ''} ${held ? 'is-held' : ''}`} key={perk.id}><span className="perk-seal" aria-hidden="true">{['I', 'II', 'III', 'IV'][index]}</span><button disabled={!shown} aria-hidden={!shown} aria-label={`View ${perk.name}, tier III`} onClick={() => onInspect(perk)}><img src={publicUrl(perk.image)} alt="" /></button>{held && shown && <LockKeyhole className="card-lock-token" size={9} aria-hidden="true" />}</div>
     })}</div>
     <span className="card-bottom">◇ &nbsp; {challenge?.busy ? 'THE ENTITY RESISTS' : revealedPerks !== 4 ? 'THE FOG HOLDS ITS SECRETS' : challenge?.ready ? challenge.direct ? 'LOOK CLOSER' : 'CHALLENGE THE GRASP' : 'YOUR FATE IS SEALED'} &nbsp; ◇</span>
     {lockedCharacter && <SpectralBinding />}

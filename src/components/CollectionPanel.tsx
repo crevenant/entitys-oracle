@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Check, Shield, Sparkles } from 'lucide-react'
 import { catalog } from '../lib/oracle'
 import type { Role } from '../lib/oracle'
+import { publicUrl } from '../lib/publicUrl'
 
 export type CollectionTab = 'characters' | 'perks'
 type Props = {
@@ -53,7 +54,7 @@ export default function CollectionPanel({ role, tab, onTab, excludedCharacters, 
       {visible.map((entry) => {
         const selected = !excluded.includes(entry.id)
         return <button className={`${tab === 'characters' ? 'collection-character' : 'collection-perk'} ${selected ? 'selected' : ''}`} key={entry.id} aria-label={entry.name} aria-pressed={selected} disabled={drawing} onClick={() => toggle(entry.id)}>
-          {tab === 'perks' ? <span className="pool-perk-icon"><img src={entry.image} alt="" loading="lazy" /></span> : <img src={entry.image} alt="" loading="lazy" />}
+          {tab === 'perks' ? <span className="pool-perk-icon"><img src={publicUrl(entry.image)} alt="" loading="lazy" /></span> : <img src={publicUrl(entry.image)} alt="" loading="lazy" />}
           <span className="collection-entry-name">{entry.name}{tab === 'perks' && <small>TIER III · VERY RARE</small>}</span>
           <span className="collection-check">{selected && <Check size={12} />}</span>
         </button>

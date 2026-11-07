@@ -4,6 +4,7 @@ import type { Draw } from './oracle'
 import { DECK_RETURN, RITUAL } from './ritual'
 import type { RitualPhase } from './ritual'
 import { createRitualAudio, loadRitualSamples } from './sound'
+import { publicUrl } from './publicUrl'
 
 type State = { draw: Draw | null; phase: RitualPhase; revealedPerks: number; instant: boolean }
 type Options = { reduced: boolean; sound: boolean; volume: number; haptics: boolean; onComplete: (draw: Draw) => void }
@@ -57,7 +58,7 @@ export function useRitual({ reduced, sound, volume, haptics, onComplete }: Optio
     // Start decoding during the shuffle so the chosen portrait never reveals blank.
     for (const src of ['/assets/tarot-back-worn.webp', draw.character.image, ...draw.perks.map((perk) => perk.image)]) {
       const image = new Image()
-      image.src = src
+      image.src = publicUrl(src)
       void image.decode().catch(() => undefined)
     }
     const timeline = gsap.timeline({ paused: true })

@@ -1,10 +1,11 @@
 import { SUMMONING } from './ritual'
+import { publicUrl } from './publicUrl'
 
 /** A small live patch reuses the engraving; the full card never needs repainting. */
 export const EYE_PATCH = { x: .3, y: .4, width: .4, height: .09 }
 export const EYE_CENTER = { x: EYE_PATCH.x + EYE_PATCH.width * .51, y: EYE_PATCH.y + EYE_PATCH.height * .51 }
 export type CardEyeAnchor = { surface: HTMLCanvasElement; x: number; y: number }
-export const EYE_ART = '/assets/tarot-back-worn.webp'
+export const EYE_ART = publicUrl('/assets/tarot-back-worn.webp')
 export type EyePose = { x: number; y: number; open: number }
 let animationEpoch: number | undefined
 export function engravingTime() {

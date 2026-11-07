@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { createHeadlinePainter, HEADLINE_CANVAS } from '../lib/headlineAnimation'
+import { publicUrl } from '../lib/publicUrl'
 
 export default function LivingHeadline({ reduced }: { reduced: boolean }) {
   const image = useRef<HTMLImageElement>(null)
@@ -53,6 +54,6 @@ export default function LivingHeadline({ reduced }: { reduced: boolean }) {
 
   return <span className="headline-scene" aria-hidden="true">
     <canvas ref={canvas} className="headline-canvas" width={HEADLINE_CANVAS.width} height={HEADLINE_CANVAS.height} />
-    <img ref={image} className="headline-art" src="/assets/headline-fog.webp" width="1200" height="600" alt="" fetchPriority="high" />
+    <img ref={image} className="headline-art" src={publicUrl('/assets/headline-fog.webp')} width="1200" height="600" alt="" fetchPriority="high" />
   </span>
 }

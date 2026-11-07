@@ -2,18 +2,20 @@ import { useLayoutEffect, useRef, useState } from 'react'
 import type { Character } from '../lib/oracle'
 import { portraitPlayhead, rememberPortraitPlayhead } from '../lib/portraitClips'
 import type { PortraitClip } from '../lib/portraitClips'
+import { publicUrl } from '../lib/publicUrl'
 
 export default function CharacterPortrait({ character, session, clip, active, reduced }: { character: Character; session: string; clip?: PortraitClip; active: boolean; reduced: boolean }) {
   const video = useRef<HTMLVideoElement>(null)
   const [ready, setReady] = useState(false)
   const [failed, setFailed] = useState(false)
   const enabled = !!clip && active && !reduced && !failed
+  const src = clip && publicUrl(clip.src)
   useLayoutEffect(() => {
     const player = video.current
-    if (!enabled || !player || !clip) return
+    if (!enabled || !player || !src) return
     // Restore after development Strict Mode replays the cleanup on a new mount.
-    if (player.getAttribute('src') !== clip.src) player.setAttribute('src', clip.src)
-    const key = `${session}:${clip.src}`, lifetime = { active: true, restored: false }
+    if (player.getAttribute('src') !== src) player.setAttribute('src', src)
+    const key = `${session}:${src}`, lifetime = { active: true, restored: false }
     setReady(false)
     const restore = () => {
       if (lifetime.restored || !Number.isFinite(player.duration) || player.duration <= 0) return
@@ -45,11 +47,11 @@ export default function CharacterPortrait({ character, session, clip, active, re
       document.removeEventListener('visibilitychange', visibility)
       player.removeAttribute('src'); player.load()
     }
-  }, [enabled, clip, session])
+  }, [enabled, src, session])
   const showingVideo = enabled && ready
-  const poster = enabled ? clip?.poster ?? character.image : character.image
+  const poster = publicUrl(enabled ? clip.poster ?? character.image : character.image)
   return <span className="portrait-media" data-portrait-mode={showingVideo ? 'video' : failed ? 'fallback' : enabled ? 'loading' : 'still'}>
     <img className={`character-portrait ${showingVideo ? 'portrait-still-covered' : ''}`} src={poster} alt={character.name} />
-    {enabled && <video key={clip.src} ref={video} className={`character-portrait-video ${showingVideo ? 'portrait-video-ready' : ''}`} src={clip.src} poster={clip.poster ?? character.image} muted playsInline loop preload="metadata" aria-hidden="true" />}
+    {enabled && <video key={src} ref={video} className={`character-portrait-video ${showingVideo ? 'portrait-video-ready' : ''}`} src={src} poster={poster} muted playsInline loop preload="metadata" aria-hidden="true" />}
   </span>
 }
