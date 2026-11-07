@@ -6,6 +6,16 @@ import { CAMPFIRE_FRAME, createCampfireConversation } from '../lib/campfireConve
 const { CHAIN, SKY, TREES, FIRE, PLATE } = forestPatches
 // Place the opening between the four seats over the existing fire at (1211, 540).
 const CAMPFIRE_GROUP = { x: 1087, y: 443, width: 248, height: 248 * 2 / 3 }
+const TRAPPER = { x: 493, y: 345, width: 132, height: 198 }
+const MIST_VENTS = [
+  { x: 262, y: 623, width: 265, height: 100, duration: 34, delay: -12, drift: 36 },
+  { x: 550, y: 522, width: 245, height: 135, duration: 39, delay: -17, drift: -24 },
+  { x: 713, y: 744, width: 310, height: 109, duration: 32, delay: -4, drift: 53 },
+  { x: 941, y: 583, width: 278, height: 102, duration: 37, delay: -25, drift: 32 },
+  { x: 1075, y: 682, width: 299, height: 112, duration: 41, delay: -13, drift: -48 },
+  { x: 1365, y: 600, width: 244, height: 94, duration: 36, delay: -9, drift: 27 },
+  { x: 1455, y: 811, width: 334, height: 124, duration: 44, delay: -33, drift: -38 },
+]
 const patchStyle = (patch: { x: number; y: number; width: number; height: number }): CSSProperties => ({
   left: `${patch.x / PLATE.width * 100}%`, top: `${patch.y / PLATE.height * 100}%`,
   width: `${patch.width / PLATE.width * 100}%`, height: `${patch.height / PLATE.height * 100}%`,
@@ -80,12 +90,25 @@ export default function ForestBackdrop({ reduced }: { reduced: boolean }) {
       <canvas ref={chain} className="forest-chain forest-animation" width={CHAIN.width} height={CHAIN.height} style={patchStyle(CHAIN)} />
       <canvas ref={clouds} className="forest-clouds forest-animation" width={SKY.width} height={SKY.height} style={patchStyle(SKY)} />
       <canvas ref={trees} className="forest-trees forest-animation" width={TREES.width} height={TREES.height} style={patchStyle(TREES)} />
+      <div className="forest-trapper" style={patchStyle(TRAPPER)}>
+        <div className="trapper-peek">
+          <div className="trapper-turn" />
+        </div>
+      </div>
       <div className="campfire-survivors" style={patchStyle(CAMPFIRE_GROUP)}>
         <canvas ref={conversation} className="campfire-conversation forest-animation" width={CAMPFIRE_FRAME.width} height={CAMPFIRE_FRAME.height} />
         <img ref={survivors} src="/assets/campfire-survivors.webp" alt="" />
       </div>
       <canvas ref={fire} className="forest-fire forest-animation" width={FIRE.width} height={FIRE.height} style={patchStyle(FIRE)} />
       <div className="campfire-light" />
+      <div className="forest-ground-mist">
+        {MIST_VENTS.map(({ duration, delay, drift, ...patch }) => <div key={patch.x} style={{
+          ...patchStyle(patch),
+          '--mist-duration': `${duration}s`,
+          '--mist-delay': `${delay}s`,
+          '--mist-drift': `${drift}%`,
+        } as CSSProperties} />)}
+      </div>
     </div>
     <div className="forest-role-light" />
     <div className="forest-mist mist-distant" /><div className="forest-mist mist-near" />

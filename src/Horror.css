@@ -8,6 +8,67 @@
 .forest-animation,.campfire-survivors{position:absolute;pointer-events:none}
 .campfire-survivors>img,.campfire-conversation{display:block;width:100%;height:100%}
 .app:not(.reduced-motion) .campfire-conversation[data-ready]+img{visibility:hidden}
+.forest-trapper {
+  position: absolute;
+  pointer-events: none;
+  /* The left edge follows the marked trunk as the image is cropped. */
+  clip-path: polygon(54% 0, 100% 0, 100% 100%, 43% 100%, 45% 70%, 49% 35%);
+  mask-image: linear-gradient(#000 29%, #0009 53%, transparent 85%);
+}
+.trapper-peek {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-origin: 43% 68%;
+  animation: trapper-peek 12s ease-in-out infinite;
+}
+@property --trapper-frame {
+  syntax: '<integer>';
+  inherits: false;
+  initial-value: 0;
+}
+.trapper-turn {
+  position: absolute;
+  inset: 0;
+  --trapper-frame: 0;
+  background: url('/assets/trapper-turn.webp') no-repeat;
+  background-size: 1700% 100%;
+  background-position: calc(var(--trapper-frame) * 6.25%) 0;
+  transition: --trapper-frame .72s ease-in-out;
+}
+.app[data-role=killer] .trapper-peek { animation-play-state: paused; }
+.app[data-role=killer] .trapper-turn { --trapper-frame: 16; }
+@keyframes trapper-peek {
+  0%, 100% { transform: translateX(-1%) rotate(-.7deg); }
+  32%, 54% { transform: translateX(1.4%) rotate(1deg); }
+  78% { transform: translateX(-2%) rotate(-1deg); }
+}
+.reduced-motion .trapper-peek { animation: none; }
+.reduced-motion .trapper-turn { transition: none; }
+.forest-ground-mist {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.forest-ground-mist > div {
+  position: absolute;
+  opacity: 0;
+  transform-origin: center bottom;
+  background:
+    radial-gradient(ellipse 42% 34% at 24% 72%, #9ab1a37a, transparent 100%),
+    radial-gradient(ellipse 43% 37% at 52% 60%, #8ca99a8c, transparent 100%),
+    radial-gradient(ellipse 32% 34% at 75% 53%, #a1b7aa6e, transparent 100%),
+    radial-gradient(ellipse 24% 30% at 56% 39%, #8da89b48, transparent 100%);
+  filter: blur(6px);
+  animation: ground-mist-rise var(--mist-duration) var(--mist-delay) infinite;
+}
+@keyframes ground-mist-rise {
+  0% { opacity: 0; transform: translate(-50%, -100%) scale(.38, .18); }
+  23% { opacity: .49; transform: translate(-50%, -104%) scale(.79, .62); }
+  54% { opacity: .43; transform: translate(calc(-50% + var(--mist-drift) * .35), -109%) scale(1, .8); }
+  94%, 100% { opacity: 0; transform: translate(calc(-50% + var(--mist-drift)), -124%) scale(1.38, 1.07); }
+}
+.reduced-motion .forest-ground-mist { display: none; }
 .forest-role-light{position:absolute;inset:0;background:linear-gradient(120deg,#283b351b,transparent 45%,var(--role-haze));mix-blend-mode:screen;transition:background 1.4s}
 .app[data-role=killer] .forest-plate{filter:saturate(.35) sepia(.2) brightness(.72)}
 .forest-mist{position:absolute;left:-30%;width:160%;height:45%;top:34%;opacity:.5;background:radial-gradient(ellipse at 24% 70%,#c6d8c615,transparent 45%),radial-gradient(ellipse at 73% 40%,#c6d8c611,transparent 40%);animation:forest-mist-pass 38s ease-in-out infinite alternate}
