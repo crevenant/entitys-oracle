@@ -37,7 +37,7 @@ export default function EntityGrasp({ phase, reduced, role, captivity, ritualClo
     const stage = gl.domElement.closest('.card-stage')
     if (!stage) return
     const css = getComputedStyle(stage)
-    const units = 2 * Math.tan((camera as PerspectiveCamera).fov * Math.PI / 360) * (camera.position.z - .86) / size.height
+    const units = 2 * Math.tan((camera as PerspectiveCamera).fov * Math.PI / 360) * (camera.position.z - .86) / stage.clientHeight
     frame.current = { halfWidth: (parseFloat(css.getPropertyValue('--reveal-width')) / 2 + 1) * units, halfHeight: parseFloat(css.getPropertyValue('--reveal-height')) / 2 * units, centerY: parseFloat(css.getPropertyValue('--reveal-center-offset')) * units - .15, unitsPerPixel: units, depthScale: (camera.position.z - .86) / CARD_REVEAL.perspective }
   }, [size.height, size.width, camera, gl])
 
@@ -79,6 +79,6 @@ export default function EntityGrasp({ phase, reduced, role, captivity, ritualClo
     <directionalLight position={[-5, 3.5, 1.5]} color="#c1c9b1" intensity={3.1} />
     <pointLight position={[2.8, .8, 2.5]} color={role === 'killer' ? '#bd654e' : '#bba678'} intensity={2.1} distance={7} decay={2} />
     <pointLight position={[-2.2, -1.5, 1.8]} color="#66796b" intensity={1.1} distance={5} decay={2} />
-    <primitive object={rig.group} dispose={null} position={[0, .15, 0]} />
+    <primitive object={rig.group} dispose={null} position={[0, .15, 0]} renderOrder={-1} />
   </group>
 }

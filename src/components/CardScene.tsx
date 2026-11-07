@@ -155,6 +155,7 @@ function Tarot({ index, phase, revealed, reduced, instant, captivity, onEyeAncho
     onEyeAnchor({ surface: gl.domElement, x: (pupil.x + 1) / 2, y: (1 - pupil.y) / 2 })
   })
   const destroyed = !selected && (phase === 'revealing' || phase === 'complete')
+  const startsDeckLayer = index === 0 && !reduced && !destroyed
   useLayoutEffect(() => {
     if (!group.current) return
     const card = group.current
@@ -196,7 +197,7 @@ function Tarot({ index, phase, revealed, reduced, instant, captivity, onEyeAncho
       const css = stage ? getComputedStyle(stage) : null
       const cardHeight = parseFloat(css?.getPropertyValue('--reveal-height') ?? '') || 328
       const centerOffset = parseFloat(css?.getPropertyValue('--reveal-center-offset') ?? '') || 20
-      const pixelsPerUnit = height / (2 * Math.tan((camera as PerspectiveCamera).fov * Math.PI / 360) * (camera.position.z - .72))
+      const pixelsPerUnit = (stage?.clientHeight ?? height) / (2 * Math.tan((camera as PerspectiveCamera).fov * Math.PI / 360) * (camera.position.z - .72))
       const magnification = CARD_REVEAL.perspective / (CARD_REVEAL.perspective - CARD_REVEAL.depth)
       const chosenY = (centerOffset + CARD_REVEAL.lift * magnification) / pixelsPerUnit - .15
       const chosenScale = cardHeight * magnification / (2.72 * pixelsPerUnit)
@@ -213,7 +214,8 @@ function Tarot({ index, phase, revealed, reduced, instant, captivity, onEyeAncho
   }, [phase, reduced, index, offset, selected, height, width, camera, gl])
   return <group ref={group} visible={!(selected && revealed)}>
     <group ref={surface} visible={!destroyed}>
-    <mesh><boxGeometry args={[1.75, 2.72, 0.035]} /><meshStandardMaterial color="#51412e" roughness={0.94} metalness={0.18} /></mesh>
+    {/* Keep the roots' color behind the deck while the cards still depth-sort against each other. */}
+    <mesh renderOrder={startsDeckLayer ? -1 : 0} frustumCulled={!startsDeckLayer} onBeforeRender={startsDeckLayer ? (renderer) => renderer.clearDepth() : undefined}><boxGeometry args={[1.75, 2.72, 0.035]} /><meshStandardMaterial color="#51412e" roughness={0.94} metalness={0.18} /></mesh>
     <mesh position={[0, 0, 0.024]} material={material}><planeGeometry args={[1.73, 2.70]} /></mesh>
     <mesh position={[0, 0, -0.024]} rotation={[0, Math.PI, 0]} material={material}><planeGeometry args={[1.73, 2.70]} /></mesh>
     {!reduced && !destroyed && !(selected && revealed) && <>
@@ -247,10 +249,19 @@ function Deck(props: Props) {
   useLayoutEffect(() => { flowRuntime.current = flow }, [flow])
   useEffect(() => () => flow.dispose(), [flow])
   const motion = useRef<DeckMotion>({ x: 0, y: 0, bob: 0, elapsed: 0 })
-  const canvas = useThree((state) => state.gl.domElement)
+  const { gl, camera, size } = useThree()
+  const canvas = gl.domElement
   const pointer = useDeckPointer(canvas)
   const { phase, reduced } = props
   const drawing = phase !== 'idle' && phase !== 'complete'
+  useLayoutEffect(() => {
+    const stage = canvas.closest('.card-stage')
+    const stageHeight = stage?.clientHeight
+    if (!stageHeight || !size.width || !size.height) return
+    // Extend the view above the stage without changing the deck's scale or center.
+    const perspective = camera as PerspectiveCamera
+    perspective.setViewOffset(size.width, stageHeight, 0, stageHeight - size.height, size.width, size.height)
+  }, [canvas, camera, size.width, size.height])
   useFrame((_, delta) => {
     if (!group.current) return
     if (reduced) {
@@ -352,7 +363,7 @@ export default function CardScene({ onReady: reportReady, ...props }: Props & { 
   const onReady = useCallback(() => { setReady(true); reportReady() }, [reportReady])
   const fallback = <FallbackCards {...props} onReady={onReady} />
   return <SceneBoundary fallback={fallback}>
-    <Canvas data-ready={ready} frameloop={props.reduced ? 'demand' : 'always'} camera={{ position: [0, 0, 6.9], fov: 36 }} dpr={props.reduced ? 1 : [1, 1.7]} gl={{ alpha: true, antialias: true, powerPreference: 'default' }} fallback={null} aria-hidden="true">
+    <Canvas style={{ pointerEvents: 'none' }} data-ready={ready} frameloop={props.reduced ? 'demand' : 'always'} camera={{ position: [0, 0, 6.9], fov: 36 }} dpr={props.reduced ? 1 : [1, 1.7]} gl={{ alpha: true, antialias: true, powerPreference: 'default' }} fallback={null} aria-hidden="true">
       <ambientLight intensity={0.65} color={props.role === 'killer' ? '#dab2a0' : '#b8c6ba'} />
       <Suspense fallback={null}><Deck {...props} /><EntityGrasp phase={props.phase} reduced={props.reduced} role={props.role} captivity={props.captivity} ritualClock={props.ritualClock} /><SceneReady onReady={onReady} /></Suspense>
     </Canvas>

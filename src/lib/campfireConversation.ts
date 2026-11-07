@@ -32,6 +32,7 @@ function influence(x: number, y: number, [cx, cy, rx, ry]: Zone) {
 export function createCampfireConversation(image: CanvasImageSource, canvas: HTMLCanvasElement, gestures = true) {
   const { width, height } = CAMPFIRE_FRAME
   const context = canvas.getContext('2d')!
+  context.clearRect(0, 0, width, height)
   context.drawImage(image, 0, 0, width, height)
   const source = context.getImageData(0, 0, width, height).data
   const output = context.createImageData(width, height)

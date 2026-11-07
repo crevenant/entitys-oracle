@@ -1,37 +1,44 @@
 /* All living patches share the forest's intrinsic cover crop and color grade. */
 .app{--moon:#a3b2a5;--entity-vein:#94754e;--ritual-light:#a78b58;--role-haze:rgba(92,127,114,.14);background:radial-gradient(ellipse at 50% 45%,#1218130a,#080c0b35 80%)}
 .app[data-role=killer]{--moon:#c4998e;--entity-vein:#a34e46;--ritual-light:#b15a4c;--role-haze:rgba(127,29,25,.25)}
+@property --role-haze {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: transparent;
+}
+.app:not(.reduced-motion) { transition: --role-haze 1.4s; }
 .forest-backdrop{position:fixed;inset:0;z-index:-3;pointer-events:none;overflow:hidden;background:#080c0b}
-.forest-plate{position:absolute;left:50%;top:56%;width:max(100vw,calc(100vh * 1672 / 941));height:max(100vh,calc(100vw * 941 / 1672));transform:translate(-50%,-56%);filter:saturate(.68) brightness(.9);opacity:.88;transition:filter 1.4s}
+.forest-plate{position:absolute;left:50%;top:56%;width:max(100vw,calc(100vh * 1672 / 941));height:max(100vh,calc(100vw * 941 / 1672));transform:translate(-50%,-56%);filter:saturate(.68) sepia(0) brightness(.9);opacity:.88;transition:filter 1.4s}
 .forest-distance{position:absolute;inset:0;display:block}
 .forest-distance img{display:block;width:100%;height:100%}
 .forest-animation,.campfire-survivors,.forest-fire-bed{position:absolute;pointer-events:none}
 @property --campfire-frame {
-  syntax: '<integer>';
-  inherits: true;
+  syntax: '<number>';
+  inherits: false;
   initial-value: 14;
 }
 .campfire-survivors {
-  --campfire-frame: 14;
+  --campfire-target: 14;
+  --campfire-frame: var(--campfire-target);
   transition: --campfire-frame .84s ease-in-out;
 }
-.app[data-role=killer] .campfire-survivors { --campfire-frame: 0; }
+.app[data-role=killer] .campfire-survivors { --campfire-target: 0; }
 .campfire-turn {
   position: absolute;
   inset: 0;
   background: url('/assets/campfire-turn.webp') no-repeat;
   background-size: 1500% 100%;
-  background-position: calc(var(--campfire-frame) * 100% / 14) 0;
+  background-position: calc(var(--campfire-target) * 100% / 14) 0;
 }
-.campfire-conversation {
+.forest-turn-canvas {
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
   height: 100%;
-  opacity: clamp(0, max(1 - var(--campfire-frame), var(--campfire-frame) - 13), 1);
 }
-.app:not(.reduced-motion) .campfire-conversation[data-ready] + .campfire-turn {
-  opacity: clamp(0, min(var(--campfire-frame), 14 - var(--campfire-frame)), 1);
-}
+.app:not(.reduced-motion) .forest-turn-canvas[data-ready] + div { display: none; }
+.reduced-motion .forest-turn-canvas { display: none; }
 .reduced-motion .campfire-survivors { transition: none; }
 .forest-trapper {
   position: absolute;
@@ -48,27 +55,32 @@
   animation: trapper-peek 12s ease-in-out infinite;
 }
 @property --trapper-frame {
-  syntax: '<integer>';
+  syntax: '<number>';
   inherits: false;
   initial-value: 0;
 }
 .trapper-turn {
   position: absolute;
   inset: 0;
-  --trapper-frame: 0;
-  background: url('/assets/trapper-turn.webp') no-repeat;
-  background-size: 1700% 100%;
-  background-position: calc(var(--trapper-frame) * 6.25%) 0;
+  --trapper-target: 0;
+  --trapper-frame: var(--trapper-target);
   transition: --trapper-frame .72s ease-in-out;
 }
+.trapper-pose {
+  position: absolute;
+  inset: 0;
+  background: url('/assets/trapper-turn.webp') no-repeat;
+  background-size: 1700% 100%;
+  background-position: calc(var(--trapper-target) * 6.25%) 0;
+}
 .app[data-role=killer] .trapper-peek { animation-play-state: paused; }
-.app[data-role=killer] .trapper-turn { --trapper-frame: 16; }
+.app[data-role=killer] .trapper-turn { --trapper-target: 16; }
 /* The fire holds their attention until the ritual singles out a card. */
-.app.ritual-in-progress .campfire-survivors { --campfire-frame: 0; }
-.app.ritual-in-progress .trapper-turn { --trapper-frame: 0; }
+.app.ritual-in-progress .campfire-survivors { --campfire-target: 0; }
+.app.ritual-in-progress .trapper-turn { --trapper-target: 0; }
 .app.ritual-in-progress .trapper-peek { animation-play-state: running; }
-.app.ritual-in-progress:is([data-phase=choosing], [data-phase=flipping], [data-phase=revealing]) .campfire-survivors { --campfire-frame: 14; }
-.app.ritual-in-progress:is([data-phase=choosing], [data-phase=flipping], [data-phase=revealing]) .trapper-turn { --trapper-frame: 16; }
+.app.ritual-in-progress:is([data-phase=choosing], [data-phase=flipping], [data-phase=revealing]) .campfire-survivors { --campfire-target: 14; }
+.app.ritual-in-progress:is([data-phase=choosing], [data-phase=flipping], [data-phase=revealing]) .trapper-turn { --trapper-target: 16; }
 .app.ritual-in-progress:is([data-phase=choosing], [data-phase=flipping], [data-phase=revealing]) .trapper-peek { animation-play-state: paused; }
 @keyframes trapper-peek {
   0%, 100% { transform: translateX(-1%) rotate(-.7deg); }
@@ -101,7 +113,7 @@
   94%, 100% { opacity: 0; transform: translate(calc(-50% + var(--mist-drift)), -124%) scale(1.38, 1.07); }
 }
 .reduced-motion .forest-ground-mist { display: none; }
-.forest-role-light{position:absolute;inset:0;background:linear-gradient(120deg,#283b351b,transparent 45%,var(--role-haze));mix-blend-mode:screen;transition:background 1.4s}
+.forest-role-light{position:absolute;inset:0;background:linear-gradient(120deg,#283b351b,transparent 45%,var(--role-haze));mix-blend-mode:screen}
 .app[data-role=killer] .forest-plate{filter:saturate(.35) sepia(.2) brightness(.72)}
 .forest-mist{position:absolute;left:-30%;width:160%;height:45%;top:34%;opacity:.5;background:radial-gradient(ellipse at 24% 70%,#c6d8c615,transparent 45%),radial-gradient(ellipse at 73% 40%,#c6d8c611,transparent 40%);animation:forest-mist-pass 38s ease-in-out infinite alternate}
 .mist-near{top:53%;height:45%;opacity:.7;animation-duration:27s;animation-delay:-18s;animation-direction:alternate-reverse;background:radial-gradient(ellipse at 28% 50%,#a2b7ac1a,transparent 40%),radial-gradient(ellipse at 77% 70%,#a2b7ac14,transparent 45%)}
@@ -122,10 +134,6 @@
 .app .ritual-note h2{color:#e0d6c2;text-shadow:0 2px 15px #000}
 .app .ritual-note p{color:#9ea899;text-shadow:0 2px 6px #000}
 .app .section-number{color:#b4a278;text-shadow:0 2px 5px #000}
-.app .role-switch{background:#080d0ad9;box-shadow:0 4px 25px #0005}
-.app[data-role=killer] .role-switch button[aria-pressed=true]{color:#dfb3a5;background:linear-gradient(110deg,#9a443b33,#5c25271a);box-shadow:inset 0 0 0 1px #bb655855}
-.app[data-role=killer] .draw-button{background:linear-gradient(110deg,#a15b48,#783f35);color:#eee0cb;box-shadow:inset 0 0 0 4px #b97d6433,inset 0 0 0 5px #24130e66,0 5px 30px #6b241d33}
-.app[data-role=killer] .draw-button:hover:not(:disabled){background:linear-gradient(110deg,#b87158,#955449);box-shadow:0 5px 35px #9b483b44}
 .app .left-note,.app .right-note{padding-top:18px;padding-bottom:18px}
 .app .left-note{background:radial-gradient(ellipse at left,#080d0bba,transparent 78%)}
 .app .right-note{background:radial-gradient(ellipse at right,#080d0bba,transparent 78%)}

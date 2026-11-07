@@ -5,6 +5,7 @@
 .app:not(.reduced-motion):is([data-phase=shuffling],[data-phase=orbiting],[data-phase=choosing],[data-phase=flipping]) :is(.role-switch,.draw-button){opacity:0;filter:blur(9px)}
 .app:not(.reduced-motion):is([data-phase=shuffling],[data-phase=orbiting],[data-phase=choosing],[data-phase=flipping]) .motion-notice{opacity:.35}
 .app:not(.reduced-motion)[data-phase=revealing] :is(.role-switch,.draw-button,.motion-notice){animation:offering-return 1.35s ease-out .15s both}
+.app .draw-controls:has(.ritual-options:popover-open) .motion-notice{animation:none;opacity:1}
 .motion-notice{--shadow-start-opacity:.35}
 @keyframes offering-shiver{
   0%,8%{transform:translate(0);opacity:1;filter:blur(0)}

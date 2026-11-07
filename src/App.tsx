@@ -176,7 +176,7 @@ function App() {
 
       <div className="role-switch" role="group" aria-label="Choose your role">
         <button className="survivor-choice" aria-pressed={role === 'survivor'} disabled={drawing} onClick={() => changeRole('survivor')}><HeartPulse size={15} strokeWidth={1.5} /> Survivor</button>
-        <span className="role-divider" />
+        <span className="role-divider" aria-hidden="true" />
         <button className="killer-choice" aria-pressed={role === 'killer'} disabled={drawing} onClick={() => changeRole('killer')}><svg className="role-scratches" width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.2" aria-hidden="true"><path d="m7 2-4 16M12 1 8 18M17 2l-4 15M2 7l16 6" /></svg> Killer</button>
       </div>
 
@@ -199,7 +199,6 @@ function App() {
           {!cardsReady && <DeckLoading />}
           <div className="scene-container"><Suspense fallback={null}><CardScene role={role} phase={phase} revealed={!!result} reduced={reduced} instant={ritual.instant} captivity={captivity} ritualClock={ritual.clock} onEyeAnchor={publishEyeAnchor} onReady={onCardsReady} /></Suspense></div>
           {result && <RevealedCard key={result.id} draw={result} phase={phase} revealedPerks={revealedPerks} instant={ritual.instant} reduced={reduced} captivity={captivity} onInspect={inspect} lockedCharacter={locks.character === result.character.id} lockedPerks={locks.perks} />}
-          <span className="stage-sigil" aria-hidden="true">✧</span>
           <span className="ritual-chapter" aria-hidden="true">{PHASE_COPY[phase].title}</span>
         </div>
 
@@ -215,7 +214,7 @@ function App() {
 
       <section className="draw-controls" aria-label="Draw controls">
         <p className="ritual-status" role="status" aria-live="polite">{!cardsReady ? 'SOMETHING HAS FOUND YOU.' : phase === 'complete' && result ? `${result.character.name}. ${PHASE_COPY.complete.message}` : PHASE_COPY[phase].message}</p>
-        <button className="draw-button" disabled={!cardsReady || drawing || available.length === 0 || perkCount < 4 || allLocked} onClick={draw}>{lockCount > 0 && !drawing ? <LockKeyhole size={17} strokeWidth={1.5} /> : <Sparkles size={17} strokeWidth={1.5} />}{drawing ? 'The Entity is feeding' : allLocked ? 'All entries locked' : result ? lockCount > 0 ? 'Reroll unlocked' : 'Tempt fate again' : 'Seal your fate'}<span>↗</span></button>
+        <button className="draw-button" disabled={!cardsReady || drawing || available.length === 0 || perkCount < 4 || allLocked} onClick={draw}>{drawing ? 'The Entity is feeding' : allLocked ? 'All entries locked' : result ? lockCount > 0 ? 'Reroll unlocked' : 'Tempt fate again' : 'Seal your fate'}</button>
         {available.length === 0 && <p className="error">Your deck is empty. <button onClick={() => openCollection('characters')}>Choose a character</button> to begin.</p>}
         {perkCount < 4 && <p className="error">Your pool has {perkCount} {role} perks. <button onClick={() => openCollection('perks')}>Choose at least four perks</button> to draw.</p>}
         {allLocked && <p className="error">Every entry is locked. <button onClick={() => setLocks(emptyLocks())}>Release all locks</button> to draw again.</p>}

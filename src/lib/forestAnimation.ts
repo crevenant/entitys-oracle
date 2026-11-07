@@ -187,4 +187,25 @@ export function createForestPainters(image: HTMLImageElement, chain: HTMLCanvasE
   return (time: number) => painters.forEach((paint) => paint(time))
 }
 
+export function createForestTurn(image: HTMLImageElement, canvas: HTMLCanvasElement, frameCount: number) {
+  const context = canvas.getContext('2d')!
+  const frameWidth = image.naturalWidth / frameCount, frameHeight = image.naturalHeight
+  const { width, height } = canvas
+  return (position: number, animatedPose?: { frame: number; image: HTMLCanvasElement }) => {
+    const frame = Math.floor(position), blend = position - frame
+    const paintFrame = (index: number, weight: number) => {
+      context.globalAlpha = weight
+      if (animatedPose?.frame === index) context.drawImage(animatedPose.image, 0, 0, width, height)
+      else context.drawImage(image, index * frameWidth, 0, frameWidth, frameHeight, 0, 0, width, height)
+    }
+    context.clearRect(0, 0, width, height)
+    // Add the weighted premultiplied pixels so transparent edges don't dim mid-turn.
+    context.globalCompositeOperation = 'lighter'
+    paintFrame(frame, 1 - blend)
+    if (blend > 0) paintFrame(frame + 1, blend)
+    context.globalAlpha = 1
+    context.globalCompositeOperation = 'source-over'
+  }
+}
+
 export const forestPatches = { CHAIN, SKY, TREES, FIRE, FIRE_BED, PLATE }

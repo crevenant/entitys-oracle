@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import type { CSSProperties } from 'react'
-import { createForestPainters, forestPatches, paintFireBed } from '../lib/forestAnimation'
+import { createForestPainters, createForestTurn, forestPatches, paintFireBed } from '../lib/forestAnimation'
 import { CAMPFIRE_FRAME, createCampfireConversation } from '../lib/campfireConversation'
 import { FIRE_FORWARD } from '../lib/forestFire'
 
@@ -29,9 +29,10 @@ export default function ForestBackdrop({ reduced }: { reduced: boolean }) {
   const fire = useRef<HTMLCanvasElement>(null)
   const fireBed = useRef<HTMLCanvasElement>(null)
   const trees = useRef<HTMLCanvasElement>(null)
-  const survivors = useRef<HTMLImageElement>(null)
   const survivorTurns = useRef<HTMLImageElement>(null)
   const conversation = useRef<HTMLCanvasElement>(null)
+  const trapperTurns = useRef<HTMLImageElement>(null)
+  const trapper = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
     const source = image.current, bed = fireBed.current
@@ -44,17 +45,18 @@ export default function ForestBackdrop({ reduced }: { reduced: boolean }) {
 
   useEffect(() => {
     const source = image.current
-    const group = survivors.current
     const turns = survivorTurns.current
     const groupCanvas = conversation.current
     const groupStage = groupCanvas?.parentElement
-    if (reduced || !source || !group || !turns || !groupCanvas || !groupStage || !chain.current || !clouds.current || !fire.current || !trees.current) return
+    const trapperStrip = trapperTurns.current
+    const trapperCanvas = trapper.current
+    const trapperStage = trapperCanvas?.parentElement
+    if (reduced || !source || !turns || !groupCanvas || !groupStage || !trapperStrip || !trapperCanvas || !trapperStage || !chain.current || !clouds.current || !fire.current || !trees.current) return
     const loop = {
       disposed: false, frame: 0, previous: 0, elapsed: 0,
-      chatTime: 0,
       paint: undefined as ReturnType<typeof createForestPainters> | undefined,
-      paintConversation: undefined as ReturnType<typeof createCampfireConversation> | undefined,
-      paintListeners: undefined as ReturnType<typeof createCampfireConversation> | undefined,
+      paintSurvivors: undefined as ((elapsed: number, delta: number) => void) | undefined,
+      paintTrapper: undefined as (() => void) | undefined,
     }
     const tick = (now: number) => {
       if (loop.disposed || document.hidden) return
@@ -64,14 +66,8 @@ export default function ForestBackdrop({ reduced }: { reduced: boolean }) {
         loop.elapsed += delta
         loop.previous = now
         loop.paint?.(loop.elapsed)
-        const facing = Number(getComputedStyle(groupStage).getPropertyValue('--campfire-frame'))
-        if (loop.paintConversation && facing === 0) {
-          loop.chatTime += delta
-          loop.paintConversation(loop.elapsed, loop.chatTime)
-        } else {
-          loop.chatTime = 0
-          if (facing === 14) loop.paintListeners?.(loop.elapsed)
-        }
+        loop.paintSurvivors?.(loop.elapsed, delta)
+        loop.paintTrapper?.()
       }
       loop.frame = requestAnimationFrame(tick)
     }
@@ -88,32 +84,64 @@ export default function ForestBackdrop({ reduced }: { reduced: boolean }) {
       if (!document.hidden && loop.paint) loop.frame = requestAnimationFrame(tick)
     }
     const prepareConversation = () => {
-      if (loop.disposed || !group.naturalWidth || !turns.naturalWidth) return
-      loop.paintConversation = createCampfireConversation(group, groupCanvas)
-      const facingPose = document.createElement('canvas')
-      facingPose.width = CAMPFIRE_FRAME.width
-      facingPose.height = CAMPFIRE_FRAME.height
-      facingPose.getContext('2d')!.drawImage(turns, 14 * 256, 0, 256, 171, 0, 0, facingPose.width, facingPose.height)
-      loop.paintListeners = createCampfireConversation(facingPose, groupCanvas, false)
-      const facing = Number(getComputedStyle(groupStage).getPropertyValue('--campfire-frame'))
-      if (facing === 0) loop.paintConversation(loop.elapsed, 0)
-      else loop.paintListeners(loop.elapsed)
+      if (loop.disposed || !turns.naturalWidth) return
+      const pose = document.createElement('canvas'), animated = document.createElement('canvas')
+      pose.width = animated.width = CAMPFIRE_FRAME.width
+      pose.height = animated.height = CAMPFIRE_FRAME.height
+      const paintPose = createForestTurn(turns, pose, 15)
+      const paintTurn = createForestTurn(turns, groupCanvas, 15)
+      paintPose(0)
+      const paintConversation = createCampfireConversation(pose, animated)
+      paintPose(14)
+      const paintListeners = createCampfireConversation(pose, animated, false)
+      let chatTime = 0
+      loop.paintSurvivors = (elapsed, delta) => {
+        const frame = Number(getComputedStyle(groupStage).getPropertyValue('--campfire-frame'))
+        // Keep the breathing and gestures attached to the end poses while they blend into the turn.
+        if (frame < 1) {
+          chatTime += delta
+          paintConversation(elapsed, chatTime)
+          paintTurn(frame, { frame: 0, image: animated })
+          return
+        }
+        chatTime = 0
+        if (frame > 13) {
+          paintListeners(elapsed)
+          paintTurn(frame, { frame: 14, image: animated })
+        } else paintTurn(frame)
+      }
+      loop.paintSurvivors(loop.elapsed, 0)
       groupCanvas.dataset.ready = ''
     }
+    const prepareTrapper = () => {
+      if (loop.disposed || !trapperStrip.naturalWidth) return
+      const paintTurn = createForestTurn(trapperStrip, trapperCanvas, 17)
+      let lastFrame = -1
+      loop.paintTrapper = () => {
+        const frame = Number(getComputedStyle(trapperStage).getPropertyValue('--trapper-frame'))
+        if (frame === lastFrame) return
+        paintTurn(frame)
+        lastFrame = frame
+      }
+      loop.paintTrapper()
+      trapperCanvas.dataset.ready = ''
+    }
     source.addEventListener('load', start)
-    group.addEventListener('load', prepareConversation)
     turns.addEventListener('load', prepareConversation)
+    trapperStrip.addEventListener('load', prepareTrapper)
     document.addEventListener('visibilitychange', visibility)
-    if (group.complete && turns.complete) prepareConversation()
+    if (turns.complete) prepareConversation()
+    if (trapperStrip.complete) prepareTrapper()
     if (source.complete) start()
     return () => {
       loop.disposed = true
       cancelAnimationFrame(loop.frame)
       source.removeEventListener('load', start)
-      group.removeEventListener('load', prepareConversation)
       turns.removeEventListener('load', prepareConversation)
+      trapperStrip.removeEventListener('load', prepareTrapper)
       document.removeEventListener('visibilitychange', visibility)
       delete groupCanvas.dataset.ready
+      delete trapperCanvas.dataset.ready
     }
   }, [reduced])
 
@@ -125,14 +153,17 @@ export default function ForestBackdrop({ reduced }: { reduced: boolean }) {
       <canvas ref={trees} className="forest-trees forest-animation" width={TREES.width} height={TREES.height} style={patchStyle(TREES)} />
       <div className="forest-trapper" style={patchStyle(TRAPPER)}>
         <div className="trapper-peek">
-          <div className="trapper-turn" />
+          <div className="trapper-turn">
+            <img ref={trapperTurns} src="/assets/trapper-turn.webp" alt="" hidden />
+            <canvas ref={trapper} className="forest-turn-canvas" width="144" height="216" />
+            <div className="trapper-pose" />
+          </div>
         </div>
       </div>
       <canvas ref={fireBed} className="forest-fire-bed" width={FIRE_BED.width} height={FIRE_BED.height} style={patchStyle(FIRE_BED)} />
       <div className="campfire-survivors" style={patchStyle(CAMPFIRE_GROUP)}>
-        <img ref={survivors} src="/assets/campfire-survivors.webp" alt="" hidden />
         <img ref={survivorTurns} src="/assets/campfire-turn.webp" alt="" hidden />
-        <canvas ref={conversation} className="campfire-conversation forest-animation" width={CAMPFIRE_FRAME.width} height={CAMPFIRE_FRAME.height} />
+        <canvas ref={conversation} className="campfire-conversation forest-animation forest-turn-canvas" width={CAMPFIRE_FRAME.width} height={CAMPFIRE_FRAME.height} />
         <div className="campfire-turn" />
       </div>
       <canvas ref={fire} className="forest-fire forest-animation" width={FIRE.width} height={FIRE.height} style={patchStyle(FIRE)} />
