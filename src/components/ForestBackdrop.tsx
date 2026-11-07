@@ -4,7 +4,7 @@ import { createForestPainters, createForestTurn, forestPatches, paintFireBed } f
 import { CAMPFIRE_FRAME, createCampfireConversation } from '../lib/campfireConversation'
 import { FIRE_FORWARD } from '../lib/forestFire'
 
-const { CHAIN, SKY, TREES, FIRE, FIRE_BED, PLATE } = forestPatches
+const { CHAIN, BRANCH, BRUSH, SKY, TREES, FIRE, FIRE_BED, PLATE } = forestPatches
 // The fire sits forward of the back pair and behind the near pair's feet.
 const CAMPFIRE_GROUP = { x: 1087, y: 443, width: 248, height: 248 * 2 / 3 }
 const TRAPPER = { x: 493, y: 345, width: 132, height: 198 }
@@ -25,6 +25,8 @@ const patchStyle = (patch: { x: number; y: number; width: number; height: number
 export default function ForestBackdrop({ reduced }: { reduced: boolean }) {
   const image = useRef<HTMLImageElement>(null)
   const chain = useRef<HTMLCanvasElement>(null)
+  const branch = useRef<HTMLCanvasElement>(null)
+  const brush = useRef<HTMLCanvasElement>(null)
   const clouds = useRef<HTMLCanvasElement>(null)
   const fire = useRef<HTMLCanvasElement>(null)
   const fireBed = useRef<HTMLCanvasElement>(null)
@@ -51,7 +53,8 @@ export default function ForestBackdrop({ reduced }: { reduced: boolean }) {
     const trapperStrip = trapperTurns.current
     const trapperCanvas = trapper.current
     const trapperStage = trapperCanvas?.parentElement
-    if (reduced || !source || !turns || !groupCanvas || !groupStage || !trapperStrip || !trapperCanvas || !trapperStage || !chain.current || !clouds.current || !fire.current || !trees.current) return
+    const branchCanvas = branch.current, brushCanvas = brush.current
+    if (reduced || !source || !turns || !groupCanvas || !groupStage || !trapperStrip || !trapperCanvas || !trapperStage || !chain.current || !clouds.current || !fire.current || !trees.current || !branchCanvas || !brushCanvas) return
     const loop = {
       disposed: false, frame: 0, previous: 0, elapsed: 0,
       paint: undefined as ReturnType<typeof createForestPainters> | undefined,
@@ -74,7 +77,7 @@ export default function ForestBackdrop({ reduced }: { reduced: boolean }) {
     const start = () => {
       cancelAnimationFrame(loop.frame)
       if (loop.disposed || !source.naturalWidth) return
-      loop.paint = createForestPainters(source, chain.current!, clouds.current!, fire.current!, trees.current!)
+      loop.paint = createForestPainters(source, chain.current!, clouds.current!, fire.current!, trees.current!, { branch: branchCanvas, brush: brushCanvas })
       loop.previous = 0
       if (!document.hidden) loop.frame = requestAnimationFrame(tick)
     }
@@ -149,6 +152,8 @@ export default function ForestBackdrop({ reduced }: { reduced: boolean }) {
     <div className="forest-plate">
       <picture className="forest-distance"><source media="(max-width: 640px)" srcSet="/assets/forest-mobile.webp" /><img ref={image} src="/assets/forest-night.webp" alt="" fetchPriority="high" /></picture>
       <canvas ref={chain} className="forest-chain forest-animation" width={CHAIN.width} height={CHAIN.height} style={patchStyle(CHAIN)} />
+      <canvas ref={branch} className="forest-branch forest-animation" width={BRANCH.width} height={BRANCH.height} style={patchStyle(BRANCH)} />
+      <canvas ref={brush} className="forest-brush forest-animation" width={BRUSH.width} height={BRUSH.height} style={patchStyle(BRUSH)} />
       <canvas ref={clouds} className="forest-clouds forest-animation" width={SKY.width} height={SKY.height} style={patchStyle(SKY)} />
       <canvas ref={trees} className="forest-trees forest-animation" width={TREES.width} height={TREES.height} style={patchStyle(TREES)} />
       <div className="forest-trapper" style={patchStyle(TRAPPER)}>

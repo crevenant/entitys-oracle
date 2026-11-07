@@ -14,6 +14,7 @@ import { CARD_REVEAL, RITUAL, SUMMONING } from '../lib/ritual'
 
 const poses: Record<RitualPhase, EntityPose> = {
   idle: { reach: .03, agitation: .1 },
+  returning: { reach: .03, agitation: .1 },
   gathering: { reach: .2, agitation: .35 },
   shuffling: { reach: .36, agitation: .65 },
   orbiting: { reach: .63, agitation: .9 },
@@ -66,7 +67,7 @@ export default function EntityGrasp({ phase, reduced, role, captivity, ritualClo
     } else updateEntityRig(runtime.current, clock.elapsedTime, pose.current)
     // The existing roots become the summoned arms. Keeping the same rig avoids
     // a jump in their origins, bends, and gripping tips at either handoff.
-    if (!['idle', 'complete'].includes(phase)) {
+    if (phase !== 'idle' && phase !== 'returning' && phase !== 'complete') {
       const time = ritualClock.current.time
       const emergence = smooth((time - SUMMONING.shiver) / (SUMMONING.takeHold - SUMMONING.shiver))
       const release = 1 - smooth((time - RITUAL.flipping) / .65)

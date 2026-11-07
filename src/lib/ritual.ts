@@ -1,4 +1,5 @@
 export const CARD_REVEAL = { turn: .9, impact: 1.2, settle: .3, lift: 34, depth: 96, perspective: 1200 } as const
+export const DECK_RETURN = { exit: .62, rise: 1.08 } as const
 export const SUMMONING = { shiver: .55, burst: .95, form: 1.6, takeHold: 1.72, absorb: 1.98, closeEye: 2.65, tremor: 2.84, shuffle: 3.25 } as const
 
 export function summoningTremor(time: number) {
@@ -28,12 +29,13 @@ export const RITUAL = {
   complete: revealAt + 1.68,
 } as const
 
-export type RitualPhase = 'idle' | 'gathering' | 'shuffling' | 'orbiting' | 'choosing' | 'flipping' | 'revealing' | 'complete'
+export type RitualPhase = 'idle' | 'returning' | 'gathering' | 'shuffling' | 'orbiting' | 'choosing' | 'flipping' | 'revealing' | 'complete'
 export type MotionMode = 'system' | 'full' | 'reduced'
-export type SoundCue = Exclude<RitualPhase, 'idle' | 'complete'> | 'perk'
+export type SoundCue = Exclude<RitualPhase, 'idle' | 'returning' | 'complete'> | 'perk'
 
 export const PHASE_COPY: Record<RitualPhase, { title: string; message: string }> = {
   idle: { title: 'IT KNOWS YOU ARE HERE', message: 'IT HAS BEEN WAITING FOR YOU.' },
+  returning: { title: 'THE FOG RECLAIMS ITS OWN', message: 'Another deck stirs in the fog…' },
   gathering: { title: 'I · THE HUNGER', message: 'You called. Something answered.' },
   shuffling: { title: 'II · THE UNRAVELLING', message: 'It strips the choice from your hands…' },
   orbiting: { title: 'III · THE FEEDING', message: 'Your fear has drawn its attention…' },

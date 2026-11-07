@@ -5,7 +5,7 @@ import { Sparkles } from '@react-three/drei'
 import { CanvasTexture, Group, LinearFilter, MeshBasicMaterial, NoColorSpace, SRGBColorSpace, TextureLoader, Vector3 } from 'three'
 import type { PerspectiveCamera, Texture } from 'three'
 import gsap from 'gsap'
-import { CARD_REVEAL, RITUAL, SUMMONING, summoningTremor } from '../lib/ritual'
+import { CARD_REVEAL, DECK_RETURN, RITUAL, SUMMONING, summoningTremor } from '../lib/ritual'
 import type { RitualPhase } from '../lib/ritual'
 import type { Role } from '../lib/oracle'
 import EntityGrasp from './EntityGrasp'
@@ -208,7 +208,14 @@ function Tarot({ index, phase, revealed, reduced, instant, captivity, onEyeAncho
         selected ? chosenScale : 1,
       )
     } else {
-      move({ x: offset * 0.78, y: -Math.abs(offset) * 0.17, z: -Math.abs(offset) * 0.24 }, { x: 0, y: 0, z: -offset * 0.16 }, initial ? 0 : 0.7)
+      if (phase === 'returning') {
+        card.position.set(offset * .025, -.2 + offset * .016, (selected ? 5 : index) * .055)
+        card.rotation.set(-.08, 0, offset * .025)
+        card.scale.setScalar(.91)
+        timeline.to({}, { duration: .14 })
+      }
+      const duration = phase === 'returning' ? DECK_RETURN.rise - .14 : initial ? 0 : .7
+      move({ x: offset * .78, y: -Math.abs(offset) * .17, z: -Math.abs(offset) * .24 }, { x: 0, y: 0, z: -offset * .16 }, duration)
     }
     return () => { timeline.kill() }
   }, [phase, reduced, index, offset, selected, height, width, camera, gl])

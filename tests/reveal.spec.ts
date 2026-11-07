@@ -53,3 +53,39 @@ test('the card turns continuously, rises in depth, lands on the reveal beat, and
   expect(await page.locator('.reveal-flight').evaluate((element) => getComputedStyle(element).transform)).toBe('none')
   await expect(page.locator('.perk-tile:enabled')).toHaveCount(4)
 })
+
+test('a repeat draw sinks the old card and raises a fresh deck through the fog', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('oracle:preferences', JSON.stringify({ motion: 'full', music: false })))
+  await page.goto('/')
+  await page.getByRole('button', { name: 'Seal your fate' }).click()
+  const skip = page.getByRole('button', { name: 'Skip the ritual' })
+  await skip.click()
+
+  const stage = page.locator('.card-stage')
+  await stage.evaluate((element) => {
+    const beats: string[] = []
+    const observer = new MutationObserver(() => {
+      const phase = element.getAttribute('data-phase')
+      if (phase === 'returning') {
+        const card = element.querySelector<HTMLElement>('.reveal-shell')
+        const scene = element.querySelector('.scene-container')!
+        const fog = element.querySelector('.deck-return-fog')
+        const beat = card?.inert && getComputedStyle(card).animationName === 'deck-return-sink' ? 'sink'
+          : !card && getComputedStyle(scene).animationName === 'deck-return-rise' ? 'rise' : ''
+        if (fog && beat && beats.at(-1) !== beat) beats.push(beat)
+      } else if (phase === 'gathering') {
+        beats.push(phase)
+        observer.disconnect()
+      }
+    })
+    observer.observe(element, { attributes: true, attributeFilter: ['data-phase', 'class'], childList: true })
+    Object.assign(window, { deckReturnBeats: beats })
+  })
+  await page.getByRole('button', { name: 'Tempt fate again' }).click()
+  await expect(stage).toHaveAttribute('data-phase', 'gathering')
+  await expect(stage.locator('.deck-return-fog')).toHaveCount(0)
+  expect(await page.evaluate(() => (window as unknown as { deckReturnBeats: string[] }).deckReturnBeats)).toEqual(['sink', 'rise', 'gathering'])
+  await skip.click()
+  await expect(stage).toHaveAttribute('data-phase', 'complete')
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem('oracle:history')!).length)).toBe(2)
+})

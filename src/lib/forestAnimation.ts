@@ -4,10 +4,13 @@ import { createFirePainter, FIRE_FORWARD } from './forestFire'
 // stage applies the same cover crop to both the photograph and these patches.
 const PLATE = { width: 1672, height: 941 }
 const CHAIN = { x: 240, y: 120, width: 110, height: 250 }
+const BRANCH = { x: 350, y: 0, width: 210, height: 235 }
+const BRUSH = { x: 188, y: 418, width: 280, height: 320 }
 const SKY = { x: 960, y: 0, width: 460, height: 200 }
 const TREES = { x: 1030, y: 125, width: 320, height: 370 }
 const FIRE = { x: 1090, y: 410, width: 240, height: 220 }
 const FIRE_BED = { x: 1110, y: 455, width: 210, height: 175 }
+type ForestPatch = { x: number; y: number; width: number; height: number }
 const clamp = (n: number) => Math.max(0, Math.min(1, n))
 const smooth = (n: number) => { const t = clamp(n); return t * t * (3 - 2 * t) }
 
@@ -17,7 +20,7 @@ function surface(width: number, height: number) {
   return { canvas, ctx: canvas.getContext('2d')! }
 }
 
-function crop(image: HTMLImageElement, rect: { x: number; y: number; width: number; height: number }) {
+function crop(image: HTMLImageElement, rect: ForestPatch) {
   const target = surface(rect.width, rect.height)
   target.ctx.drawImage(image, rect.x / PLATE.width * image.naturalWidth, rect.y / PLATE.height * image.naturalHeight,
     rect.width / PLATE.width * image.naturalWidth, rect.height / PLATE.height * image.naturalHeight,
@@ -81,6 +84,47 @@ function chainPainter(image: HTMLImageElement, canvas: HTMLCanvasElement) {
     ctx.globalCompositeOperation = 'destination-in'
     ctx.drawImage(mask.canvas, 0, 0)
     ctx.globalCompositeOperation = 'source-over'
+  }
+}
+
+function foliagePainter(image: HTMLImageElement, canvas: HTMLCanvasElement, patch: ForestPatch, wind: {
+  axis: 'x' | 'y'
+  amplitude: number
+  speed: number
+  phase: number
+  flex: (x: number, y: number) => number
+}) {
+  const { width, height } = patch
+  const context = canvas.getContext('2d')!
+  const source = crop(image, patch).ctx.getImageData(0, 0, width, height).data
+  const output = context.createImageData(width, height)
+  const vertical = wind.axis === 'y'
+  const stride = vertical ? width * 4 : 4
+  const limit = (vertical ? height : width) - 1
+  const moving: { index: number; coordinate: number; weight: number }[] = []
+  for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) {
+    const feather = smooth(Math.min(x, y, width - 1 - x, height - 1 - y) / 22)
+    const flex = wind.flex(x + patch.x, y + patch.y)
+    const weight = flex * feather
+    if (weight <= 0) continue
+    const index = (y * width + x) * 4
+    output.data[index + 3] = feather * smooth(flex * 4) * 255
+    moving.push({ index, coordinate: vertical ? y : x, weight })
+  }
+  return (time: number) => {
+    const phase = time * wind.speed + wind.phase
+    const sway = smooth(time / 1.4) * (Math.sin(phase) * wind.amplitude + Math.sin(phase * 2.1) * .45)
+    // Warp the photographed patch in place so the original twigs don't show through at the tips.
+    for (const { index, coordinate, weight } of moving) {
+      const sample = Math.max(0, Math.min(limit, coordinate - sway * weight))
+      const low = Math.floor(sample), blend = sample - low
+      const from = index + (low - coordinate) * stride
+      const to = from + (low < limit ? stride : 0)
+      for (let channel = 0; channel < 3; channel++) {
+        output.data[index + channel] = source[from + channel] * (1 - blend) + source[to + channel] * blend
+      }
+    }
+    context.putImageData(output, 0, 0)
   }
 }
 
@@ -182,8 +226,19 @@ function treePainter(image: HTMLImageElement, canvas: HTMLCanvasElement, clouds:
   }
 }
 
-export function createForestPainters(image: HTMLImageElement, chain: HTMLCanvasElement, clouds: HTMLCanvasElement, fire: HTMLCanvasElement, trees: HTMLCanvasElement) {
-  const painters = [chainPainter(image, chain), cloudPainter(image, clouds), treePainter(image, trees, clouds), createFirePainter(fire)]
+export function createForestPainters(image: HTMLImageElement, chain: HTMLCanvasElement, clouds: HTMLCanvasElement, fire: HTMLCanvasElement, trees: HTMLCanvasElement, foreground: { branch: HTMLCanvasElement; brush: HTMLCanvasElement }) {
+  const painters = [
+    chainPainter(image, chain), cloudPainter(image, clouds), treePainter(image, trees, clouds), createFirePainter(fire),
+    foliagePainter(image, foreground.branch, BRANCH, {
+      axis: 'y', amplitude: 4.8, speed: .69, phase: 0,
+      flex: (x) => smooth((x - BRANCH.x) / 140),
+    }),
+    foliagePainter(image, foreground.brush, BRUSH, {
+      axis: 'x', amplitude: 6.2, speed: .82, phase: 1.2,
+      // Follow the sloping bank so the brush bends above its planted stems.
+      flex: (x, y) => smooth((560 + (x - BRUSH.x) * .64 - y) / 140),
+    }),
+  ]
   return (time: number) => painters.forEach((paint) => paint(time))
 }
 
@@ -208,4 +263,4 @@ export function createForestTurn(image: HTMLImageElement, canvas: HTMLCanvasElem
   }
 }
 
-export const forestPatches = { CHAIN, SKY, TREES, FIRE, FIRE_BED, PLATE }
+export const forestPatches = { CHAIN, BRANCH, BRUSH, SKY, TREES, FIRE, FIRE_BED, PLATE }

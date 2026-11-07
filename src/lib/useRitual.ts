@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import type { Draw } from './oracle'
-import { RITUAL } from './ritual'
+import { DECK_RETURN, RITUAL } from './ritual'
 import type { RitualPhase } from './ritual'
 import { createRitualAudio, loadRitualSamples } from './sound'
 
@@ -61,32 +61,41 @@ export function useRitual({ reduced, sound, volume, haptics, onComplete }: Optio
       void image.decode().catch(() => undefined)
     }
     const timeline = gsap.timeline({ paused: true })
+    const returning = state.phase === 'complete' && !reduced
+    const beginAt = returning ? DECK_RETURN.exit + DECK_RETURN.rise : 0
     clock.current.time = 0
-    timeline.to(clock.current, { time: RITUAL.complete, duration: RITUAL.complete, ease: 'none' }, 0)
+    timeline.to(clock.current, { time: RITUAL.complete, duration: RITUAL.complete, ease: 'none' }, beginAt)
     soundSession.current?.stop()
     const audio = sound && !reduced ? createRitualAudio({ volume, role: draw.character.role === 'killer' ? 'killer' : 'survivor' }) : null
     soundSession.current = audio
     active.current = { draw, timeline, audio }
-    setState({ draw, phase: 'gathering', revealedPerks: 0, instant: reduced })
+    const gather = () => {
+      setState({ draw, phase: 'gathering', revealedPerks: 0, instant: reduced })
+      if (feedback.current.sound) audio?.cue('gathering')
+    }
+    if (returning) {
+      setState((previous) => ({ ...previous, phase: 'returning' }))
+      timeline.call(() => setState({ draw: null, phase: 'returning', revealedPerks: 0, instant: false }), [], DECK_RETURN.exit)
+      timeline.call(gather, [], beginAt)
+    } else gather()
     if (reduced) { finish(true); return }
-    audio?.cue('gathering')
     for (const phase of ['shuffling', 'orbiting', 'choosing', 'flipping', 'revealing'] as const) {
       timeline.call(() => {
         if (!active.current) return
         setState((previous) => ({ ...previous, phase }))
         if (feedback.current.sound) audio?.cue(phase)
         if (phase === 'revealing' && feedback.current.haptics) vibrate([22, 40, 35])
-      }, [], RITUAL[phase])
+      }, [], beginAt + RITUAL[phase])
     }
     RITUAL.perks.forEach((time, index) => timeline.call(() => {
       if (!active.current) return
       setState((previous) => ({ ...previous, revealedPerks: index + 1 }))
       if (feedback.current.sound) audio?.cue('perk', index)
       if (feedback.current.haptics) vibrate(12)
-    }, [], time))
-    timeline.call(() => finish(), [], RITUAL.complete)
+    }, [], beginAt + time))
+    timeline.call(() => finish(), [], beginAt + RITUAL.complete)
     timeline.play(0)
-  }, [finish, reduced, sound, volume])
+  }, [finish, reduced, sound, state.phase, volume])
 
   const reset = useCallback(() => { cancel(); setState(initial) }, [cancel])
   const restore = useCallback((draw: Draw) => {
@@ -98,7 +107,7 @@ export function useRitual({ reduced, sound, volume, haptics, onComplete }: Optio
     ...state,
     clock,
     drawing: state.phase !== 'idle' && state.phase !== 'complete',
-    hasCard: ['flipping', 'revealing', 'complete'].includes(state.phase),
+    hasCard: ['returning', 'flipping', 'revealing', 'complete'].includes(state.phase),
     start, reset, restore,
     skip: () => finish(true),
   }

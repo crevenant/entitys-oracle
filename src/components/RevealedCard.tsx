@@ -78,14 +78,14 @@ export default function RevealedCard({ draw, phase, revealedPerks, instant, redu
     })
     return () => { motion.kill() }
   }, [instant])
-  const lit = phase === 'revealing' || phase === 'complete'
+  const lit = phase === 'revealing' || phase === 'complete' || phase === 'returning'
   const style = { '--flip-duration': `${CARD_REVEAL.turn}s`, '--flight-duration': `${CARD_REVEAL.impact + CARD_REVEAL.settle}s`, '--lift-start': `${CARD_REVEAL.lift}px`, '--depth-start': `${CARD_REVEAL.depth}px`, '--card-perspective': `${CARD_REVEAL.perspective}px` } as CSSProperties
   const face = { draw, revealedPerks, lit, motionReduced: reduced, onInspect, lockedCharacter, lockedPerks }
-  return <><div ref={shell} className={`reveal-shell ${instant ? 'is-instant' : ''} ${lit ? 'is-lit' : ''} ${inspection === 'open' ? 'is-inspecting' : ''}`} style={style} aria-hidden={inspection === 'open' || undefined}>
+  return <><div ref={shell} className={`reveal-shell ${instant ? 'is-instant' : ''} ${lit ? 'is-lit' : ''} ${inspection === 'open' ? 'is-inspecting' : ''}`} style={style} inert={phase === 'returning'} aria-hidden={inspection === 'open' || undefined}>
     <div className="reveal-aura" aria-hidden="true" />
     <div ref={contact} className="captive-contact" aria-hidden="true"><div className="reveal-contact-shadow" /></div>
     <div ref={captive} className="captive-card"><div className="reveal-flight"><div className="reveal-turn">
-      <div className="reveal-back reveal-face" aria-hidden="true"><CardBack reduced={reduced || phase === 'revealing' || phase === 'complete'} /></div>
+      <div className="reveal-back reveal-face" aria-hidden="true"><CardBack reduced={reduced || lit} /></div>
       <CardFace {...face} portraitActive={inspection !== 'open'} challenge={{ ready: phase === 'complete', busy: inspection !== 'idle', direct: reduced || instant, onClick: challenge }} />
     </div></div></div>
     {revealedPerks > 0 && !instant && <div key={revealedPerks} className="gift-ripple" aria-hidden="true" />}

@@ -57,6 +57,70 @@
 .reveal-back img{display:block;width:100%;height:100%;object-fit:fill}
 .revealed-card.reveal-front{margin:0;animation:none;transform:rotateY(180deg) translateZ(.7px);pointer-events:auto}
 .reveal-shell:not(.is-lit) .reveal-front{pointer-events:none}
+.phase-returning .reveal-shell {
+  animation: deck-return-sink var(--deck-exit) cubic-bezier(.45, .05, .7, 1) both;
+}
+.phase-returning.is-revealed .scene-container {
+  animation: deck-return-release var(--deck-exit) ease-in both;
+}
+.phase-returning:not(.is-revealed) .scene-container {
+  animation: deck-return-rise var(--deck-rise) ease-out both;
+}
+.fallback-returning .fallback-card-track {
+  animation: deck-return-fan var(--deck-rise) cubic-bezier(.55, .04, .25, 1) both;
+}
+.deck-return-fog {
+  position: absolute;
+  z-index: 6;
+  inset: 24% -12% 0;
+  pointer-events: none;
+  animation: deck-return-fog calc(var(--deck-exit) + var(--deck-rise)) ease-in-out both;
+}
+.deck-return-fog::before, .deck-return-fog::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  filter: blur(10px);
+}
+.deck-return-fog::before {
+  background:
+    radial-gradient(ellipse 39% 29% at 38% 54%, #839a8f6b, #43574e29 62%, transparent),
+    radial-gradient(ellipse 35% 24% at 63% 57%, #a1b2a474, #6a81743d 54%, transparent),
+    radial-gradient(ellipse 34% 19% at 48% 75%, #54695fa3, transparent);
+  animation: deck-return-drift calc(var(--deck-exit) + var(--deck-rise)) linear both;
+}
+.deck-return-fog::after {
+  background:
+    radial-gradient(ellipse 34% 14% at 54% 62%, #b1bfb092, #7c92843d 58%, transparent),
+    radial-gradient(ellipse 29% 16% at 29% 65%, #8ea2956b, transparent),
+    radial-gradient(ellipse 32% 20% at 70% 73%, #6e887c71, transparent);
+  animation: deck-return-drift calc(var(--deck-exit) + var(--deck-rise)) linear reverse both;
+}
+@keyframes deck-return-sink {
+  0% { opacity: 1; transform: none; filter: none; }
+  27% { opacity: 1; transform: translateY(4px) rotate(-1deg); }
+  100% { opacity: 0; transform: translateY(65px) rotate(-5deg) scale(.9); filter: blur(9px); }
+}
+@keyframes deck-return-release { to { opacity: 0; } }
+@keyframes deck-return-rise {
+  0% { opacity: 0; transform: translateY(56px) scale(.93); filter: blur(8px); }
+  24% { opacity: .32; }
+  68% { opacity: .88; filter: blur(1px); }
+  100% { opacity: 1; transform: none; filter: none; }
+}
+@keyframes deck-return-fan {
+  0%, 13% { transform: translate(calc(var(--offset) * 2px), 18px) scale(.91); }
+  100% { transform: translate(calc(var(--offset) * 48px), calc(var(--distance) * 8px)) rotate(calc(var(--offset) * 9deg)); }
+}
+@keyframes deck-return-fog {
+  0% { opacity: 0; transform: translateY(44px) scale(.79, .52); }
+  39% { opacity: .97; transform: translateY(-2px) scale(1, 1.13); }
+  100% { opacity: 0; transform: translateY(-34px) scale(1.14, 1.38); }
+}
+@keyframes deck-return-drift {
+  from { transform: translateX(-12%) rotate(-6deg); }
+  to { transform: translateX(13%) rotate(4deg); }
+}
 .reveal-contact-shadow{position:absolute;left:7%;right:7%;bottom:-20px;height:18px;border-radius:50%;background:#010302;filter:blur(10px);opacity:.32;transform:scale(1);animation:oracle-contact-shadow var(--flight-duration,1.5s) linear both;pointer-events:none}
 .landing-impact{position:absolute;left:50%;top:calc(50% + var(--reveal-height)*.5 - var(--reveal-center-offset) - 5px);width:var(--reveal-width);height:24px;transform:translate(-50%,-50%);opacity:0;pointer-events:none}
 .effects-revealing .landing-impact{opacity:1}

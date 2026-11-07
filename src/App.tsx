@@ -5,7 +5,7 @@ import { catalog, drawFate, readSaved, save } from './lib/oracle'
 import type { Draw, Perk, Role } from './lib/oracle'
 import { useRitual } from './lib/useRitual'
 import { useCaptivity } from './lib/captivity'
-import { PHASE_COPY } from './lib/ritual'
+import { DECK_RETURN, PHASE_COPY } from './lib/ritual'
 import type { MotionMode } from './lib/ritual'
 import type { CardEyeAnchor } from './lib/cardEye'
 import RevealedCard from './components/RevealedCard'
@@ -37,6 +37,7 @@ type Panel = 'collection' | 'history' | 'settings' | 'perk' | null
 type Preferences = { sound: boolean; volume: number; music: boolean; musicVolume: number; muted: boolean; motion: MotionMode; haptics: boolean }
 type Locks = { character: string | null; perks: (string | null)[] }
 const emptyLocks = (): Locks => ({ character: null, perks: [null, null, null, null] })
+const deckReturnStyle = { '--deck-exit': `${DECK_RETURN.exit}s`, '--deck-rise': `${DECK_RETURN.rise}s` } as CSSProperties
 
 function App() {
   const [cardsReady, setCardsReady] = useState(false)
@@ -76,14 +77,16 @@ function App() {
   const rememberDraw = useCallback((draw: Draw) => setHistory((previous) => [draw, ...previous].slice(0, 20)), [])
   const ritual = useRitual({ reduced, sound: preferences.sound && !preferences.muted, volume: soundVolume, haptics: preferences.haptics, onComplete: rememberDraw })
   const { phase, drawing, revealedPerks } = ritual
+  const returning = phase === 'returning'
+  const result = ritual.hasCard ? ritual.draw : null
+  const scenePhase = returning && result ? 'complete' : phase
   const cardStage = useRef<HTMLDivElement>(null)
   const eyeAnchor = useRef<CardEyeAnchor | null>(null)
   const publishEyeAnchor = useCallback((anchor: CardEyeAnchor) => { eyeAnchor.current = anchor }, [])
-  const captivity = useCaptivity(phase, !reduced && !ritual.instant, cardStage)
+  const captivity = useCaptivity(scenePhase, !reduced && !ritual.instant, cardStage)
   const musicEnabled = preferences.music ?? true
   const musicVolume = preferences.musicVolume ?? .4
   const { audioRef: themeAudioRef, state: themeState, startTheme } = useBackgroundTheme(musicEnabled && !preferences.muted, musicVolume, drawing && preferences.sound && !preferences.muted)
-  const result = ritual.hasCard ? ritual.draw : null
   const characterVisible = phase === 'revealing' || phase === 'complete'
   const characters = catalog.characters.filter((character) => character.role === role)
   const available = characters.filter((character) => !excluded.includes(character.id))
@@ -191,14 +194,15 @@ function App() {
           <button className="text-button edit-pool-link" onClick={() => openCollection('perks')}>{perkCount} eligible perks <ChevronRight size={13} /></button>
         </aside>
 
-        <div ref={cardStage} className={`card-stage phase-${phase} ${drawing ? 'is-drawing' : ''} ${result ? 'is-revealed' : ''}`} data-phase={phase} data-scene-ready={cardsReady} aria-busy={drawing || !cardsReady}>
+        <div ref={cardStage} className={`card-stage phase-${phase} ${drawing ? 'is-drawing' : ''} ${result ? 'is-revealed' : ''}`} style={returning ? deckReturnStyle : undefined} data-phase={phase} data-scene-ready={cardsReady} aria-busy={drawing || !cardsReady}>
           <div className="ritual-ring ring-outer" aria-hidden="true" /><div className="ritual-ring ring-inner" aria-hidden="true" />
           <RitualEffects phase={phase} />
-          {drawing && !reduced && !ritual.instant && <RitualSummoning clock={ritual.clock} eyeAnchor={eyeAnchor} />}
+          {drawing && !returning && !reduced && !ritual.instant && <RitualSummoning clock={ritual.clock} eyeAnchor={eyeAnchor} />}
           <div className="stage-glow" aria-hidden="true" />
           {!cardsReady && <DeckLoading />}
-          <div className="scene-container"><Suspense fallback={null}><CardScene role={role} phase={phase} revealed={!!result} reduced={reduced} instant={ritual.instant} captivity={captivity} ritualClock={ritual.clock} onEyeAnchor={publishEyeAnchor} onReady={onCardsReady} /></Suspense></div>
+          <div className="scene-container"><Suspense fallback={null}><CardScene role={role} phase={scenePhase} revealed={!!result} reduced={reduced} instant={ritual.instant} captivity={captivity} ritualClock={ritual.clock} onEyeAnchor={publishEyeAnchor} onReady={onCardsReady} /></Suspense></div>
           {result && <RevealedCard key={result.id} draw={result} phase={phase} revealedPerks={revealedPerks} instant={ritual.instant} reduced={reduced} captivity={captivity} onInspect={inspect} lockedCharacter={locks.character === result.character.id} lockedPerks={locks.perks} />}
+          {returning && !reduced && <div className="deck-return-fog" aria-hidden="true" />}
           <span className="ritual-chapter" aria-hidden="true">{PHASE_COPY[phase].title}</span>
         </div>
 

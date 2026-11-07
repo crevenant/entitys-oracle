@@ -181,8 +181,9 @@
 .is-lit .portrait-haunting{animation:portrait-shadow-cross 3.4s ease-out both}
 .app .card-identity h2{color:#e0d6c1;text-shadow:0 2px 6px #000}
 .app .card-bottom{color:#9c8b66}
-.app .stage-glow{background:radial-gradient(ellipse,#98834f20,transparent 65%)}
-.app[data-role=killer] .stage-glow{background:radial-gradient(ellipse,#8e3a2c2e,transparent 65%)}
+.app{--stage-glow-color:#98834f20}
+.app[data-role=killer]{--stage-glow-color:#8e3a2c2e}
+.app .stage-glow{background:radial-gradient(ellipse,var(--stage-glow-color),transparent 65%)}
 .app[data-role=killer] .phase-choosing .stage-glow,.app[data-role=killer] .phase-flipping .stage-glow{background:radial-gradient(ellipse,#b445343f,transparent 65%)}
 .app .phase-revealing .stage-glow{background:radial-gradient(ellipse,#8b51b13b,transparent 66%)}
 .app .entity-vines{opacity:.04}
