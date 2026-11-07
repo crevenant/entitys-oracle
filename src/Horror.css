@@ -5,7 +5,9 @@
 .forest-plate{position:absolute;left:50%;top:56%;width:max(100vw,calc(100vh * 1672 / 941));height:max(100vh,calc(100vw * 941 / 1672));transform:translate(-50%,-56%);filter:saturate(.68) brightness(.9);opacity:.88;transition:filter 1.4s}
 .forest-distance{position:absolute;inset:0;display:block}
 .forest-distance img{display:block;width:100%;height:100%}
-.forest-animation{position:absolute;pointer-events:none}
+.forest-animation,.campfire-survivors{position:absolute;pointer-events:none}
+.campfire-survivors>img,.campfire-conversation{display:block;width:100%;height:100%}
+.app:not(.reduced-motion) .campfire-conversation[data-ready]+img{visibility:hidden}
 .forest-role-light{position:absolute;inset:0;background:linear-gradient(120deg,#283b351b,transparent 45%,var(--role-haze));mix-blend-mode:screen;transition:background 1.4s}
 .app[data-role=killer] .forest-plate{filter:saturate(.35) sepia(.2) brightness(.72)}
 .forest-mist{position:absolute;left:-30%;width:160%;height:45%;top:34%;opacity:.5;background:radial-gradient(ellipse at 24% 70%,#c6d8c615,transparent 45%),radial-gradient(ellipse at 73% 40%,#c6d8c611,transparent 40%);animation:forest-mist-pass 38s ease-in-out infinite alternate}
@@ -34,6 +36,10 @@
 .app .left-note,.app .right-note{padding-top:18px;padding-bottom:18px}
 .app .left-note{background:radial-gradient(ellipse at left,#080d0bba,transparent 78%)}
 .app .right-note{background:radial-gradient(ellipse at right,#080d0bba,transparent 78%)}
+/* Hide the side notes while preserving the card stage's grid placement. */
+.ritual-layout>.ritual-note{visibility:hidden}
+/* Raise the right note above the seated figures on wide layouts. */
+@media(min-width:960px){.app .right-note{translate:0 clamp(-290px,calc(38svh - 635px),-220px)}}
 .app .draw-controls{position:relative}
 .app .ritual-status{color:#c0ae85;text-shadow:0 1px 7px #000}
 .app .draw-hint{color:#98a28f;text-shadow:0 2px 5px #000}
