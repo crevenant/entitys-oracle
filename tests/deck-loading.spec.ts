@@ -1,4 +1,12 @@
 import { test, expect } from '@playwright/test'
+import type { Page } from '@playwright/test'
+
+async function clickOuterCard(page: Page) {
+  const stage = page.locator('.card-stage')
+  await stage.scrollIntoViewIfNeeded()
+  const { x, y, width, height } = (await stage.boundingBox())!
+  await page.mouse.click(x + width / 2 - height * .43, y + height / 2)
+}
 
 for (const reduced of [false, true]) {
   test(`loading covers the lazy scene and artwork until the rendered deck is ready (${reduced ? 'reduced' : 'full'} motion)`, async ({ page }, testInfo) => {
@@ -14,17 +22,24 @@ for (const reduced of [false, true]) {
     try {
       await page.goto('/', { waitUntil: 'domcontentloaded' })
       const loader = page.locator('.deck-loading')
-      const draw = page.getByRole('button', { name: 'Seal your fate' })
+      const draw = page.locator('.draw-button')
+      const intro = page.locator('.ritual-intro')
+      const controls = page.locator('.draw-controls')
       await expect(loader).toBeVisible()
+      await expect(intro).toBeHidden()
+      await expect(controls).toBeHidden()
+      await expect(page.locator('.ritual-chapter')).toBeHidden()
       await expect(draw).toBeDisabled()
       await expect(page.locator('.card-stage')).toHaveAttribute('aria-busy', 'true')
-      await expect(page.locator('canvas')).toHaveCount(0)
+      await expect(page.locator('.scene-container canvas')).toHaveCount(0)
       expect(await page.locator('.deck-loading-orbit').first().evaluate((element) => getComputedStyle(element).animationName)).toBe(reduced ? 'none' : 'deck-loading-orbit')
       if (!reduced) await page.screenshot({ path: `output/screenshots/${testInfo.project.name}-deck-loading.png`, fullPage: true })
 
       releaseModule()
       await expect(page.locator('.scene-container canvas')).toHaveCount(1)
       await expect(loader).toBeVisible()
+      await expect(intro).toBeHidden()
+      await expect(controls).toBeHidden()
       await expect(draw).toBeDisabled()
       await expect(page.locator('.fallback-cards')).toHaveCount(0)
       expect(await page.locator('.scene-container').evaluate((element) => getComputedStyle(element).opacity)).toBe('0')
@@ -33,10 +48,16 @@ for (const reduced of [false, true]) {
       await expect(loader).toHaveCount(0)
       await expect(page.locator('[data-ready=true]')).toBeVisible()
       await expect(page.locator('.card-stage')).toHaveAttribute('aria-busy', 'false')
+      await expect(page.getByRole('heading', { name: 'Draw a fate you can’t escape.' })).toBeVisible()
+      await expect(page.getByRole('button', { name: 'Options', exact: true })).toBeVisible()
+      if (reduced) await expect(controls).toHaveCSS('transition-duration', '0s')
+      else await expect(controls).toHaveCSS('transition-property', /opacity/)
+      await expect(intro).toHaveCSS('opacity', '1')
+      await expect(controls).toHaveCSS('opacity', '1')
       await expect(draw).toBeEnabled()
       await expect.poll(() => page.locator('.scene-container').evaluate((element) => getComputedStyle(element).opacity)).toBe('1')
       if (!reduced) await page.screenshot({ path: `output/screenshots/${testInfo.project.name}-deck-ready.png`, fullPage: true })
-      await draw.click()
+      await clickOuterCard(page)
       if (!reduced) await page.getByRole('button', { name: 'Skip the ritual' }).click()
       await expect(page.getByRole('button', { name: 'Tempt fate again' })).toBeEnabled()
       expect(errors).toEqual([])
@@ -62,11 +83,12 @@ test('devices without WebGL keep loading until fallback artwork is decoded', asy
     await page.goto('/', { waitUntil: 'domcontentloaded' })
     await expect(page.locator('.fallback-cards')).toHaveCount(1)
     await expect(page.locator('.deck-loading')).toBeVisible()
-    await expect(page.getByRole('button', { name: 'Seal your fate' })).toBeDisabled()
+    await expect(page.locator('.draw-button')).toBeHidden()
+    await expect(page.locator('.draw-button')).toBeDisabled()
     releaseArtwork()
     await expect(page.locator('.deck-loading')).toHaveCount(0)
     await expect(page.locator('.fallback-cards')).toBeVisible()
-    await page.getByRole('button', { name: 'Seal your fate' }).click()
+    await clickOuterCard(page)
     await expect(page.getByRole('button', { name: 'Tempt fate again' })).toBeEnabled()
   } finally { releaseArtwork() }
 })

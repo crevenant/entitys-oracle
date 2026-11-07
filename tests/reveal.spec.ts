@@ -51,7 +51,7 @@ test('the card turns continuously, rises in depth, lands on the reveal beat, and
   await page.getByRole('button', { name: 'Skip the ritual' }).click()
   await expect(page.locator('.reveal-shell')).toHaveClass(/is-instant/)
   expect(await page.locator('.reveal-flight').evaluate((element) => getComputedStyle(element).transform)).toBe('none')
-  await expect(page.locator('.perk-tile:enabled')).toHaveCount(4)
+  await expect(page.locator('.card-perk-slot button:enabled')).toHaveCount(4)
 })
 
 test('a repeat draw sinks the old card and raises a fresh deck through the fog', async ({ page }) => {

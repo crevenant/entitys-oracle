@@ -155,15 +155,10 @@
 .motion-explanation{color:#939b89;font-size:10px;line-height:1.8;margin-top:12px}
 .skip-ritual{display:inline-flex;align-items:center;justify-content:center;gap:7px;background:none;padding:5px 12px;font-size:9px;color:#b9ac91;letter-spacing:.5px}
 .skip-ritual:hover{color:#edcf96}
-.perk-tile.gift-concealed{opacity:.55;background:#151815;cursor:default}
-.gift-concealed .perk-icon{background:#2d2431}
-.gift-concealed strong{color:#828577;font-weight:400;font-size:9px}
-.unknown-gift{display:grid;place-items:center;width:100%;height:100%;color:#a58dba}
-.gift-revealed{animation:oracle-perk-tile .55s ease-out both}
-.gift-revealed .perk-icon{animation:oracle-icon-glow .7s ease-out both}
 
 /* CSS choreography also carries the complete ritual on devices without WebGL. */
 .fallback-card-track{position:absolute;height:295px;width:196px;transform:translate(calc(var(--offset)*48px),calc(var(--distance)*8px)) rotate(calc(var(--offset)*9deg));z-index:var(--depth);transition:transform .45s cubic-bezier(.3,.1,.2,1)}
+.fallback-cards.can-start .fallback-card-track{pointer-events:auto;cursor:pointer;touch-action:manipulation}
 .fallback-card-track img{position:static;width:100%;height:100%;box-shadow:0 8px 25px #0009}
 .fallback-gathering .fallback-card-track{transform:translate(calc(var(--offset)*2px),calc(var(--offset)*2px)) rotate(0deg)}
 .fallback-shuffling .fallback-card-track{animation:oracle-fallback-shuffle .34s ease-in-out 2;animation-delay:calc(var(--order)*-0.035s)}
@@ -179,7 +174,7 @@
 .reduced-motion .reveal-flight{animation:none;transform:none;will-change:auto}
 .reduced-motion .reveal-contact-shadow{animation:none}
 .reduced-motion .reveal-turn{animation:none;transform:rotateY(180deg)}
-.reduced-motion .reveal-shell .character-portrait,.reduced-motion .gift-revealed,.reduced-motion .gift-revealed .perk-icon{animation:none}
+.reduced-motion .reveal-shell .character-portrait{animation:none}
 .reduced-motion .card-perk-slot.is-awakened button{animation:none;transform:rotate(45deg) scale(.75)}
 .reduced-motion .fallback-card-track{animation:none;transition:none}
 
@@ -194,8 +189,6 @@
 @keyframes oracle-portrait-awaken{from{filter:sepia(.7) saturate(0) brightness(.5);opacity:.4}to{filter:var(--portrait-tone,sepia(.22) saturate(.7) brightness(1));opacity:1}}
 @keyframes oracle-perk-awaken{0%{opacity:0;transform:rotate(45deg) scale(.2);filter:brightness(2)}65%{opacity:1;transform:rotate(45deg) scale(.87);filter:brightness(1.25)}100%{opacity:1;transform:rotate(45deg) scale(.75);filter:brightness(1)}}
 @keyframes oracle-gift-ripple{from{opacity:.7;transform:scale(.93);border-color:#c394e188}to{opacity:0;transform:scale(1.14);border-color:#c394e100}}
-@keyframes oracle-perk-tile{from{opacity:.4;transform:translateY(8px);border-color:#c194e2aa}to{opacity:1;transform:translateY(0);border-color:#9d7baf26}}
-@keyframes oracle-icon-glow{from{filter:brightness(1.8)}to{filter:brightness(1)}}
 @keyframes oracle-fallback-shuffle{0%,100%{transform:translate(calc(var(--offset)*2px),0) rotate(0deg)}50%{transform:translate(calc(var(--offset)*35px),-12px) rotate(calc(var(--offset)*5deg))}}
 @keyframes oracle-fallback-orbit{0%{transform:rotate(var(--angle)) translateX(0) rotate(calc(-1*var(--angle))) scale(.9)}25%{transform:rotate(calc(var(--angle) + 90deg)) translateX(100px) rotate(calc(-1*var(--angle) - 90deg)) scale(.82)}100%{transform:rotate(calc(var(--angle) + 360deg)) translateX(100px) rotate(calc(-1*var(--angle) - 360deg)) scale(.9)}}
 @media(max-width:800px){.card-stage{--reveal-height:312px;--reveal-width:201px}.ritual-effects{inset:0 -25px}.ritual-chapter{top:6px;font-size:6px}.summoning-halo{width:280px;height:280px}.halo-second{width:310px;height:310px}.orbit-runes span{transform:rotate(calc(var(--rune)*60deg)) translateY(-157px) rotate(calc(var(--rune)*-60deg))}}

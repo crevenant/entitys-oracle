@@ -1,5 +1,7 @@
 # The Entity’s Oracle
 
+[Play The Entity’s Oracle on GitHub Pages](https://crevenant.github.io/entitys-oracle/)
+
 A responsive Dead by Daylight fan randomizer for desktop and phone browsers. Antique tarot cards shuffle in 3D, revealing one character and four distinct, role-appropriate perks, always presented in purple at tier III.
 
 ## Develop
@@ -31,7 +33,7 @@ For a phone on the same trusted Wi-Fi, run `npm.cmd run dev -- --host 0.0.0.0` a
 - Cards gather, cut and shuffle, circle the ritual, then fan out. The chosen card lifts clear of the page, turns in one continuous motion, then plants down with a contact shadow, a short compression and settle, and a subtle dust ripple before its four purple perks awaken individually.
 - A roughly 6.1-second shared timeline coordinates movement, Entity vines, runes, purple ripples, and optional sound. Skip the ritual at any time to reveal the same draw immediately.
 - Survivor and killer decks, searchable character and perk pools, and four distinct random perks from the selected role. Each role’s pool is saved separately on the current device.
-- Lock the drawn character or individual perk slots, then Reroll unlocked to keep those entries in place. Gold lock marks identify held entries while every perk remains purple tier III.
+- After a draw, open Options and choose Manage locks to lock the character or individual perk slots. Reroll unlocked keeps those entries in place. Gold lock marks identify held entries while every perk remains purple tier III.
 - Removing a locked entry from its pool unlocks it. Locking an excluded entry from a past hand includes it again. Fewer than four eligible perks or no eligible characters blocks the draw with a link to fix the pool.
 - Locks apply to the current hand and reset when changing role, revisiting history, or reloading. Pool selections persist. Unlocked entries remain random and may repeat; locking all five entries pauses rerolls until a lock is released.
 - Purple tier III styling on every perk, with selectable perk descriptions.

@@ -34,7 +34,7 @@ import './Summoning.css'
 import { publicUrl } from './lib/publicUrl'
 
 const CardScene = lazy(() => import('./components/CardScene'))
-type Panel = 'collection' | 'history' | 'settings' | 'perk' | null
+type Panel = 'collection' | 'history' | 'settings' | 'perk' | 'locks' | null
 type Preferences = { sound: boolean; volume: number; music: boolean; musicVolume: number; muted: boolean; motion: MotionMode; haptics: boolean }
 type Locks = { character: string | null; perks: (string | null)[] }
 const emptyLocks = (): Locks => ({ character: null, perks: [null, null, null, null] })
@@ -70,6 +70,7 @@ function App() {
   const [perk, setPerk] = useState<Perk | null>(null)
   const [collectionTab, setCollectionTab] = useState<CollectionTab>('characters')
   const [error, setError] = useState('')
+  const app = useRef<HTMLDivElement>(null)
   const dialog = useRef<HTMLDialogElement>(null)
   const options = useRef<HTMLDivElement>(null)
   const { motion, music: musicEnabled, musicVolume } = preferences
@@ -86,12 +87,13 @@ function App() {
   const publishEyeAnchor = useCallback((anchor: CardEyeAnchor) => { eyeAnchor.current = anchor }, [])
   const captivity = useCaptivity(scenePhase, !reduced && !ritual.instant, cardStage)
   const { audioRef: themeAudioRef, state: themeState, startTheme } = useBackgroundTheme(musicEnabled && !preferences.muted, musicVolume, drawing && preferences.sound && !preferences.muted)
-  const characterVisible = phase === 'revealing' || phase === 'complete'
   const characters = catalog.characters.filter((character) => character.role === role)
   const available = characters.filter((character) => !excluded.includes(character.id))
   const perkCount = catalog.perks.filter((entry) => entry.role === role && !excludedPerks.includes(entry.id)).length
   const lockCount = Number(locks.character !== null) + locks.perks.filter(Boolean).length
   const allLocked = lockCount === 5
+  const drawDisabled = !cardsReady || drawing || available.length === 0 || perkCount < 4 || allLocked
+  const canStartFromDeck = phase === 'idle' && !drawDisabled
 
   useEffect(() => { save('oracle:history', history) }, [history])
   useEffect(() => { save('oracle:excluded', excluded) }, [excluded])
@@ -109,7 +111,7 @@ function App() {
   }, [panel])
 
   function draw() {
-    if (!cardsReady || drawing || allLocked) return
+    if (drawDisabled) return
     try {
       const next = drawFate(role, excluded, { excludedPerks, lockedCharacterId: locks.character, lockedPerks: locks.perks })
       setError('')
@@ -161,25 +163,27 @@ function App() {
     setError('')
   }
 
-  return <div className={`app ${reduced ? 'reduced-motion' : ''} ${drawing ? 'ritual-in-progress' : ''}`} data-phase={phase} data-role={role}>
+  return <div ref={app} className={`app ${reduced ? 'reduced-motion' : ''} ${drawing ? 'ritual-in-progress' : ''}`} data-phase={phase} data-role={role} data-deck-ready={cardsReady}>
     <audio ref={themeAudioRef} src={publicUrl(THEME_FILE)} autoPlay={musicEnabled && !preferences.muted} loop preload={musicEnabled && !preferences.muted ? 'auto' : 'none'} aria-hidden="true" data-background-theme data-state={themeState} data-ducked={drawing && preferences.sound && !preferences.muted} />
     <ForestBackdrop reduced={reduced} />
     <div className="atmosphere" aria-hidden="true"><div className="fog fog-one" /><div className="fog fog-two" /><div className="grain" /></div>
 
     <main id="oracle">
-      <section className="intro">
-        <p className="eyebrow"><span /> A DEAD BY DAYLIGHT RANDOMIZER <span /></p>
-        <h1 className="summons-title">
-          <span className="headline-copy">Draw a fate you can’t escape.</span>
-          <LivingHeadline reduced={reduced} />
-        </h1>
-        <p className="intro-copy">One character. Four perks. Feed it your suffering.</p>
-      </section>
+      <div className="ritual-intro">
+        <section className="intro">
+          <p className="eyebrow"><span /> A DEAD BY DAYLIGHT RANDOMIZER <span /></p>
+          <h1 className="summons-title">
+            <span className="headline-copy">Draw a fate you can’t escape.</span>
+            <LivingHeadline reduced={reduced} />
+          </h1>
+          <p className="intro-copy">One character. Four perks. Feed it your suffering.</p>
+        </section>
 
-      <div className="role-switch" role="group" aria-label="Choose your role">
-        <button className="survivor-choice" aria-pressed={role === 'survivor'} disabled={drawing} onClick={() => changeRole('survivor')}><HeartPulse size={15} strokeWidth={1.5} /> Survivor</button>
-        <span className="role-divider" aria-hidden="true" />
-        <button className="killer-choice" aria-pressed={role === 'killer'} disabled={drawing} onClick={() => changeRole('killer')}><svg className="role-scratches" width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.2" aria-hidden="true"><path d="m7 2-4 16M12 1 8 18M17 2l-4 15M2 7l16 6" /></svg> Killer</button>
+        <div className="role-switch" role="group" aria-label="Choose your role">
+          <button className="survivor-choice" aria-pressed={role === 'survivor'} disabled={drawing} onClick={() => changeRole('survivor')}><HeartPulse size={15} strokeWidth={1.5} /> Survivor</button>
+          <span className="role-divider" aria-hidden="true" />
+          <button className="killer-choice" aria-pressed={role === 'killer'} disabled={drawing} onClick={() => changeRole('killer')}><svg className="role-scratches" width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.2" aria-hidden="true"><path d="m7 2-4 16M12 1 8 18M17 2l-4 15M2 7l16 6" /></svg> Killer</button>
+        </div>
       </div>
 
       <section className="ritual-layout" aria-label="Tarot ritual">
@@ -199,7 +203,7 @@ function App() {
           {drawing && !returning && !reduced && !ritual.instant && <RitualSummoning clock={ritual.clock} eyeAnchor={eyeAnchor} />}
           <div className="stage-glow" aria-hidden="true" />
           {!cardsReady && <DeckLoading />}
-          <div className="scene-container"><Suspense fallback={null}><CardScene role={role} phase={scenePhase} revealed={!!result} reduced={reduced} instant={ritual.instant} captivity={captivity} ritualClock={ritual.clock} onEyeAnchor={publishEyeAnchor} onReady={onCardsReady} /></Suspense></div>
+          <div className="scene-container"><Suspense fallback={null}><CardScene role={role} phase={scenePhase} revealed={!!result} reduced={reduced} instant={ritual.instant} captivity={captivity} ritualClock={ritual.clock} eventSource={app} onDraw={canStartFromDeck ? draw : undefined} onEyeAnchor={publishEyeAnchor} onReady={onCardsReady} /></Suspense></div>
           {result && <RevealedCard key={result.id} draw={result} phase={phase} revealedPerks={revealedPerks} instant={ritual.instant} reduced={reduced} captivity={captivity} onInspect={inspect} lockedCharacter={locks.character === result.character.id} lockedPerks={locks.perks} />}
           {returning && !reduced && <div className="deck-return-fog" aria-hidden="true" />}
           <span className="ritual-chapter" aria-hidden="true">{PHASE_COPY[phase].title}</span>
@@ -216,21 +220,22 @@ function App() {
       </section>
 
       <section className="draw-controls" aria-label="Draw controls">
-        <p className="ritual-status" role="status" aria-live="polite">{!cardsReady ? 'SOMETHING HAS FOUND YOU.' : phase === 'complete' && result ? `${result.character.name}. ${PHASE_COPY.complete.message}` : PHASE_COPY[phase].message}</p>
-        <button className="draw-button" disabled={!cardsReady || drawing || available.length === 0 || perkCount < 4 || allLocked} onClick={draw}>{drawing ? 'The Entity is feeding' : allLocked ? 'All entries locked' : result ? lockCount > 0 ? 'Reroll unlocked' : 'Tempt fate again' : 'Seal your fate'}</button>
+        <p className="ritual-status" role="status" aria-live="polite">{phase === 'complete' && result ? `${result.character.name}. ${PHASE_COPY.complete.message}` : PHASE_COPY[phase].message}</p>
+        <button className="draw-button" disabled={drawDisabled} onClick={draw}>{drawing ? 'The Entity is feeding' : allLocked ? 'All entries locked' : result ? lockCount > 0 ? 'Reroll unlocked' : 'Tempt fate again' : 'Seal your fate'}</button>
         {available.length === 0 && <p className="error">Your deck is empty. <button onClick={() => openCollection('characters')}>Choose a character</button> to begin.</p>}
         {perkCount < 4 && <p className="error">Your pool has {perkCount} {role} perks. <button onClick={() => openCollection('perks')}>Choose at least four perks</button> to draw.</p>}
         {allLocked && <p className="error">Every entry is locked. <button onClick={() => setLocks(emptyLocks())}>Release all locks</button> to draw again.</p>}
         {lockCount > 0 && !allLocked && <p className="held-summary"><LockKeyhole size={10} />{lockCount} of 5 entries held for the next draw</p>}
         {error && <p className="error" role="alert">{error}</p>}
         {musicEnabled && !preferences.muted && themeState === 'waiting' && <button className="theme-start" onClick={startTheme}><Volume2 size={12} />Start background theme</button>}
-        <div className="draw-afterword">{drawing ? <button className="skip-ritual" onClick={ritual.skip}>Skip the ritual <ChevronRight size={12} /></button> : <p className="draw-hint">{result ? reduced || ritual.instant ? 'Click the card for a closer look, or inspect a perk.' : 'Click the card to challenge the Entity, or inspect a perk.' : 'Beg if you must. It likes that.'}</p>}</div>
+        <div className="draw-afterword">{drawing ? <button className="skip-ritual" onClick={ritual.skip}>Skip the ritual <ChevronRight size={12} /></button> : <p className="draw-hint">{result ? reduced || ritual.instant ? 'Click the card for a closer look, or inspect a perk.' : 'Click the card to challenge the Entity, or inspect a perk.' : canStartFromDeck ? 'Click any card to begin the ritual.' : 'Beg if you must. It likes that.'}</p>}</div>
         <div className="motion-notice">
           {reduced ? <><Moon size={11} /><span>{motion === 'system' ? 'Device motion preference: instant reveal.' : 'Reduced effects: instant reveal.'}</span><button onClick={() => setMotion('full')}>Enable full ritual</button></> : <><Sparkles size={11} /><span>{motion === 'full' ? 'Full ritual enabled' : 'Cinematic ritual · Following device'}</span></>}
           <button className="options-trigger" popoverTarget="ritual-options"><Settings2 size={12} />Options</button>
         </div>
         <div ref={options} id="ritual-options" className="ritual-options" popover="auto" role="group" aria-label="Ritual options">
           <button onClick={() => openCollection('characters')}><BookOpen size={15} />Collection</button>
+          {phase === 'complete' && result && <button onClick={() => openPanel('locks')}><LockKeyhole size={15} />Manage locks</button>}
           <button onClick={() => openPanel('history')}><History size={15} />Past fates</button>
           <button aria-label={preferences.muted ? 'Unmute all sound' : 'Mute all sound'} aria-pressed={!preferences.muted} onClick={() => {
             options.current?.hidePopover()
@@ -240,15 +245,14 @@ function App() {
         </div>
       </section>
 
-      {result && characterVisible && <LoadoutControls draw={result} revealedPerks={revealedPerks} drawing={drawing} lockedCharacter={locks.character === result.character.id} lockedPerks={locks.perks} onCharacterLock={toggleCharacterLock} onPerkLock={togglePerkLock} onUnlock={() => setLocks(emptyLocks())} onInspect={inspect} onPool={() => openCollection('perks')} />}
-
     </main>
 
     <footer><span><span className="connection-dot" /> AN UNOFFICIAL OFFERING TO THE FOG</span><span>Hope is how it keeps you here. <span className="footer-diamond">◇</span></span></footer>
 
-    <dialog ref={dialog} aria-label={panel === 'collection' ? 'Your collection' : panel === 'history' ? 'Past fates' : panel === 'perk' ? 'Perk details' : 'Ritual settings'} className={`modal ${panel === 'collection' ? 'collection-modal' : ''}`} onCancel={() => setPanel(null)} onClick={(event) => { if (event.target === event.currentTarget) setPanel(null) }} onClose={() => setPanel(null)}>
+    <dialog ref={dialog} aria-label={panel === 'collection' ? 'Your collection' : panel === 'history' ? 'Past fates' : panel === 'perk' ? 'Perk details' : panel === 'locks' ? 'Manage locks' : 'Ritual settings'} className={`modal ${panel === 'collection' ? 'collection-modal' : ''}`} onCancel={() => setPanel(null)} onClick={(event) => { if (event.target === event.currentTarget) setPanel(null) }} onClose={() => setPanel(null)}>
       <div className="modal-content">
         <button className="icon-button close-button" onClick={() => setPanel(null)} aria-label="Close dialog"><X size={20} /></button>
+        {panel === 'locks' && result && <><h2>Manage locks</h2><LoadoutControls draw={result} lockedCharacter={locks.character === result.character.id} lockedPerks={locks.perks} onCharacterLock={toggleCharacterLock} onPerkLock={togglePerkLock} onUnlock={() => setLocks(emptyLocks())} onInspect={inspect} onPool={() => openCollection('perks')} /></>}
         {panel === 'collection' && <CollectionPanel role={role} tab={collectionTab} onTab={setCollectionTab} excludedCharacters={excluded} excludedPerks={excludedPerks} onCharacters={changeCharacterPool} onPerks={changePerkPool} drawing={drawing} />}
         {panel === 'history' && <><p className="eyebrow">ECHOES IN THE FOG</p><h2>Past fates</h2><p className="modal-copy">Your last 20 draws, saved on this device. Choose one to revisit its hand.</p>
           {history.length ? <><div className="history-list">{history.map((entry) => <button key={entry.id} onClick={() => restoreDraw(entry)} disabled={drawing}><img src={publicUrl(entry.character.image)} alt="" /><span><strong>{entry.character.name}</strong><small>{entry.perks.map((p) => p.name).join(' · ')}</small></span><ChevronRight size={16} /></button>)}</div><button className="text-button clear-history" onClick={() => setHistory([])}>Clear saved history</button></> : <div className="empty-state"><History size={30} /><p>No fate has been written yet.</p><button className="text-button" onClick={() => setPanel(null)}>Return to the ritual <ChevronRight size={14} /></button></div>}

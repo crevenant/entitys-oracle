@@ -145,7 +145,6 @@
 .app .ritual-status{color:#c0ae85;text-shadow:0 1px 7px #000}
 .app .draw-hint{color:#98a28f;text-shadow:0 2px 5px #000}
 .app .motion-notice{color:#aa9f83;text-shadow:0 2px 5px #000}
-.app .loadout{background:linear-gradient(#0c110eaa,#0b100d88);padding:20px 18px 18px;border:1px solid #95825733;box-shadow:0 15px 65px #0004}
 .app footer{background:#080d0a99;color:#8f9987;padding-left:18px;padding-right:18px}
 .app .modal{background:linear-gradient(145deg,#151b15f5,#0c120ff5);box-shadow:0 30px 120px #000d}
 
@@ -208,6 +207,6 @@
 @keyframes forest-ember-rise{0%{opacity:0;transform:translate(0,0) rotate(0)}15%{opacity:.5}65%{opacity:.3}100%{opacity:0;transform:translate(30px,-65vh) rotate(100deg)}}
 @keyframes portrait-ink-unveil{0%{clip-path:polygon(0 0,100% 0,100% 4%,82% 1%,67% 6%,48% 0,30% 4%,13% 0,0 7%)}46%{clip-path:polygon(0 0,100% 0,100% 53%,82% 67%,67% 52%,48% 73%,30% 58%,13% 68%,0 55%)}100%{clip-path:polygon(0 0,100% 0,100% 100%,82% 100%,67% 100%,48% 100%,30% 100%,13% 100%,0 100%)}}
 @keyframes portrait-shadow-cross{0%{opacity:0;transform:translateX(-80%)}25%{opacity:.35}100%{opacity:0;transform:translateX(80%)}}
-@media(max-width:1150px){.forest-plate{left:53%;top:55%;transform:translate(-53%,-55%)}.app .loadout{padding:18px 14px}}
-@media(max-width:800px){.app .loadout{margin-top:35px}.forest-vignette{background:linear-gradient(180deg,#03080666,transparent 30%,#04090644 70%,#040906dc),linear-gradient(90deg,#02060566,transparent 30%,transparent 70%,#02060566)}}
-@media(max-width:520px){.forest-plate{left:61%;top:50%;transform:translate(-61%,-50%);opacity:.8}.forest-mist{opacity:.35}.app .loadout{padding:15px 10px}.app .intro-copy{color:#a7afa1}.app .motion-notice{font-size:7px;line-height:1.7}.app .draw-hint{font-size:8px}.binding-chain{opacity:.75}}
+@media(max-width:1150px){.forest-plate{left:53%;top:55%;transform:translate(-53%,-55%)}}
+@media(max-width:800px){.forest-vignette{background:linear-gradient(180deg,#03080666,transparent 30%,#04090644 70%,#040906dc),linear-gradient(90deg,#02060566,transparent 30%,transparent 70%,#02060566)}}
+@media(max-width:520px){.forest-plate{left:61%;top:50%;transform:translate(-61%,-50%);opacity:.8}.forest-mist{opacity:.35}.app .intro-copy{color:#a7afa1}.app .motion-notice{font-size:7px;line-height:1.7}.app .draw-hint{font-size:8px}.binding-chain{opacity:.75}}

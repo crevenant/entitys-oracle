@@ -1,6 +1,6 @@
 import { Component, Suspense, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import type { CSSProperties, ReactNode, RefObject } from 'react'
-import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber'
+import { Canvas, events, useFrame, useLoader, useThree } from '@react-three/fiber'
 import { Sparkles } from '@react-three/drei'
 import { CanvasTexture, Group, LinearFilter, MeshBasicMaterial, NoColorSpace, SRGBColorSpace, TextureLoader, Vector3 } from 'three'
 import type { PerspectiveCamera, Texture } from 'three'
@@ -19,7 +19,19 @@ import CardFragments, { FlatCardFragments } from './CardFragments'
 import type { CaptivityClock } from '../lib/captivity'
 import FallbackGrasp from './FallbackGrasp'
 
-type Props = { phase: RitualPhase; revealed: boolean; reduced: boolean; role: Role; instant: boolean; captivity: CaptivityClock; ritualClock: RefObject<{ time: number }>; onEyeAnchor: (anchor: CardEyeAnchor) => void }
+type Props = { phase: RitualPhase; revealed: boolean; reduced: boolean; role: Role; instant: boolean; captivity: CaptivityClock; ritualClock: RefObject<{ time: number }>; onDraw?: () => void; onEyeAnchor: (anchor: CardEyeAnchor) => void }
+
+const deckEvents: typeof events = (store) => ({
+  ...events(store),
+  compute(event, state) {
+    if (event.target instanceof Element && event.target.closest('button, dialog, [popover]')) return
+    // The scene extends beyond the stage, so hit-test against the actual canvas.
+    const bounds = state.gl.domElement.getBoundingClientRect()
+    if (!bounds.width || !bounds.height || event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) return
+    state.pointer.set((event.clientX - bounds.left) / bounds.width * 2 - 1, 1 - (event.clientY - bounds.top) / bounds.height * 2)
+    state.raycaster.setFromCamera(state.pointer, state.camera)
+  },
+})
 
 type DeckPointer = { over: boolean; x: number; y: number }
 type DeckMotion = { x: number; y: number; bob: number; elapsed: number }
@@ -124,7 +136,7 @@ function createTendrilMaterial(art: Texture, flow: Texture, reduced: boolean) {
   return material
 }
 
-function Tarot({ index, phase, revealed, reduced, instant, captivity, onEyeAnchor, ritualClock, flow, growth }: Props & { index: number; flow: Texture; growth: Texture }) {
+function Tarot({ index, phase, revealed, reduced, instant, captivity, onDraw, onEyeAnchor, ritualClock, flow, growth }: Props & { index: number; flow: Texture; growth: Texture }) {
   const group = useRef<Group>(null)
   const surface = useRef<Group>(null)
   const source = useLoader(TextureLoader, EYE_ART)
@@ -222,7 +234,12 @@ function Tarot({ index, phase, revealed, reduced, instant, captivity, onEyeAncho
   return <group ref={group} visible={!(selected && revealed)}>
     <group ref={surface} visible={!destroyed}>
     {/* Keep the roots' color behind the deck while the cards still depth-sort against each other. */}
-    <mesh renderOrder={startsDeckLayer ? -1 : 0} frustumCulled={!startsDeckLayer} onBeforeRender={startsDeckLayer ? (renderer) => renderer.clearDepth() : undefined}><boxGeometry args={[1.75, 2.72, 0.035]} /><meshStandardMaterial color="#51412e" roughness={0.94} metalness={0.18} /></mesh>
+    <mesh renderOrder={startsDeckLayer ? -1 : 0} frustumCulled={!startsDeckLayer} onBeforeRender={startsDeckLayer ? (renderer) => renderer.clearDepth() : undefined}
+      onClick={onDraw && ((event) => { event.stopPropagation(); onDraw() })}
+      onPointerOver={onDraw && ((event) => { event.stopPropagation(); gl.domElement.closest<HTMLElement>('.app')?.style.setProperty('cursor', 'pointer') })}
+      onPointerOut={onDraw && (() => { gl.domElement.closest<HTMLElement>('.app')?.style.removeProperty('cursor') })}>
+      <boxGeometry args={[1.75, 2.72, 0.035]} /><meshStandardMaterial color="#51412e" roughness={0.94} metalness={0.18} />
+    </mesh>
     <mesh position={[0, 0, 0.024]} material={material}><planeGeometry args={[1.73, 2.70]} /></mesh>
     <mesh position={[0, 0, -0.024]} rotation={[0, Math.PI, 0]} material={material}><planeGeometry args={[1.73, 2.70]} /></mesh>
     {!reduced && !destroyed && !(selected && revealed) && <>
@@ -261,6 +278,12 @@ function Deck(props: Props) {
   const pointer = useDeckPointer(canvas)
   const { phase, reduced } = props
   const drawing = phase !== 'idle' && phase !== 'complete'
+  const canDraw = !!props.onDraw
+  useEffect(() => {
+    if (!canDraw) return
+    const app = canvas.closest<HTMLElement>('.app')
+    return () => { app?.style.removeProperty('cursor') }
+  }, [canvas, canDraw])
   useLayoutEffect(() => {
     const stage = canvas.closest('.card-stage')
     const stageHeight = stage?.clientHeight
@@ -292,7 +315,7 @@ function Deck(props: Props) {
   </group>
 }
 
-function FallbackCards({ phase, revealed, reduced, instant, captivity, ritualClock, onReady }: Props & { onReady: () => void }) {
+function FallbackCards({ phase, revealed, reduced, instant, captivity, ritualClock, onDraw, onReady }: Props & { onReady: () => void }) {
   const root = useRef<HTMLDivElement>(null)
   useEffect(() => {
     const lifetime = { active: true, frame: 0 }
@@ -325,8 +348,8 @@ function FallbackCards({ phase, revealed, reduced, instant, captivity, ritualClo
     return () => { gsap.ticker.remove(update) }
   }, [drawing, reduced, pointer])
   const destroyed = phase === 'revealing' || phase === 'complete'
-  return <><div ref={root} className={`fallback-cards fallback-${phase} ${revealed ? 'has-result' : ''} ${reduced ? 'is-instant' : ''}`} aria-hidden="true">
-    {[-2, -1, 0, 1, 2].map((offset) => <div className="fallback-card-track" key={offset} style={{ '--offset': offset, '--order': offset + 2, '--distance': Math.abs(offset), '--depth': 5 - Math.abs(offset) } as CSSProperties}><CardBack reduced={reduced} seed={offset + 2} hidden={(offset === 0 && revealed) || (offset !== 0 && destroyed)} ritualClock={offset === 0 && phase === 'gathering' ? ritualClock : undefined} />{offset !== 0 && destroyed && !instant && !reduced && <FlatCardFragments index={offset + 2} />}</div>)}
+  return <><div ref={root} className={`fallback-cards fallback-${phase} ${onDraw ? 'can-start' : ''} ${revealed ? 'has-result' : ''} ${reduced ? 'is-instant' : ''}`} aria-hidden="true">
+    {[-2, -1, 0, 1, 2].map((offset) => <div className="fallback-card-track" key={offset} onClick={onDraw} style={{ '--offset': offset, '--order': offset + 2, '--distance': Math.abs(offset), '--depth': 5 - Math.abs(offset) } as CSSProperties}><CardBack reduced={reduced} seed={offset + 2} hidden={(offset === 0 && revealed) || (offset !== 0 && destroyed)} ritualClock={offset === 0 && phase === 'gathering' ? ritualClock : undefined} />{offset !== 0 && destroyed && !instant && !reduced && <FlatCardFragments index={offset + 2} />}</div>)}
   </div>{!reduced && !instant && <FallbackGrasp clock={captivity} />}</>
 }
 
@@ -365,12 +388,12 @@ function SceneReady({ onReady }: { onReady: () => void }) {
   return null
 }
 
-export default function CardScene({ onReady: reportReady, ...props }: Props & { onReady: () => void }) {
+export default function CardScene({ onReady: reportReady, eventSource, ...props }: Props & { onReady: () => void; eventSource: RefObject<HTMLDivElement | null> }) {
   const [ready, setReady] = useState(false)
   const onReady = useCallback(() => { setReady(true); reportReady() }, [reportReady])
   const fallback = <FallbackCards {...props} onReady={onReady} />
   return <SceneBoundary fallback={fallback}>
-    <Canvas style={{ pointerEvents: 'none' }} data-ready={ready} frameloop={props.reduced ? 'demand' : 'always'} camera={{ position: [0, 0, 6.9], fov: 36 }} dpr={props.reduced ? 1 : [1, 1.7]} gl={{ alpha: true, antialias: true, powerPreference: 'default' }} fallback={null} aria-hidden="true">
+    <Canvas style={{ pointerEvents: 'none' }} eventSource={eventSource} events={deckEvents} data-ready={ready} frameloop={props.reduced ? 'demand' : 'always'} camera={{ position: [0, 0, 6.9], fov: 36 }} dpr={props.reduced ? 1 : [1, 1.7]} gl={{ alpha: true, antialias: true, powerPreference: 'default' }} fallback={null} aria-hidden="true">
       <ambientLight intensity={0.65} color={props.role === 'killer' ? '#dab2a0' : '#b8c6ba'} />
       <Suspense fallback={null}><Deck {...props} /><EntityGrasp phase={props.phase} reduced={props.reduced} role={props.role} captivity={props.captivity} ritualClock={props.ritualClock} /><SceneReady onReady={onReady} /></Suspense>
     </Canvas>
