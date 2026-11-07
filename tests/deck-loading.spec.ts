@@ -5,7 +5,9 @@ async function clickOuterCard(page: Page) {
   const stage = page.locator('.card-stage')
   await stage.scrollIntoViewIfNeeded()
   const { x, y, width, height } = (await stage.boundingBox())!
-  await page.mouse.click(x + width / 2 - height * .43, y + height / 2)
+  const cardX = x + width / 2 - height * .43, cardY = y + height / 2
+  if (await page.evaluate(() => navigator.maxTouchPoints > 0)) await page.touchscreen.tap(cardX, cardY)
+  else await page.mouse.click(cardX, cardY)
 }
 
 for (const reduced of [false, true]) {
@@ -57,6 +59,9 @@ for (const reduced of [false, true]) {
       await expect(draw).toBeEnabled()
       await expect.poll(() => page.locator('.scene-container').evaluate((element) => getComputedStyle(element).opacity)).toBe('1')
       if (!reduced) await page.screenshot({ path: `output/screenshots/${testInfo.project.name}-deck-ready.png`, fullPage: true })
+      await page.evaluate(() => window.addEventListener('click', (event) => {
+        if (event.target instanceof Element && event.target.closest('.ritual-layout')) event.stopImmediatePropagation()
+      }, { capture: true }))
       await clickOuterCard(page)
       if (!reduced) await page.getByRole('button', { name: 'Skip the ritual' }).click()
       await expect(page.getByRole('button', { name: 'Tempt fate again' })).toBeEnabled()

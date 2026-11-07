@@ -119,6 +119,11 @@ function App() {
     } catch (cause) { setError(cause instanceof Error ? cause.message : 'The ritual could not begin.') }
   }
 
+  function drawFromDeck() {
+    startTheme()
+    draw()
+  }
+
   function changeRole(next: Role) {
     if (drawing || next === role) return
     setRole(next)
@@ -203,7 +208,7 @@ function App() {
           {drawing && !returning && !reduced && !ritual.instant && <RitualSummoning clock={ritual.clock} eyeAnchor={eyeAnchor} />}
           <div className="stage-glow" aria-hidden="true" />
           {!cardsReady && <DeckLoading />}
-          <div className="scene-container"><Suspense fallback={null}><CardScene role={role} phase={scenePhase} revealed={!!result} reduced={reduced} instant={ritual.instant} captivity={captivity} ritualClock={ritual.clock} eventSource={app} onDraw={canStartFromDeck ? draw : undefined} onEyeAnchor={publishEyeAnchor} onReady={onCardsReady} /></Suspense></div>
+          <div className="scene-container"><Suspense fallback={null}><CardScene role={role} phase={scenePhase} revealed={!!result} reduced={reduced} instant={ritual.instant} captivity={captivity} ritualClock={ritual.clock} eventSource={app} onDraw={canStartFromDeck ? drawFromDeck : undefined} onEyeAnchor={publishEyeAnchor} onReady={onCardsReady} /></Suspense></div>
           {result && <RevealedCard key={result.id} draw={result} phase={phase} revealedPerks={revealedPerks} instant={ritual.instant} reduced={reduced} captivity={captivity} onInspect={inspect} lockedCharacter={locks.character === result.character.id} lockedPerks={locks.perks} />}
           {returning && !reduced && <div className="deck-return-fog" aria-hidden="true" />}
           <span className="ritual-chapter" aria-hidden="true">{PHASE_COPY[phase].title}</span>

@@ -1,6 +1,7 @@
 import { Component, Suspense, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import type { CSSProperties, ReactNode, RefObject } from 'react'
 import { Canvas, events, useFrame, useLoader, useThree } from '@react-three/fiber'
+import type { ThreeEvent } from '@react-three/fiber'
 import { Sparkles } from '@react-three/drei'
 import { CanvasTexture, Group, LinearFilter, MeshBasicMaterial, NoColorSpace, SRGBColorSpace, TextureLoader, Vector3 } from 'three'
 import type { PerspectiveCamera, Texture } from 'three'
@@ -139,6 +140,7 @@ function createTendrilMaterial(art: Texture, flow: Texture, reduced: boolean) {
 function Tarot({ index, phase, revealed, reduced, instant, captivity, onDraw, onEyeAnchor, ritualClock, flow, growth }: Props & { index: number; flow: Texture; growth: Texture }) {
   const group = useRef<Group>(null)
   const surface = useRef<Group>(null)
+  const press = useRef<{ pointerId: number; x: number; y: number } | null>(null)
   const source = useLoader(TextureLoader, EYE_ART)
   const texture = useMemo(() => {
     const copy = source.clone()
@@ -168,6 +170,20 @@ function Tarot({ index, phase, revealed, reduced, instant, captivity, onDraw, on
   })
   const destroyed = !selected && (phase === 'revealing' || phase === 'complete')
   const startsDeckLayer = index === 0 && !reduced && !destroyed
+  const startPress = (event: ThreeEvent<PointerEvent>) => {
+    const { button, clientX, clientY, isPrimary, pointerId } = event.nativeEvent
+    if (button !== 0 || !isPrimary) return
+    event.stopPropagation()
+    press.current = { pointerId, x: clientX, y: clientY }
+  }
+  const finishPress = (event: ThreeEvent<PointerEvent>) => {
+    const start = press.current
+    if (!start || start.pointerId !== event.nativeEvent.pointerId) return
+    press.current = null
+    if (Math.hypot(event.nativeEvent.clientX - start.x, event.nativeEvent.clientY - start.y) > 10) return
+    event.stopPropagation()
+    onDraw?.()
+  }
   useLayoutEffect(() => {
     if (!group.current) return
     const card = group.current
@@ -235,9 +251,9 @@ function Tarot({ index, phase, revealed, reduced, instant, captivity, onDraw, on
     <group ref={surface} visible={!destroyed}>
     {/* Keep the roots' color behind the deck while the cards still depth-sort against each other. */}
     <mesh renderOrder={startsDeckLayer ? -1 : 0} frustumCulled={!startsDeckLayer} onBeforeRender={startsDeckLayer ? (renderer) => renderer.clearDepth() : undefined}
-      onClick={onDraw && ((event) => { event.stopPropagation(); onDraw() })}
+      onPointerDown={onDraw && startPress} onPointerUp={onDraw && finishPress}
       onPointerOver={onDraw && ((event) => { event.stopPropagation(); gl.domElement.closest<HTMLElement>('.app')?.style.setProperty('cursor', 'pointer') })}
-      onPointerOut={onDraw && (() => { gl.domElement.closest<HTMLElement>('.app')?.style.removeProperty('cursor') })}>
+      onPointerOut={onDraw && (() => { press.current = null; gl.domElement.closest<HTMLElement>('.app')?.style.removeProperty('cursor') })}>
       <boxGeometry args={[1.75, 2.72, 0.035]} /><meshStandardMaterial color="#51412e" roughness={0.94} metalness={0.18} />
     </mesh>
     <mesh position={[0, 0, 0.024]} material={material}><planeGeometry args={[1.73, 2.70]} /></mesh>
