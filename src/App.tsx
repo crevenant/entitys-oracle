@@ -153,7 +153,7 @@ function App() {
 
   return <div className={`app ${reduced ? 'reduced-motion' : ''} ${drawing ? 'ritual-in-progress' : ''}`} data-phase={phase} data-role={role}>
     <audio ref={themeAudioRef} src={THEME_FILE} autoPlay={musicEnabled && !preferences.muted} loop preload={musicEnabled && !preferences.muted ? 'auto' : 'none'} aria-hidden="true" data-background-theme data-state={themeState} data-ducked={drawing && preferences.sound && !preferences.muted} />
-    <ForestBackdrop />
+    <ForestBackdrop reduced={reduced} />
     <div className="atmosphere" aria-hidden="true"><div className="fog fog-one" /><div className="fog fog-two" /><div className="grain" /></div>
     <header className="header">
       <a className="brand" href="#oracle" onClick={() => setPanel(null)} aria-label="The Entity's Oracle home"><span className="brand-icon"><Eye size={25} strokeWidth={1.25} /></span><span>THE ENTITY’S<span className="brand-sub">O R A C L E</span></span></a>

@@ -1,15 +1,16 @@
-/* The forest is a fixed environmental plate; UI and perks keep their own colors. */
+/* All living patches share the forest's intrinsic cover crop and color grade. */
 .app{--moon:#a3b2a5;--entity-vein:#94754e;--ritual-light:#a78b58;--role-haze:rgba(92,127,114,.14);background:radial-gradient(ellipse at 50% 45%,#1218130a,#080c0b35 80%)}
 .app[data-role=killer]{--moon:#c4998e;--entity-vein:#a34e46;--ritual-light:#b15a4c;--role-haze:rgba(127,29,25,.25)}
 .forest-backdrop{position:fixed;inset:0;z-index:-3;pointer-events:none;overflow:hidden;background:#080c0b}
+.forest-plate{position:absolute;left:50%;top:56%;width:max(100vw,calc(100vh * 1672 / 941));height:max(100vh,calc(100vw * 941 / 1672));transform:translate(-50%,-56%);filter:saturate(.68) brightness(.9);opacity:.88;transition:filter 1.4s}
 .forest-distance{position:absolute;inset:0;display:block}
-.forest-distance img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 56%;filter:saturate(.68) brightness(.9);opacity:.88;transition:filter 1.4s}
+.forest-distance img{display:block;width:100%;height:100%}
+.forest-animation{position:absolute;pointer-events:none}
 .forest-role-light{position:absolute;inset:0;background:linear-gradient(120deg,#283b351b,transparent 45%,var(--role-haze));mix-blend-mode:screen;transition:background 1.4s}
-.app[data-role=killer] .forest-distance img{filter:saturate(.35) sepia(.2) brightness(.72)}
+.app[data-role=killer] .forest-plate{filter:saturate(.35) sepia(.2) brightness(.72)}
 .forest-mist{position:absolute;left:-30%;width:160%;height:45%;top:34%;opacity:.5;background:radial-gradient(ellipse at 24% 70%,#c6d8c615,transparent 45%),radial-gradient(ellipse at 73% 40%,#c6d8c611,transparent 40%);animation:forest-mist-pass 38s ease-in-out infinite alternate}
 .mist-near{top:53%;height:45%;opacity:.7;animation-duration:27s;animation-delay:-18s;animation-direction:alternate-reverse;background:radial-gradient(ellipse at 28% 50%,#a2b7ac1a,transparent 40%),radial-gradient(ellipse at 77% 70%,#a2b7ac14,transparent 45%)}
-.campfire-light{position:absolute;left:59%;top:45%;width:26%;height:26%;border-radius:50%;background:radial-gradient(ellipse,#cc71351c,transparent 68%);mix-blend-mode:screen;animation:campfire-breathe 6.5s ease-in-out infinite alternate}
-.forest-branches{position:absolute;inset:0;width:100%;height:100%;opacity:.47}
+.campfire-light{position:absolute;left:65.9%;top:53.8%;width:13%;height:8%;border-radius:50%;background:radial-gradient(ellipse,#e58a3c18,#bd602b08 40%,transparent 70%);mix-blend-mode:screen;opacity:.45}
 .forest-vignette{position:absolute;inset:0;background:linear-gradient(180deg,#050a0955,transparent 26%,#060b092b 75%,#050a08c9),linear-gradient(90deg,#02060580,transparent 21%,transparent 79%,#02060580),radial-gradient(ellipse at 50% 48%,transparent 24%,#0307064d 100%)}
 .forest-embers{position:absolute;inset:0;overflow:hidden}
 .forest-embers i{position:absolute;left:var(--ember-x);top:85%;width:2px;height:2px;border-radius:50%;background:#be8752;box-shadow:0 0 7px #e2ac6570;opacity:0;animation:forest-ember-rise var(--ember-duration) linear infinite;animation-delay:var(--ember-delay)}
@@ -92,13 +93,13 @@
 
 .reduced-motion .forest-mist,.reduced-motion .forest-embers,.reduced-motion .portrait-haunting{display:none}
 .reduced-motion .campfire-light{animation:none;opacity:.5}
+.reduced-motion .forest-animation{display:none}
 
 .reduced-motion .reveal-shell.is-lit .portrait-frame,.reveal-shell.is-instant .portrait-frame,.reveal-shell.is-instant .portrait-haunting{animation:none}
 @keyframes forest-mist-pass{from{transform:translateX(-2%) translateY(0)}to{transform:translateX(9%) translateY(-4%)}}
-@keyframes campfire-breathe{0%{opacity:.4;transform:scale(.92)}48%{opacity:.65;transform:scale(1.06)}100%{opacity:.45;transform:scale(.96)}}
 @keyframes forest-ember-rise{0%{opacity:0;transform:translate(0,0) rotate(0)}15%{opacity:.5}65%{opacity:.3}100%{opacity:0;transform:translate(30px,-65vh) rotate(100deg)}}
 @keyframes portrait-ink-unveil{0%{clip-path:polygon(0 0,100% 0,100% 4%,82% 1%,67% 6%,48% 0,30% 4%,13% 0,0 7%)}46%{clip-path:polygon(0 0,100% 0,100% 53%,82% 67%,67% 52%,48% 73%,30% 58%,13% 68%,0 55%)}100%{clip-path:polygon(0 0,100% 0,100% 100%,82% 100%,67% 100%,48% 100%,30% 100%,13% 100%,0 100%)}}
 @keyframes portrait-shadow-cross{0%{opacity:0;transform:translateX(-80%)}25%{opacity:.35}100%{opacity:0;transform:translateX(80%)}}
-@media(max-width:1150px){.forest-distance img{object-position:53% 55%}.app .loadout{padding:18px 14px}}
-@media(max-width:800px){.forest-branches{opacity:.35}.app .loadout{margin-top:35px}.forest-vignette{background:linear-gradient(180deg,#03080666,transparent 30%,#04090644 70%,#040906dc),linear-gradient(90deg,#02060566,transparent 30%,transparent 70%,#02060566)}}
-@media(max-width:520px){.forest-distance img{object-position:61% 50%;opacity:.8}.forest-branches{opacity:.24}.forest-mist{opacity:.35}.campfire-light{left:55%;top:55%;width:50%;height:22%}.app .loadout{padding:15px 10px}.app .intro-copy{color:#a7afa1}.app .motion-notice{font-size:7px;line-height:1.7}.app .draw-hint{font-size:8px}.binding-chain{opacity:.75}}
+@media(max-width:1150px){.forest-plate{left:53%;top:55%;transform:translate(-53%,-55%)}.app .loadout{padding:18px 14px}}
+@media(max-width:800px){.app .loadout{margin-top:35px}.forest-vignette{background:linear-gradient(180deg,#03080666,transparent 30%,#04090644 70%,#040906dc),linear-gradient(90deg,#02060566,transparent 30%,transparent 70%,#02060566)}}
+@media(max-width:520px){.forest-plate{left:61%;top:50%;transform:translate(-61%,-50%);opacity:.8}.forest-mist{opacity:.35}.app .loadout{padding:15px 10px}.app .intro-copy{color:#a7afa1}.app .motion-notice{font-size:7px;line-height:1.7}.app .draw-hint{font-size:8px}.binding-chain{opacity:.75}}
